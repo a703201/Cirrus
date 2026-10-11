@@ -1,0 +1,109 @@
+{
+	"app": {
+		"bundleName": "com.Lumio.Cirrus",
+		"bundleType": "app",
+		"vendor": "lumio",
+		"versionCode": 1000,
+		"versionName": "0.1.0",
+		"icon": "$media:app_icon",
+		"label": "$string:app_name",
+		"apiReleaseType": "Release",
+		"compileSdkVersion": "26.0.0.105",
+		"targetAPIVersion": 260000026,
+		"minAPIVersion": 260000026,
+		"compileSdkType": "HarmonyOS",
+		"targetMinorAPIVersion": 0,
+		"targetPatchAPIVersion": 0,
+		"minMinorAPIVersion": 0,
+		"minPatchAPIVersion": 0,
+		"appEnvironments": [],
+		"buildMode": "debug",
+		"debug": true
+	},
+	"module": {
+		"name": "entry",
+		"type": "entry",
+		"description": "$string:module_desc",
+		"mainElement": "EntryAbility",
+		"deviceTypes": [
+			"phone",
+			"tablet",
+			"2in1",
+			"tv"
+		],
+		"deliveryWithInstall": true,
+		"pages": "$profile:main_pages",
+		"abilities": [
+			{
+				"name": "EntryAbility",
+				"srcEntry": "./ets/entryability/EntryAbility.ets",
+				"description": "$string:entry_desc",
+				"icon": "$media:app_icon",
+				"label": "$string:app_name",
+				"startWindowIcon": "$media:app_icon",
+				"startWindowBackground": "$color:start_window_background",
+				"exported": true,
+				"skills": [
+					{
+						"entities": [
+							"entity.system.home"
+						],
+						"actions": [
+							"action.system.home"
+						]
+					}
+				]
+			}
+		],
+		"extensionAbilities": [
+			{
+				"name": "WeatherFormAbility",
+				"srcEntry": "./ets/features/widget/WeatherFormAbility.ets",
+				"description": "$string:form_desc",
+				"label": "$string:app_name",
+				"type": "form",
+				"exported": true,
+				"metadata": [
+					{
+						"name": "ohos.extension.form",
+						"resource": "$profile:form_config"
+					}
+				]
+			}
+		],
+		"requestPermissions": [
+			{
+				"name": "ohos.permission.INTERNET",
+				"reason": "$string:perm_internet",
+				"usedScene": {
+					"abilities": [
+						"EntryAbility"
+					],
+					"when": "always"
+				}
+			},
+			{
+				"name": "ohos.permission.LOCATION",
+				"reason": "$string:perm_location",
+				"usedScene": {
+					"abilities": [
+						"EntryAbility"
+					],
+					"when": "inuse"
+				}
+			},
+			{
+				"name": "ohos.permission.APPROXIMATELY_LOCATION",
+				"reason": "$string:perm_location",
+				"usedScene": {
+					"abilities": [
+						"EntryAbility"
+					],
+					"when": "inuse"
+				}
+			}
+		],
+		"packageName": "entry",
+		"installationFree": false
+	}
+}

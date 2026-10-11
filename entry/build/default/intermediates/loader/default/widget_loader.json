@@ -1,0 +1,32 @@
+{
+  "modulePathMap": {
+    "entry": "E:\\Codes\\Project\\Transplant\\weather-app\\entry",
+    "common": "E:\\Codes\\Project\\Transplant\\weather-app\\common",
+    "data": "E:\\Codes\\Project\\Transplant\\weather-app\\data",
+    "watch": "E:\\Codes\\Project\\Transplant\\weather-app\\watch"
+  },
+  "compileMode": "esmodule",
+  "projectRootPath": "E:\\Codes\\Project\\Transplant\\weather-app",
+  "nodeModulesPath": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\intermediates\\loader_out\\default\\node_modules",
+  "byteCodeHarInfo": {},
+  "declarationEntry": [],
+  "moduleName": "entry",
+  "hspNameOhmMap": {},
+  "harNameOhmMap": {},
+  "packageManagerType": "ohpm",
+  "compileEntry": [
+    "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\generated\\r\\default\\ResourceTable.ts"
+  ],
+  "otherCompileFiles": [],
+  "dynamicImportLibInfo": {},
+  "routerMap": [],
+  "hspResourcesMap": {},
+  "updateVersionInfo": {},
+  "customizedHar": false,
+  "anBuildOutPut": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\intermediates\\loader_out\\default\\an\\arm64-v8a",
+  "anBuildMode": "type",
+  "patchConfig": {
+    "changedFileList": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\intermediates\\patch\\default\\changedFileList.json"
+  },
+  "pkgName2OtherCompileFiles": {}
+}

@@ -1,0 +1,1 @@
+{"name":"watch","version":"1.0.0","description":"Cirrus wearable entry module (Lite wearable)","main":"src/main/ets/watchability/WatchAbility.ts","author":"Cirrus Team","license":"Apache-2.0","dependencies":{"common":"file:../common","data":"file:../data"},"devDependencies":{}}

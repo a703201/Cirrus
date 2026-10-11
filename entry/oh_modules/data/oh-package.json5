@@ -1,0 +1,12 @@
+{
+  "name": "data",
+  "version": "1.0.0",
+  "description": "Cirrus data layer: weather sources, repository, local cache, location, scheduler",
+  "main": "src/main/ets/data/Index.ets",
+  "author": "Cirrus Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "common": "file:../common"
+  },
+  "devDependencies": {}
+}

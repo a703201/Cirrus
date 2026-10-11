@@ -1,0 +1,14 @@
+{
+	"forms":	[{
+			"name":	"weather_card",
+			"src":	"./ets/features/widget/WeatherForm.ets",
+			"uiSyntax":	"arkts",
+			"description":	"$string:50331657",
+			"isDefault":	true,
+			"defaultDimension":	"2*2",
+			"supportDimensions":	["1*2", "2*2", "2*4"],
+			"updateEnabled":	true,
+			"scheduledUpdateTime":	"08:00",
+			"updateDuration":	6
+		}]
+}

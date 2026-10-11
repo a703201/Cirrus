@@ -1,0 +1,7 @@
+{
+  "module": {
+    "name": "data",
+    "type": "har",
+    "deviceTypes": ["default"]
+  }
+}

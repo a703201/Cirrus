@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cirrus (卷云) · Logo Preview</title>
+  <style>
+    :root { font-family: -apple-system, "HarmonyOS Sans", "Helvetica Neue", Arial, sans-serif; }
+    body { margin: 0; background: #f5f7fa; color: #1a1a1a; }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+    h1 { font-weight: 600; font-size: 28px; margin: 0 0 4px; }
+    p.sub { color: #6b6b6b; margin: 0 0 32px; }
+    .card { border-radius: 24px; padding: 32px; margin-bottom: 24px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; }
+    .light { background: #ffffff; box-shadow: 0 8px 30px rgba(0,0,0,.06); }
+    .dark { background: #0e1116; color: #f2f2f2; }
+    .dark .label { color: #a0a0a0; }
+    .label { font-size: 13px; color: #6b6b6b; margin-top: 10px; }
+    .stack { display: flex; flex-direction: column; align-items: center; }
+    img.icon-lg { width: 160px; height: 160px; border-radius: 36px; box-shadow: 0 10px 30px rgba(46,124,246,.25); }
+    img.icon-md { width: 88px; height: 88px; border-radius: 20px; }
+    img.mark { width: 120px; height: 120px; }
+    img.word { width: 320px; height: 100px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Cirrus · 卷云</h1>
+    <p class="sub">HarmonyOS NEXT weather app — minimalist, Apple-inspired logo suite</p>
+
+    <div class="card light">
+      <div class="stack">
+        <img class="icon-lg" src="app_preview.svg" alt="App icon" />
+        <div class="label">App icon (light)</div>
+      </div>
+      <div class="stack">
+        <img class="mark" src="logo-mark.svg" alt="Brand mark" />
+        <div class="label">Brand mark (vector)</div>
+      </div>
+      <div class="stack">
+        <img class="word" src="wordmark.svg" alt="Wordmark" />
+        <div class="label">Wordmark</div>
+      </div>
+    </div>
+
+    <div class="card dark">
+      <div class="stack">
+        <img class="icon-lg" src="app_preview.svg" alt="App icon dark" />
+        <div class="label">App icon on dark</div>
+      </div>
+      <div class="stack">
+        <img class="mark" src="logo-mark.svg" alt="Brand mark dark" />
+        <div class="label">Brand mark on dark</div>
+      </div>
+      <div class="stack">
+        <img class="word" src="wordmark.svg" alt="Wordmark dark" />
+        <div class="label">Wordmark on dark</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

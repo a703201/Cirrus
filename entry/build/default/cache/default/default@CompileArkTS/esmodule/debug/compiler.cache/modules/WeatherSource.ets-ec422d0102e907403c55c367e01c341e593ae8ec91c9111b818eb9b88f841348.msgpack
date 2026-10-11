@@ -1,0 +1,17 @@
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙSE:\Codes\Project\Transplant\weather-app\data\src\main\ets\sources\WeatherSource.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¯hostModulesInfo¤dataÃÂÙ,E:\Codes\Project\Transplant\weather-app\dataÙ'E:\Codes\Project\Transplant\weather-app¤data¥1.0.0ÔrC’§pkgNameªpkgVersion¤data¥1.0.0Ù,E:\Codes\Project\Transplant\weather-app\dataÃ‘ÔrD’²hostDependencyName®hostModuleName¸../sources/WeatherSource¤dataÚSimport { LocationInfo, WeatherData } from 'common';
+
+/**
+ * Pluggable weather source contract (æ¥å£æ–‡æ¡£ Â§1.2).
+ * Every source (Open-Meteo, QWeather, ...) implements this and maps its raw
+ * response into the normalized WeatherData model so the UI never sees source diffs.
+ */
+export interface WeatherSource {
+  readonly id: string;
+  readonly displayName: string;
+  readonly needApiKey: boolean;
+  readonly enabledByDefault: boolean;
+
+  getCurrentAndForecast(loc: LocationInfo, lang: string): Promise<WeatherData>;
+  searchLocation(query: string, lang: string): Promise<LocationInfo[]>;
+}
+ÀAÂÔrE”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache

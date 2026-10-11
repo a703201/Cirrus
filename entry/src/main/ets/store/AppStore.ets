@@ -1,0 +1,196 @@
+import { abilityAccessCtrl, common, Permissions } from '@kit.AbilityKit';
+import { i18n } from '@kit.LocalizationKit';
+import {
+  AppSettings, DEFAULT_SETTINGS, LocationInfo, TemperatureUnit, ThemeMode, WeatherData, Log
+} from 'common';
+import { WeatherRepository, settingsStore, rdbStore, locationProvider } from 'data';
+
+const LOCATION_PERMISSIONS: Permissions[] =
+  ['ohos.permission.APPROXIMATELY_LOCATION', 'ohos.permission.LOCATION'];
+
+/** Seed location so the first launch always shows something (P0). TODO: onboarding. */
+const SEED_LOCATION: LocationInfo = {
+  id: 'city_shanghai',
+  name: 'Shanghai',
+  latitude: 31.23,
+  longitude: 121.47,
+  timezone: 'Asia/Shanghai'
+};
+
+/**
+ * Global app state + orchestration (state management V2: @ObservedV2 / @Trace).
+ * A single instance is shared across the UI (see `appStore` below).
+ */
+@ObservedV2
+export class AppStore {
+  @Trace initialized: boolean = false;
+  @Trace loading: boolean = false;
+  @Trace refreshing: boolean = false;
+  @Trace error: string = '';
+  @Trace weather: WeatherData | undefined = undefined;
+  @Trace locations: LocationInfo[] = [];
+  @Trace currentId: string = '';
+  @Trace settings: AppSettings = DEFAULT_SETTINGS;
+  @Trace searchResults: LocationInfo[] = [];
+  @Trace searching: boolean = false;
+
+  private context: common.UIAbilityContext | undefined = undefined;
+  private readonly repo: WeatherRepository = new WeatherRepository();
+
+  async init(context: common.UIAbilityContext): Promise<void> {
+    this.context = context;
+    try {
+      await rdbStore.init(context);
+      await settingsStore.init(context);
+    } catch (e) {
+      Log.e(`store init failed: ${e}`);
+    }
+    this.settings = await settingsStore.load();
+    await this.reloadLocations();
+    if (this.locations.length === 0) {
+      await rdbStore.addLocation(SEED_LOCATION);
+      await rdbStore.setDefaultLocation(SEED_LOCATION.id);
+      await this.reloadLocations();
+    }
+    this.currentId = await this.resolveDefaultId();
+    this.initialized = true;
+    await this.refresh();
+  }
+
+  private async resolveDefaultId(): Promise<string> {
+    const def: string = await rdbStore.getDefaultLocationId();
+    if (def.length > 0) {
+      return def;
+    }
+    return this.locations.length > 0 ? this.locations[0].id : '';
+  }
+
+  private async reloadLocations(): Promise<void> {
+    this.locations = await rdbStore.listLocations();
+  }
+
+  currentLocation(): LocationInfo | undefined {
+    return this.locations.find((l: LocationInfo) => l.id === this.currentId);
+  }
+
+  resolveLang(): string {
+    if (this.settings.language === 'system') {
+      const locale: string = i18n.System.getSystemLocaleInstance().toString();
+      return locale.split('-')[0];
+    }
+    return this.settings.language;
+  }
+
+  async refresh(): Promise<void> {
+    const loc: LocationInfo | undefined = this.currentLocation();
+    if (!loc) {
+      return;
+    }
+    this.loading = this.weather === undefined;
+    this.refreshing = true;
+    this.error = '';
+    try {
+      this.weather = await this.repo.getWeather(loc, this.resolveLang(), this.settings.sourceId);
+    } catch (e) {
+      this.error = `${e}`;
+      Log.e(`refresh failed: ${this.error}`);
+    } finally {
+      this.loading = false;
+      this.refreshing = false;
+    }
+  }
+
+  async selectLocation(id: string): Promise<void> {
+    if (id === this.currentId) {
+      return;
+    }
+    this.currentId = id;
+    this.weather = undefined;
+    await this.refresh();
+  }
+
+  async useCurrentLocation(): Promise<void> {
+    if (!this.context) {
+      return;
+    }
+    try {
+      const atManager: abilityAccessCtrl.AtManager = abilityAccessCtrl.createAtManager();
+      const result = await atManager.requestPermissionsFromUser(this.context, LOCATION_PERMISSIONS);
+      const granted: boolean = result.authResults.every((code: number) => code === 0);
+      if (!granted) {
+        this.error = 'location permission denied';
+        return;
+      }
+      const loc: LocationInfo = await locationProvider.getCurrentLocation();
+      const existing: LocationInfo | undefined =
+        this.locations.find((l: LocationInfo) => l.id === loc.id);
+      if (!existing) {
+        await rdbStore.addLocation(loc);
+        await this.reloadLocations();
+      }
+      await this.selectLocation(loc.id);
+    } catch (e) {
+      this.error = `${e}`;
+      Log.e(`useCurrentLocation failed: ${this.error}`);
+    }
+  }
+
+  async searchLocations(query: string): Promise<void> {
+    if (query.length === 0) {
+      this.searchResults = [];
+      return;
+    }
+    this.searching = true;
+    try {
+      this.searchResults = await this.repo.search(query, this.resolveLang(), this.settings.sourceId);
+    } catch (e) {
+      this.error = `${e}`;
+      Log.e(`search failed: ${this.error}`);
+    } finally {
+      this.searching = false;
+    }
+  }
+
+  clearSearch(): void {
+    this.searchResults = [];
+  }
+
+  async addLocation(loc: LocationInfo): Promise<void> {
+    await rdbStore.addLocation(loc);
+    await this.reloadLocations();
+    this.searchResults = [];
+    await this.selectLocation(loc.id);
+  }
+
+  async removeLocation(id: string): Promise<void> {
+    await rdbStore.removeLocation(id);
+    await this.reloadLocations();
+    if (id === this.currentId || this.currentLocation() === undefined) {
+      this.currentId = this.locations.length > 0 ? this.locations[0].id : '';
+      await this.refresh();
+    }
+  }
+
+  async setDefaultLocation(id: string): Promise<void> {
+    await rdbStore.setDefaultLocation(id);
+    await this.reloadLocations();
+  }
+
+  async updateSettings(patch: Partial<AppSettings>): Promise<void> {
+    const next: AppSettings = {
+      sourceId: patch.sourceId ?? this.settings.sourceId,
+      temperatureUnit: patch.temperatureUnit ?? this.settings.temperatureUnit,
+      theme: patch.theme ?? this.settings.theme,
+      language: patch.language ?? this.settings.language
+    } as AppSettings;
+    const sourceChanged: boolean = next.sourceId !== this.settings.sourceId;
+    this.settings = next;
+    await settingsStore.save(next);
+    if (sourceChanged) {
+      this.weather = undefined;
+      await this.refresh();
+    }
+  }
+}
+
+export const appStore: AppStore = new AppStore();

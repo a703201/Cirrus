@@ -1,0 +1,270 @@
+{
+  "version": 1,
+  "ohos-module-entry": {
+    "SELECT_TARGET": "default",
+    "MODULE_BUILD_DIR": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build",
+    "TARGETS": {
+      "default": {
+        "SOURCE_ROOT": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main",
+        "RESOURCES_PATH": [
+          "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\resources"
+        ],
+        "BUILD_PATH": {
+          "OUTPUT_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\outputs\\default",
+          "INTERMEDIA_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\intermediates",
+          "JS_ASSETS_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\intermediates\\loader_out\\default",
+          "JS_LITE_ASSETS_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\intermediates\\loader_out_lite\\default",
+          "RES_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\intermediates\\res\\default",
+          "RES_PROFILE_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\intermediates\\res\\default\\resources\\base\\profile",
+          "ETS_SUPER_VISUAL_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\cache\\default\\default@CompileArkTS\\esmodule",
+          "JS_SUPER_VISUAL_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\cache\\default\\default@CompileJS\\jsbundle",
+          "WORKER_LOADER": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\intermediates\\loader\\default\\loader.json",
+          "MANIFEST_JSON": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\intermediates\\manifest\\default",
+          "OUTPUT_METADATA_JSON": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\intermediates\\hap_metadata\\default\\output_metadata.json",
+          "SOURCE_MAP_DIR": "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\build\\default\\intermediates\\source_map\\default"
+        },
+        "BUILD_OPTION": {
+          "debuggable": true
+        }
+      }
+    },
+    "BUILD_OPTION": {
+      "default-default": {
+        "debuggable": true,
+        "copyFrom": "default"
+      }
+    },
+    "BUILD_PROFILE_OPT": {
+      "apiType": "stageMode",
+      "buildOption": {},
+      "targets": [
+        {
+          "name": "default",
+          "runtimeOS": "HarmonyOS"
+        }
+      ]
+    },
+    "BUILD_CACHE_DIR": ""
+  },
+  "ohos-module-common": {
+    "SELECT_TARGET": "default",
+    "MODULE_BUILD_DIR": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\build",
+    "TARGETS": {
+      "default": {
+        "SOURCE_ROOT": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main",
+        "RESOURCES_PATH": [
+          "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\resources"
+        ],
+        "BUILD_PATH": {
+          "OUTPUT_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\build\\default\\outputs\\default",
+          "INTERMEDIA_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\build\\default\\intermediates",
+          "JS_ASSETS_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\build\\default\\intermediates\\loader_out\\default",
+          "JS_LITE_ASSETS_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\build\\default\\intermediates\\loader_out_lite\\default",
+          "RES_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\build\\default\\intermediates\\res\\default",
+          "RES_PROFILE_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\build\\default\\intermediates\\res\\default\\resources\\base\\profile",
+          "ETS_SUPER_VISUAL_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\build\\default\\cache\\default\\default@HarCompileArkTS\\esmodule",
+          "JS_SUPER_VISUAL_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\build\\default\\cache\\default\\default@HarCompileJS\\jsbundle",
+          "WORKER_LOADER": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\build\\default\\intermediates\\loader\\default\\loader.json",
+          "MANIFEST_JSON": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\build\\default\\intermediates\\manifest\\default",
+          "OUTPUT_METADATA_JSON": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\build\\default\\intermediates\\hap_metadata\\default\\output_metadata.json",
+          "SOURCE_MAP_DIR": "E:\\Codes\\Project\\Transplant\\weather-app\\common\\build\\default\\intermediates\\source_map\\default"
+        },
+        "BUILD_OPTION": {
+          "debuggable": true
+        }
+      }
+    },
+    "BUILD_OPTION": {
+      "default-default": {
+        "debuggable": true,
+        "copyFrom": "default"
+      }
+    },
+    "BUILD_PROFILE_OPT": {
+      "apiType": "stageMode",
+      "buildOption": {}
+    },
+    "BUILD_CACHE_DIR": ""
+  },
+  "ohos-module-data": {
+    "SELECT_TARGET": "default",
+    "MODULE_BUILD_DIR": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\build",
+    "TARGETS": {
+      "default": {
+        "SOURCE_ROOT": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\src\\main",
+        "RESOURCES_PATH": [
+          "E:\\Codes\\Project\\Transplant\\weather-app\\data\\src\\main\\resources"
+        ],
+        "BUILD_PATH": {
+          "OUTPUT_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\build\\default\\outputs\\default",
+          "INTERMEDIA_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\build\\default\\intermediates",
+          "JS_ASSETS_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\build\\default\\intermediates\\loader_out\\default",
+          "JS_LITE_ASSETS_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\build\\default\\intermediates\\loader_out_lite\\default",
+          "RES_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\build\\default\\intermediates\\res\\default",
+          "RES_PROFILE_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\build\\default\\intermediates\\res\\default\\resources\\base\\profile",
+          "ETS_SUPER_VISUAL_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\build\\default\\cache\\default\\default@HarCompileArkTS\\esmodule",
+          "JS_SUPER_VISUAL_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\build\\default\\cache\\default\\default@HarCompileJS\\jsbundle",
+          "WORKER_LOADER": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\build\\default\\intermediates\\loader\\default\\loader.json",
+          "MANIFEST_JSON": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\build\\default\\intermediates\\manifest\\default",
+          "OUTPUT_METADATA_JSON": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\build\\default\\intermediates\\hap_metadata\\default\\output_metadata.json",
+          "SOURCE_MAP_DIR": "E:\\Codes\\Project\\Transplant\\weather-app\\data\\build\\default\\intermediates\\source_map\\default"
+        },
+        "BUILD_OPTION": {
+          "debuggable": true
+        }
+      }
+    },
+    "BUILD_OPTION": {
+      "default-default": {
+        "debuggable": true,
+        "copyFrom": "default"
+      }
+    },
+    "BUILD_PROFILE_OPT": {
+      "apiType": "stageMode",
+      "buildOption": {}
+    },
+    "BUILD_CACHE_DIR": ""
+  },
+  "ohos-module-watch": {
+    "SELECT_TARGET": "default",
+    "MODULE_BUILD_DIR": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\build",
+    "TARGETS": {
+      "default": {
+        "SOURCE_ROOT": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\src\\main",
+        "RESOURCES_PATH": [
+          "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\src\\main\\resources"
+        ],
+        "BUILD_PATH": {
+          "OUTPUT_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\build\\default\\outputs\\default",
+          "INTERMEDIA_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\build\\default\\intermediates",
+          "JS_ASSETS_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\build\\default\\intermediates\\loader_out\\default",
+          "JS_LITE_ASSETS_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\build\\default\\intermediates\\loader_out_lite\\default",
+          "RES_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\build\\default\\intermediates\\res\\default",
+          "RES_PROFILE_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\build\\default\\intermediates\\res\\default\\resources\\base\\profile",
+          "ETS_SUPER_VISUAL_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\build\\default\\cache\\default\\default@CompileArkTS\\esmodule",
+          "JS_SUPER_VISUAL_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\build\\default\\cache\\default\\default@CompileJS\\jsbundle",
+          "WORKER_LOADER": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\build\\default\\intermediates\\loader\\default\\loader.json",
+          "MANIFEST_JSON": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\build\\default\\intermediates\\manifest\\default",
+          "OUTPUT_METADATA_JSON": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\build\\default\\intermediates\\hap_metadata\\default\\output_metadata.json",
+          "SOURCE_MAP_DIR": "E:\\Codes\\Project\\Transplant\\weather-app\\watch\\build\\default\\intermediates\\source_map\\default"
+        },
+        "BUILD_OPTION": {
+          "debuggable": true
+        }
+      }
+    },
+    "BUILD_OPTION": {
+      "default-default": {
+        "debuggable": true,
+        "copyFrom": "default"
+      }
+    },
+    "BUILD_PROFILE_OPT": {
+      "apiType": "stageMode",
+      "buildOption": {},
+      "targets": [
+        {
+          "name": "default",
+          "runtimeOS": "HarmonyOS"
+        }
+      ]
+    },
+    "BUILD_CACHE_DIR": ""
+  },
+  "ohos-project": {
+    "SELECT_PRODUCT_NAME": "default",
+    "MODULE_BUILD_DIR": "E:\\Codes\\Project\\Transplant\\weather-app\\build",
+    "BUNDLE_NAME": "com.Lumio.Cirrus",
+    "VERSION_CODE": 1000,
+    "VERSION_NAME": "0.1.0",
+    "BUILD_PATH": {
+      "OUTPUT_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\build\\outputs\\default"
+    },
+    "MODULES": [
+      {
+        "name": "entry",
+        "srcPath": "E:\\Codes\\Project\\Transplant\\weather-app\\entry",
+        "belongProjectPath": "E:\\Codes\\Project\\Transplant\\weather-app"
+      },
+      {
+        "name": "common",
+        "srcPath": "E:\\Codes\\Project\\Transplant\\weather-app\\common",
+        "belongProjectPath": "E:\\Codes\\Project\\Transplant\\weather-app"
+      },
+      {
+        "name": "data",
+        "srcPath": "E:\\Codes\\Project\\Transplant\\weather-app\\data",
+        "belongProjectPath": "E:\\Codes\\Project\\Transplant\\weather-app"
+      },
+      {
+        "name": "watch",
+        "srcPath": "E:\\Codes\\Project\\Transplant\\weather-app\\watch",
+        "belongProjectPath": "E:\\Codes\\Project\\Transplant\\weather-app"
+      }
+    ],
+    "PROFILE_OPT": {
+      "app": {
+        "signingConfigs": [
+          {
+            "name": "default",
+            "type": "HarmonyOS",
+            "material": {
+              "certpath": "C:\\Users\\a7032\\.ohos\\config\\default_weather-app_IlJFimzb5DzKeN00haHQel7X7zDT2B_SATsOmb1wW7g=.cer",
+              "keyAlias": "debugKey",
+              "keyPassword": "0000001B72E6ED18C52699D87E2DD4C9366E5C449ED6C10CC746CA249FFB98D0F19E6A061DE4B4FA74E1E9",
+              "profile": "C:\\Users\\a7032\\.ohos\\config\\default_weather-app_IlJFimzb5DzKeN00haHQel7X7zDT2B_SATsOmb1wW7g=.p7b",
+              "signAlg": "SHA256withECDSA",
+              "storeFile": "C:\\Users\\a7032\\.ohos\\config\\default_weather-app_IlJFimzb5DzKeN00haHQel7X7zDT2B_SATsOmb1wW7g=.p12",
+              "storePassword": "0000001B6A2749E768FAFAAE9E4B2751F62D9F712BE109C1A0FC0931C5941232E283986EA8FA93859A8D18"
+            }
+          }
+        ],
+        "products": [
+          {
+            "name": "default",
+            "signingConfig": "default",
+            "compatibleSdkVersion": "26.0.0",
+            "runtimeOS": "HarmonyOS",
+            "targetSdkVersion": "26.0.0"
+          }
+        ],
+        "buildModeSet": [
+          {
+            "name": "debug"
+          },
+          {
+            "name": "release"
+          }
+        ]
+      },
+      "modules": [
+        {
+          "name": "entry",
+          "srcPath": "./entry"
+        },
+        {
+          "name": "common",
+          "srcPath": "./common"
+        },
+        {
+          "name": "data",
+          "srcPath": "./data"
+        },
+        {
+          "name": "watch",
+          "srcPath": "./watch"
+        }
+      ]
+    },
+    "CONFIG_PROPERTIES": {
+      "enableSignTask": true,
+      "skipNativeIncremental": false,
+      "hvigor.keepDependency": true
+    },
+    "OVERALL_PROJECT_PATHS": [
+      "E:\\Codes\\Project\\Transplant\\weather-app"
+    ],
+    "BUILD_CACHE_DIR": ""
+  }
+}

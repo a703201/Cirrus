@@ -1,0 +1,26 @@
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙQE:\Codes\Project\Transplant\weather-app\common\src\main\ets\utils\DateTimeUtil.tsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¯hostModulesInfo¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0Ù.E:\Codes\Project\Transplant\weather-app\commonÃ‘ÔrD’²hostDependencyName®hostModuleNameµ../utils/DateTimeUtil¦commonÚ?/**
+ * Time / date formatting helpers. Locale-aware formatting should later move to
+ * @ohos.i18n DateTimeFormat; kept simple & dependency-free for the scaffold.
+ */
+
+export class DateTimeUtil {
+  static formatHour(ts: number): string {
+    const date: Date = new Date(ts);
+    const h: number = date.getHours();
+    const m: number = date.getMinutes();
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+  }
+
+  static formatClock(ts: number): string {
+    const date: Date = new Date(ts);
+    const h: number = date.getHours();
+    const m: number = date.getMinutes();
+    const s: number = date.getSeconds();
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+
+  static formatDate(dateStr: string): string {
+    return dateStr;
+  }
+}
+ÀAÂÔrE”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache

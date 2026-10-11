@@ -1,0 +1,54 @@
+{
+  "app": {
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "C:\\Users\\a7032\\.ohos\\config\\default_weather-app_IlJFimzb5DzKeN00haHQel7X7zDT2B_SATsOmb1wW7g=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B72E6ED18C52699D87E2DD4C9366E5C449ED6C10CC746CA249FFB98D0F19E6A061DE4B4FA74E1E9",
+          "profile": "C:\\Users\\a7032\\.ohos\\config\\default_weather-app_IlJFimzb5DzKeN00haHQel7X7zDT2B_SATsOmb1wW7g=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:\\Users\\a7032\\.ohos\\config\\default_weather-app_IlJFimzb5DzKeN00haHQel7X7zDT2B_SATsOmb1wW7g=.p12",
+          "storePassword": "0000001B6A2749E768FAFAAE9E4B2751F62D9F712BE109C1A0FC0931C5941232E283986EA8FA93859A8D18"
+        }
+      }
+    ],
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+        "compatibleSdkVersion": "26.0.0",
+        "runtimeOS": "HarmonyOS",
+        "targetSdkVersion": "26.0.0"
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry"
+    },
+    {
+      "name": "common",
+      "srcPath": "./common"
+    },
+    {
+      "name": "data",
+      "srcPath": "./data"
+    },
+    {
+      "name": "watch",
+      "srcPath": "./watch"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+import { WeatherCard, wmoDescription, TemperatureUnit } from 'common';
+import { appStore } from '../../store/AppStore';
+import { HourlyPage } from './HourlyPage';
+import { DailyPage } from './DailyPage';
+import { DetailsPage } from './DetailsPage';
+
+@ComponentV2
+export struct HomePage {
+  @Local refreshing: boolean = false;
+
+  build() {
+    Refresh({ refreshing: $$this.refreshing }) {
+      Scroll() {
+        Column({ space: 12 }) {
+          if (appStore.loading) {
+            Column() {
+              Text($r('app.string.msg_loading'))
+                .fontSize(16)
+                .fontColor('#6B6B6B')
+            }
+            .width('100%')
+            .height(200)
+            .justifyContent(FlexAlign.Center)
+          } else if (appStore.weather) {
+            WeatherCard({
+              temperature: appStore.weather.current.temperature,
+              unit: appStore.settings.temperatureUnit,
+              condition: wmoDescription(appStore.weather.current.weatherCode, appStore.resolveLang()),
+              locationName: appStore.currentLocation()?.name ?? '',
+              updatedAt: String(appStore.weather.fetchedAt)
+            })
+            HourlyPage({
+              weather: appStore.weather,
+              unit: appStore.settings.temperatureUnit
+            })
+            DailyPage({
+              weather: appStore.weather,
+              unit: appStore.settings.temperatureUnit,
+              lang: appStore.resolveLang()
+            })
+            DetailsPage({
+              current: appStore.weather.current,
+              unit: appStore.settings.temperatureUnit
+            })
+          } else if (appStore.error.length > 0) {
+            Column() {
+              Text($r('app.string.msg_offline'))
+                .fontSize(16)
+                .fontColor('#6B6B6B')
+              Text(appStore.error)
+                .fontSize(12)
+                .fontColor('#9B9B9B')
+                .margin({ top: 4 })
+            }
+            .width('100%')
+            .height(200)
+            .justifyContent(FlexAlign.Center)
+          } else {
+            Column() {
+              Text($r('app.string.no_data'))
+                .fontSize(16)
+                .fontColor('#6B6B6B')
+            }
+            .width('100%')
+            .height(200)
+            .justifyContent(FlexAlign.Center)
+          }
+        }
+        .padding(16)
+        .width('100%')
+      }
+      .width('100%')
+      .height('100%')
+      .scrollBar(BarState.Auto)
+    }
+    .onRefreshing(() => {
+      appStore.refresh();
+    })
+    .width('100%')
+    .height('100%')
+  }
+}

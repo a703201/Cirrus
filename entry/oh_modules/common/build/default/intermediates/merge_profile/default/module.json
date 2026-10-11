@@ -1,0 +1,29 @@
+{
+	"app": {
+		"bundleName": "com.Lumio.Cirrus",
+		"debug": true,
+		"versionCode": 1000,
+		"versionName": "0.1.0",
+		"minAPIVersion": 260000026,
+		"targetAPIVersion": 260000026,
+		"apiReleaseType": "Release",
+		"targetMinorAPIVersion": 0,
+		"targetPatchAPIVersion": 0,
+		"compileSdkVersion": "26.0.0.105",
+		"compileSdkType": "HarmonyOS",
+		"minMinorAPIVersion": 0,
+		"minPatchAPIVersion": 0,
+		"appEnvironments": [],
+		"bundleType": "app",
+		"buildMode": "debug"
+	},
+	"module": {
+		"name": "common",
+		"type": "har",
+		"deviceTypes": [
+			"default"
+		],
+		"packageName": "common",
+		"installationFree": false
+	}
+}

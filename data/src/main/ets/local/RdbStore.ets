@@ -1,0 +1,243 @@
+import { relationalStore } from '@kit.ArkData';
+import { common } from '@kit.AbilityKit';
+import { LocationInfo, WeatherData, Log } from 'common';
+
+const DB_NAME: string = 'cirrus.db';
+const TABLE_LOCATION: string = 'location';
+const TABLE_CACHE: string = 'weather_cache';
+
+const STORE_CONFIG: relationalStore.StoreConfig = {
+  name: DB_NAME,
+  securityLevel: relationalStore.SecurityLevel.S1
+};
+
+const SQL_LOCATION: string = 'CREATE TABLE IF NOT EXISTS ' + TABLE_LOCATION + ' (' +
+  'id TEXT PRIMARY KEY, name TEXT NOT NULL, latitude REAL NOT NULL, longitude REAL NOT NULL, ' +
+  'timezone TEXT NOT NULL, is_default INTEGER NOT NULL DEFAULT 0, sort_order INTEGER NOT NULL DEFAULT 0)';
+
+const SQL_CACHE: string = 'CREATE TABLE IF NOT EXISTS ' + TABLE_CACHE + ' (' +
+  'cache_key TEXT PRIMARY KEY, payload TEXT NOT NULL, fetched_at INTEGER NOT NULL)';
+
+/**
+ * RDB persistence (@kit.ArkData): saved locations + latest weather snapshot.
+ * Falls back to a no-op when the store is not initialized (keeps callers safe).
+ */
+export class RdbStore {
+  private store: relationalStore.RdbStore | undefined = undefined;
+
+  async init(context: common.Context): Promise<void> {
+    try {
+      this.store = await relationalStore.getRdbStore(context, STORE_CONFIG);
+      await this.store.executeSql(SQL_LOCATION);
+      await this.store.executeSql(SQL_CACHE);
+      Log.i('RdbStore ready');
+    } catch (e) {
+      Log.e(`RdbStore init failed: ${e}`);
+    }
+  }
+
+  // ---- locations ----
+
+  async listLocations(): Promise<LocationInfo[]> {
+    const result: LocationInfo[] = [];
+    if (!this.store) {
+      return result;
+    }
+    let rs: relationalStore.ResultSet | undefined = undefined;
+    try {
+      const predicates: relationalStore.RdbPredicates = new relationalStore.RdbPredicates(TABLE_LOCATION);
+      predicates.orderByAsc('sort_order');
+      const columns: string[] = ['id', 'name', 'latitude', 'longitude', 'timezone'];
+      rs = await this.store.query(predicates, columns);
+      while (rs.goToNextRow()) {
+        result.push({
+          id: rs.getString(rs.getColumnIndex('id')),
+          name: rs.getString(rs.getColumnIndex('name')),
+          latitude: rs.getDouble(rs.getColumnIndex('latitude')),
+          longitude: rs.getDouble(rs.getColumnIndex('longitude')),
+          timezone: rs.getString(rs.getColumnIndex('timezone'))
+        });
+      }
+    } catch (e) {
+      Log.e(`listLocations failed: ${e}`);
+    } finally {
+      if (rs) {
+        try {
+          rs.close();
+        } catch (e) {
+          Log.e(`listLocations close failed: ${e}`);
+        }
+      }
+    }
+    return result;
+  }
+
+  async addLocation(loc: LocationInfo): Promise<void> {
+    if (!this.store) {
+      return;
+    }
+    try {
+      const bucket: relationalStore.ValuesBucket = {
+        'id': loc.id,
+        'name': loc.name,
+        'latitude': loc.latitude,
+        'longitude': loc.longitude,
+        'timezone': loc.timezone,
+        'is_default': 0,
+        'sort_order': Date.now()
+      };
+      await this.store.insert(TABLE_LOCATION, bucket, relationalStore.ConflictResolution.ON_CONFLICT_IGNORE);
+    } catch (e) {
+      Log.e(`addLocation failed: ${e}`);
+    }
+  }
+
+  async hasLocation(id: string): Promise<boolean> {
+    return (await this.getLocation(id)) !== undefined;
+  }
+
+  async getLocation(id: string): Promise<LocationInfo | undefined> {
+    if (!this.store) {
+      return undefined;
+    }
+    let rs: relationalStore.ResultSet | undefined = undefined;
+    let loc: LocationInfo | undefined = undefined;
+    try {
+      const predicates: relationalStore.RdbPredicates = new relationalStore.RdbPredicates(TABLE_LOCATION);
+      predicates.equalTo('id', id);
+      const columns: string[] = ['id', 'name', 'latitude', 'longitude', 'timezone'];
+      rs = await this.store.query(predicates, columns);
+      if (rs.goToFirstRow()) {
+        loc = {
+          id: rs.getString(rs.getColumnIndex('id')),
+          name: rs.getString(rs.getColumnIndex('name')),
+          latitude: rs.getDouble(rs.getColumnIndex('latitude')),
+          longitude: rs.getDouble(rs.getColumnIndex('longitude')),
+          timezone: rs.getString(rs.getColumnIndex('timezone'))
+        };
+      }
+    } catch (e) {
+      Log.e(`getLocation failed: ${e}`);
+    } finally {
+      if (rs) {
+        try {
+          rs.close();
+        } catch (e) {
+          Log.e(`getLocation close failed: ${e}`);
+        }
+      }
+    }
+    return loc;
+  }
+
+  async removeLocation(id: string): Promise<void> {
+    if (!this.store) {
+      return;
+    }
+    try {
+      const predicates: relationalStore.RdbPredicates = new relationalStore.RdbPredicates(TABLE_LOCATION);
+      predicates.equalTo('id', id);
+      await this.store.delete(predicates);
+    } catch (e) {
+      Log.e(`removeLocation failed: ${e}`);
+    }
+  }
+
+  async getDefaultLocationId(): Promise<string> {
+    if (!this.store) {
+      return '';
+    }
+    let rs: relationalStore.ResultSet | undefined = undefined;
+    let id: string = '';
+    try {
+      const predicates: relationalStore.RdbPredicates = new relationalStore.RdbPredicates(TABLE_LOCATION);
+      predicates.equalTo('is_default', 1);
+      rs = await this.store.query(predicates, ['id']);
+      if (rs.goToFirstRow()) {
+        id = rs.getString(rs.getColumnIndex('id'));
+      }
+    } catch (e) {
+      Log.e(`getDefaultLocationId failed: ${e}`);
+    } finally {
+      if (rs) {
+        try {
+          rs.close();
+        } catch (e) {
+          Log.e(`getDefaultLocationId close failed: ${e}`);
+        }
+      }
+    }
+    return id;
+  }
+
+  async setDefaultLocation(id: string): Promise<void> {
+    if (!this.store) {
+      return;
+    }
+    try {
+      const clearAll: relationalStore.RdbPredicates = new relationalStore.RdbPredicates(TABLE_LOCATION);
+      const zero: relationalStore.ValuesBucket = { 'is_default': 0 };
+      await this.store.update(zero, clearAll);
+      const target: relationalStore.RdbPredicates = new relationalStore.RdbPredicates(TABLE_LOCATION);
+      target.equalTo('id', id);
+      const one: relationalStore.ValuesBucket = { 'is_default': 1 };
+      await this.store.update(one, target);
+    } catch (e) {
+      Log.e(`setDefaultLocation failed: ${e}`);
+    }
+  }
+
+  // ---- weather cache ----
+
+  async loadWeather(locId: string, sourceId: string): Promise<WeatherData | undefined> {
+    if (!this.store) {
+      return undefined;
+    }
+    const key: string = locId + '@' + sourceId;
+    let rs: relationalStore.ResultSet | undefined = undefined;
+    let data: WeatherData | undefined = undefined;
+    try {
+      const predicates: relationalStore.RdbPredicates = new relationalStore.RdbPredicates(TABLE_CACHE);
+      predicates.equalTo('cache_key', key);
+      rs = await this.store.query(predicates, ['payload', 'fetched_at']);
+      if (rs.goToFirstRow()) {
+        const payload: string = rs.getString(rs.getColumnIndex('payload'));
+        try {
+          data = JSON.parse(payload) as WeatherData;
+        } catch (e) {
+          Log.w('corrupted weather cache, ignoring');
+        }
+      }
+    } catch (e) {
+      Log.e(`loadWeather failed: ${e}`);
+    } finally {
+      if (rs) {
+        try {
+          rs.close();
+        } catch (e) {
+          Log.e(`loadWeather close failed: ${e}`);
+        }
+      }
+    }
+    return data;
+  }
+
+  async saveWeather(data: WeatherData): Promise<void> {
+    if (!this.store) {
+      return;
+    }
+    try {
+      const bucket: relationalStore.ValuesBucket = {
+        'cache_key': data.location.id + '@' + data.source,
+        'payload': JSON.stringify(data),
+        'fetched_at': data.fetchedAt
+      };
+      await this.store.insert(TABLE_CACHE, bucket, relationalStore.ConflictResolution.ON_CONFLICT_REPLACE);
+    } catch (e) {
+      Log.e(`saveWeather failed: ${e}`);
+    }
+  }
+}
+
+/** Shared singleton so repositories/callers can stay no-arg. */
+export const rdbStore: RdbStore = new RdbStore();
