@@ -181,7 +181,8 @@ export class AppStore {
       sourceId: patch.sourceId ?? this.settings.sourceId,
       temperatureUnit: patch.temperatureUnit ?? this.settings.temperatureUnit,
       theme: patch.theme ?? this.settings.theme,
-      language: patch.language ?? this.settings.language
+      language: patch.language ?? this.settings.language,
+      materialLevel: patch.materialLevel ?? this.settings.materialLevel
     } as AppSettings;
     const sourceChanged: boolean = next.sourceId !== this.settings.sourceId;
     this.settings = next;

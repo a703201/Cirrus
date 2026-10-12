@@ -1,7 +1,7 @@
 if (!("finalizeConstruction" in ViewPU.prototype)) {
     Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
 }
-import { TemperatureUnit, ThemeMode } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import { TemperatureUnit, ThemeMode, MaterialTier } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { listSources } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
 import type { WeatherSource } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
 import { appStore } from "@bundle:com.Lumio.Cirrus/entry/ets/store/AppStore";
@@ -27,6 +27,7 @@ export class SettingsPage extends ViewV2 {
         this.sourceSection.bind(this)();
         this.unitSection.bind(this)();
         this.themeSection.bind(this)();
+        this.materialSection.bind(this)();
         this.languageSection.bind(this)();
         Column.pop();
     }
@@ -173,6 +174,55 @@ export class SettingsPage extends ViewV2 {
             Radio.onChange((checked: boolean) => {
                 if (checked) {
                     appStore.updateSettings({ theme: mode });
+                }
+            });
+        }, Radio);
+        Row.pop();
+    }
+    materialSection(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create({ space: 6 });
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331700, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(16);
+            Text.fontWeight(FontWeight.Medium);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create({ space: 6 });
+        }, Row);
+        this.materialOption.bind(this)({ "id": 50331696, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.AUTO);
+        this.materialOption.bind(this)({ "id": 50331697, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.EXQUISITE);
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create({ space: 6 });
+        }, Row);
+        this.materialOption.bind(this)({ "id": 50331698, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.GENTLE);
+        this.materialOption.bind(this)({ "id": 50331699, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.SMOOTH);
+        Row.pop();
+        Column.pop();
+    }
+    materialOption(label: Resource, tier: MaterialTier, parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create();
+            Row.padding(10);
+            Row.backgroundColor('rgba(255,255,255,0.6)');
+            Row.borderRadius(12);
+            Row.layoutWeight(1);
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(label);
+            Text.fontSize(14);
+            Text.layoutWeight(1);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Radio.create({ value: tier, group: 'material' });
+            Radio.checked(appStore.settings.materialLevel === tier);
+            Radio.onChange((checked: boolean) => {
+                if (checked) {
+                    appStore.updateSettings({ materialLevel: tier });
                 }
             });
         }, Radio);

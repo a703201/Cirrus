@@ -1,11 +1,11 @@
 # 设计规范 UI/UX（Cirrus / 卷云）
 
-> 设计语言：**沉浸光感（空间化 Spatial UI）+ 动态天空主题**（基于 HarmonyOS UI Design Kit，致敬 Breezy/Geometric 的通透美学）。
+> 设计语言：**卷云·气象拟真（Atmospheric Realism）** —— 以真实天空为隐喻，「内容即天空 / 光即材质 / 随境而变」，沉浸光感为载光引擎。设计哲学与对标 Apple HIG 的完整论述见 [13-美学设计语言](./13-美学设计语言.md)。
 > 目标：信息清晰、动效克制、全设备一致、无障碍友好。技术落地见 [11-鸿蒙新特性与沉浸光感适配](./11-鸿蒙新特性与沉浸光感适配.md)。
 
 ## 1. 设计语言
 
-- **系统材质玻璃**：标题栏/导航用 HDS 沉浸光感材质（毛玻璃，内容隐约透出）；内容区卡片按需 `.systemMaterial(ImmersiveMaterial)`。**替代自研 `blur`**，避免双层模糊叠加（性能与观感）。
+- **系统材质玻璃**：标题栏/底部导航用 HDS 沉浸光感材质（毛玻璃，内容隐约透出）。⚠️ **官方约束**：`ImmersiveMaterial` 对普通内容区组件**不生效**，仅在 *Navigation/NavDestination 标题栏* 与 *横向 Tabs `barPosition=BarPosition.End` 的底部 TabBar* 中生效（弹窗类、`Slider`、`Toggle`、`Select` 可全页面生效）。故**内容区卡片采用稳定的 `backgroundBlurStyle` 玻璃**；避免双层模糊叠加（性能与观感）。
 - **动态取色**：背景渐变与强调色由「当前天气状况 + 时段（昼/夜/晨/昏）」推导（如晴昼=暖蓝、雷暴=深紫灰）。
 - **克制动效**：仅关键处使用动效（天气粒子、页面转场、数字翻牌），避免干扰阅读。
 - **一致圆角**：卡片圆角统一 16–24vp，符合 HarmonyOS 圆角语言；悬浮导航为胶囊圆角。
@@ -20,8 +20,9 @@
 | 弱 | `SMOOTH` | 低端设备 |
 | 系统自适应（默认启用） | `ADAPTIVE` | 由系统按算力自动选择 |
 
-- 默认 `MaterialType.ADAPTIVE` + `MaterialLevel.ADAPTIVE`；设置页提供手动档位切换。
-- **降级**：不支持时回退普通半透明卡片（见 `11` §2.4）。
+- 默认 `hdsMaterial.MaterialType.ADAPTIVE` + `hdsMaterial.MaterialLevel.ADAPTIVE`（HDS 组件）；内容区材质用 `uiMaterial.ImmersiveMaterial`（`uiMaterial.MaterialLevel` 仅 EXQUISITE/GENTLE/SMOOTH，由设备定义）。
+- 设置页提供手动档位切换。
+- **降级**：`uiMaterial.isImmersiveMaterialSupported()` 为 false 或 `getGlobalMaterialLevel()` 不满足时，回退普通半透明卡片（`backgroundBlurStyle`）（见 `11` §2.4）。
 
 ## 2. 色彩系统
 
@@ -76,8 +77,8 @@
 ## 6. 动效
 
 - **天气粒子背景**：雨（斜线下落）、雪（飘落）、云（缓动漂移）、雾（模糊流动）——基于 Canvas，按状况+时段开关，注意耗电；**滚动/材质交互期间暂停粒子**（沉浸光感 GPU 开销叠加）。
-- **数字翻牌**：Hero 温度刷新用 `Text.contentTransition`（数字翻牌动效），避免生硬跳变。
-- **渐变文本**：Hero 温度可用 `Text.shaderStyle`（线性/径向渐变）增强表现力。
+- **数字翻牌**：Hero 温度刷新用 `Text.contentTransition(NumericTextTransition)`（数字翻牌动效），避免生硬跳变。实现见 `common/ui/AnimatedNumber`。
+- **渐变文本**：Hero 温度用 `Text.shaderStyle`（线性/径向渐变）增强表现力。实现见 `common/ui/GradientText`。
 - **图标动效**：`SymbolGlyph` 支持阴影/渐变/快速替换动效，用于天气符号切换。
 - **页面转场**：列表→详情共享元素（温度/图标）位移淡入；设置 Sheet 内页 slide + fade。
 - **可选三维动效**：卡片按压可用 `transform3d` 轻微倾斜（克制度）。

@@ -18,6 +18,10 @@ string label_uv 0x03000011
 string label_visibility 0x03000012
 string label_wind 0x03000013
 string location_search 0x03000014
+string material_auto 0x03000030
+string material_exquisite 0x03000031
+string material_gentle 0x03000032
+string material_smooth 0x03000033
 string module_desc 0x03000015
 string msg_loading 0x03000016
 string msg_offline 0x03000017
@@ -28,6 +32,7 @@ string perm_internet 0x0300001b
 string perm_location 0x0300001c
 string settings_language 0x0300001d
 string settings_language_system 0x0300001e
+string settings_material 0x03000034
 string settings_privacy 0x0300001f
 string settings_source 0x03000020
 string settings_theme 0x03000021

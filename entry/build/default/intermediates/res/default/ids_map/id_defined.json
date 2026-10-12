@@ -191,5 +191,25 @@
 			"type":	"profile",
 			"name":	"main_pages",
 			"id":	"0x0300002F"
+		}, {
+			"type":	"string",
+			"name":	"material_auto",
+			"id":	"0x03000030"
+		}, {
+			"type":	"string",
+			"name":	"material_exquisite",
+			"id":	"0x03000031"
+		}, {
+			"type":	"string",
+			"name":	"material_gentle",
+			"id":	"0x03000032"
+		}, {
+			"type":	"string",
+			"name":	"material_smooth",
+			"id":	"0x03000033"
+		}, {
+			"type":	"string",
+			"name":	"settings_material",
+			"id":	"0x03000034"
 		}]
 }

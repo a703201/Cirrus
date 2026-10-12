@@ -9,12 +9,16 @@ import { DetailsPage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/home/De
 export class HomePage extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
         super(parent, elmtId, extraInfo);
+        this.initParam("scroller", (params && "scroller" in params) ? params.scroller : new Scroller());
         this.refreshing = false;
         this.finalizeConstruction();
     }
     public resetStateVarsOnReuse(params: Object): void {
+        this.resetParam("scroller", (params && "scroller" in params) ? params.scroller : new Scroller());
         this.refreshing = false;
     }
+    @Param
+    readonly scroller: Scroller;
     @Local
     refreshing: boolean;
     initialRender() {
@@ -27,10 +31,11 @@ export class HomePage extends ViewV2 {
             Refresh.height('100%');
         }, Refresh);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Scroll.create();
+            Scroll.create(this.scroller);
             Scroll.width('100%');
             Scroll.height('100%');
             Scroll.scrollBar(BarState.Auto);
+            Scroll.edgeEffect(EdgeEffect.Spring);
         }, Scroll);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create({ space: 12 });
@@ -66,8 +71,11 @@ export class HomePage extends ViewV2 {
                                     unit: appStore.settings.temperatureUnit,
                                     condition: wmoDescription(appStore.weather.current.weatherCode, appStore.resolveLang()),
                                     locationName: appStore.currentLocation()?.name ?? '',
-                                    updatedAt: String(appStore.weather.fetchedAt)
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 25, col: 13 });
+                                    updatedAt: String(appStore.weather.fetchedAt),
+                                    weatherCode: appStore.weather.current.weatherCode,
+                                    isDay: appStore.weather.current.isDay,
+                                    materialTier: appStore.settings.materialLevel
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 26, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -75,7 +83,10 @@ export class HomePage extends ViewV2 {
                                         unit: appStore.settings.temperatureUnit,
                                         condition: wmoDescription(appStore.weather.current.weatherCode, appStore.resolveLang()),
                                         locationName: appStore.currentLocation()?.name ?? '',
-                                        updatedAt: String(appStore.weather.fetchedAt)
+                                        updatedAt: String(appStore.weather.fetchedAt),
+                                        weatherCode: appStore.weather.current.weatherCode,
+                                        isDay: appStore.weather.current.isDay,
+                                        materialTier: appStore.settings.materialLevel
                                     };
                                 };
                                 componentCall.paramsGenerator_ = paramsLambda;
@@ -86,7 +97,10 @@ export class HomePage extends ViewV2 {
                                     unit: appStore.settings.temperatureUnit,
                                     condition: wmoDescription(appStore.weather.current.weatherCode, appStore.resolveLang()),
                                     locationName: appStore.currentLocation()?.name ?? '',
-                                    updatedAt: String(appStore.weather.fetchedAt)
+                                    updatedAt: String(appStore.weather.fetchedAt),
+                                    weatherCode: appStore.weather.current.weatherCode,
+                                    isDay: appStore.weather.current.isDay,
+                                    materialTier: appStore.settings.materialLevel
                                 });
                             }
                         }, { name: "WeatherCard" });
@@ -97,7 +111,7 @@ export class HomePage extends ViewV2 {
                                 let componentCall = new HourlyPage(this, {
                                     weather: appStore.weather,
                                     unit: appStore.settings.temperatureUnit
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 32, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 36, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -122,7 +136,7 @@ export class HomePage extends ViewV2 {
                                     weather: appStore.weather,
                                     unit: appStore.settings.temperatureUnit,
                                     lang: appStore.resolveLang()
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 36, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 40, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -148,7 +162,7 @@ export class HomePage extends ViewV2 {
                                 let componentCall = new DetailsPage(this, {
                                     current: appStore.weather.current,
                                     unit: appStore.settings.temperatureUnit
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 41, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 45, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -214,6 +228,14 @@ export class HomePage extends ViewV2 {
         Column.pop();
         Scroll.pop();
         Refresh.pop();
+    }
+    public updateStateVars(params) {
+        if (params === undefined) {
+            return;
+        }
+        if ("scroller" in params) {
+            this.updateParam("scroller", params.scroller);
+        }
     }
     rerender() {
         this.updateDirtyElements();

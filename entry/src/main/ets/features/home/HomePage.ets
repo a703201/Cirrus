@@ -1,4 +1,4 @@
-import { WeatherCard, wmoDescription, TemperatureUnit } from 'common';
+import { WeatherCard, wmoDescription, MaterialTier } from 'common';
 import { appStore } from '../../store/AppStore';
 import { HourlyPage } from './HourlyPage';
 import { DailyPage } from './DailyPage';
@@ -6,11 +6,12 @@ import { DetailsPage } from './DetailsPage';
 
 @ComponentV2
 export struct HomePage {
+  @Param scroller: Scroller = new Scroller();
   @Local refreshing: boolean = false;
 
   build() {
     Refresh({ refreshing: $$this.refreshing }) {
-      Scroll() {
+      Scroll(this.scroller) {
         Column({ space: 12 }) {
           if (appStore.loading) {
             Column() {
@@ -27,7 +28,10 @@ export struct HomePage {
               unit: appStore.settings.temperatureUnit,
               condition: wmoDescription(appStore.weather.current.weatherCode, appStore.resolveLang()),
               locationName: appStore.currentLocation()?.name ?? '',
-              updatedAt: String(appStore.weather.fetchedAt)
+              updatedAt: String(appStore.weather.fetchedAt),
+              weatherCode: appStore.weather.current.weatherCode,
+              isDay: appStore.weather.current.isDay,
+              materialTier: appStore.settings.materialLevel
             })
             HourlyPage({
               weather: appStore.weather,
@@ -72,6 +76,7 @@ export struct HomePage {
       .width('100%')
       .height('100%')
       .scrollBar(BarState.Auto)
+      .edgeEffect(EdgeEffect.Spring)
     }
     .onRefreshing(() => {
       appStore.refresh();

@@ -1,8 +1,10 @@
 if (!("finalizeConstruction" in ViewPU.prototype)) {
     Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
 }
-import { TemperatureUnit } from "@bundle:com.Lumio.Cirrus/entry@common/ets/models/Settings";
-import { UnitUtil } from "@bundle:com.Lumio.Cirrus/entry@common/ets/utils/UnitUtil";
+import { TemperatureUnit, MaterialTier } from "@bundle:com.Lumio.Cirrus/entry@common/ets/models/Settings";
+import { MaterialUtil } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/MaterialUtil";
+import { GradientText } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/GradientText";
+import { wmoIconKey } from "@bundle:com.Lumio.Cirrus/entry@common/ets/models/WmoCode";
 export class WeatherCard extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
         super(parent, elmtId, extraInfo);
@@ -11,6 +13,9 @@ export class WeatherCard extends ViewV2 {
         this.initParam("condition", (params && "condition" in params) ? params.condition : '');
         this.initParam("locationName", (params && "locationName" in params) ? params.locationName : '');
         this.initParam("updatedAt", (params && "updatedAt" in params) ? params.updatedAt : '');
+        this.initParam("weatherCode", (params && "weatherCode" in params) ? params.weatherCode : 0);
+        this.initParam("isDay", (params && "isDay" in params) ? params.isDay : true);
+        this.initParam("materialTier", (params && "materialTier" in params) ? params.materialTier : MaterialTier.AUTO);
         this.finalizeConstruction();
     }
     public resetStateVarsOnReuse(params: Object): void {
@@ -19,6 +24,9 @@ export class WeatherCard extends ViewV2 {
         this.resetParam("condition", (params && "condition" in params) ? params.condition : '');
         this.resetParam("locationName", (params && "locationName" in params) ? params.locationName : '');
         this.resetParam("updatedAt", (params && "updatedAt" in params) ? params.updatedAt : '');
+        this.resetParam("weatherCode", (params && "weatherCode" in params) ? params.weatherCode : 0);
+        this.resetParam("isDay", (params && "isDay" in params) ? params.isDay : true);
+        this.resetParam("materialTier", (params && "materialTier" in params) ? params.materialTier : MaterialTier.AUTO);
     }
     @Param
     readonly temperature: number;
@@ -30,13 +38,50 @@ export class WeatherCard extends ViewV2 {
     readonly locationName: ResourceStr;
     @Param
     readonly updatedAt: string;
+    @Param
+    readonly weatherCode: number;
+    @Param
+    readonly isDay: boolean;
+    @Param
+    readonly materialTier: MaterialTier;
+    private tempText(): string {
+        const c: number = this.unit === TemperatureUnit.FAHRENHEIT
+            ? Math.round(this.temperature * 9 / 5 + 32)
+            : Math.round(this.temperature);
+        return `${c}°`;
+    }
+    private symbol(): Resource {
+        const key: string = wmoIconKey(this.weatherCode, this.isDay);
+        // NOTE: only the `sys.symbol.*` names validated by the SDK (API 26) resource
+        // compiler are used here. The previously referenced cloud_bolt / cloud_rain /
+        // cloud_fog / cloud_sun / cloud_moon do NOT exist in this SDK and fail the build.
+        if (key.startsWith('wx_clear') || key.startsWith('wx_mainly_clear')) {
+            return this.isDay ? { "id": 125831496, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } : { "id": 125831540, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+        }
+        if (key.indexOf('overcast') >= 0) {
+            return { "id": 125832515, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+        }
+        if (key.indexOf('thunderstorm') >= 0) {
+            return { "id": 125832622, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+        }
+        if (key.indexOf('snow') >= 0) {
+            return { "id": 125832567, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+        }
+        if (key.indexOf('rain') >= 0 || key.indexOf('drizzle') >= 0 || key.indexOf('showers') >= 0) {
+            return { "id": 125832593, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+        }
+        if (key.indexOf('fog') >= 0) {
+            return { "id": 125832621, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+        }
+        return this.isDay ? { "id": 125832585, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } : { "id": 125832604, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+    }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create();
             Column.width('100%');
             Column.padding(20);
             Column.backgroundColor('rgba(255,255,255,0.35)');
-            Column.backgroundBlurStyle(BlurStyle.COMPONENT_THICK);
+            Column.backgroundBlurStyle(MaterialUtil.cardBlurStyle(this.materialTier));
             Column.borderRadius(24);
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -47,13 +92,45 @@ export class WeatherCard extends ViewV2 {
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create(`${UnitUtil.convertTemp(this.temperature, this.unit)}°`);
-            Text.fontSize(72);
-            Text.fontWeight(FontWeight.Lighter);
-            Text.fontColor('#1A1A1A');
-            Text.margin({ top: 6, bottom: 4 });
-        }, Text);
-        Text.pop();
+            Row.create({ space: 8 });
+            Row.alignItems(VerticalAlign.Center);
+            Row.margin({ top: 6, bottom: 4 });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            SymbolGlyph.create(this.symbol());
+            SymbolGlyph.fontSize(40);
+        }, SymbolGlyph);
+        {
+            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                if (isInitialRender) {
+                    let componentCall = new GradientText(this, {
+                        text: this.tempText(),
+                        fontSize: 72,
+                        fontWeight: FontWeight.Lighter,
+                        colors: this.isDay ? ['#1A1A1A', '#3B82F6'] : ['#F2F2F2', '#7EA6F0']
+                    }, undefined, elmtId, () => { }, { page: "common/src/main/ets/ui/WeatherCard.ets", line: 67, col: 9 });
+                    ViewV2.create(componentCall);
+                    let paramsLambda = () => {
+                        return {
+                            text: this.tempText(),
+                            fontSize: 72,
+                            fontWeight: FontWeight.Lighter,
+                            colors: this.isDay ? ['#1A1A1A', '#3B82F6'] : ['#F2F2F2', '#7EA6F0']
+                        };
+                    };
+                    componentCall.paramsGenerator_ = paramsLambda;
+                }
+                else {
+                    this.updateStateVarsOfChildByElmtId(elmtId, {
+                        text: this.tempText(),
+                        fontSize: 72,
+                        fontWeight: FontWeight.Lighter,
+                        colors: this.isDay ? ['#1A1A1A', '#3B82F6'] : ['#F2F2F2', '#7EA6F0']
+                    });
+                }
+            }, { name: "GradientText" });
+        }
+        Row.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create(this.condition);
             Text.fontSize(16);
@@ -99,6 +176,15 @@ export class WeatherCard extends ViewV2 {
         }
         if ("updatedAt" in params) {
             this.updateParam("updatedAt", params.updatedAt);
+        }
+        if ("weatherCode" in params) {
+            this.updateParam("weatherCode", params.weatherCode);
+        }
+        if ("isDay" in params) {
+            this.updateParam("isDay", params.isDay);
+        }
+        if ("materialTier" in params) {
+            this.updateParam("materialTier", params.materialTier);
         }
     }
     rerender() {

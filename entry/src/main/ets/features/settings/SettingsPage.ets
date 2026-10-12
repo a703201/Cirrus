@@ -1,4 +1,4 @@
-import { TemperatureUnit, ThemeMode } from 'common';
+import { TemperatureUnit, ThemeMode, MaterialTier } from 'common';
 import { listSources, WeatherSource } from 'data';
 import { appStore } from '../../store/AppStore';
 
@@ -11,6 +11,7 @@ export struct SettingsPage {
       this.sourceSection()
       this.unitSection()
       this.themeSection()
+      this.materialSection()
       this.languageSection()
     }
     .padding(16)
@@ -98,6 +99,39 @@ export struct SettingsPage {
         .onChange((checked: boolean) => {
           if (checked) {
             appStore.updateSettings({ theme: mode });
+          }
+        })
+    }
+    .padding(10)
+    .backgroundColor('rgba(255,255,255,0.6)')
+    .borderRadius(12)
+    .layoutWeight(1)
+  }
+
+  @Builder
+  materialSection() {
+    Column({ space: 6 }) {
+      Text($r('app.string.settings_material')).fontSize(16).fontWeight(FontWeight.Medium)
+      Row({ space: 6 }) {
+        this.materialOption($r('app.string.material_auto'), MaterialTier.AUTO)
+        this.materialOption($r('app.string.material_exquisite'), MaterialTier.EXQUISITE)
+      }
+      Row({ space: 6 }) {
+        this.materialOption($r('app.string.material_gentle'), MaterialTier.GENTLE)
+        this.materialOption($r('app.string.material_smooth'), MaterialTier.SMOOTH)
+      }
+    }
+  }
+
+  @Builder
+  materialOption(label: Resource, tier: MaterialTier) {
+    Row() {
+      Text(label).fontSize(14).layoutWeight(1)
+      Radio({ value: tier, group: 'material' })
+        .checked(appStore.settings.materialLevel === tier)
+        .onChange((checked: boolean) => {
+          if (checked) {
+            appStore.updateSettings({ materialLevel: tier });
           }
         })
     }

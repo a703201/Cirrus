@@ -5,3 +5,6 @@ export * from "@bundle:com.Lumio.Cirrus/entry@common/ets/utils/Log";
 export * from "@bundle:com.Lumio.Cirrus/entry@common/ets/utils/DateTimeUtil";
 export * from "@bundle:com.Lumio.Cirrus/entry@common/ets/utils/UnitUtil";
 export { WeatherCard } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/WeatherCard";
+export { MaterialUtil } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/MaterialUtil";
+export { AnimatedNumber } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/AnimatedNumber";
+export { GradientText } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/GradientText";

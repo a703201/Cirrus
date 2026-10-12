@@ -29,6 +29,10 @@
 		"mainElement":	"EntryAbility",
 		"deviceTypes":	["phone", "tablet", "2in1", "tv"],
 		"deliveryWithInstall":	true,
+		"metadata":	[{
+				"name":	"ohos.arkui.UIMaterial.state",
+				"value":	"enable"
+			}],
 		"pages":	"$profile:main_pages",
 		"abilities":	[{
 				"name":	"EntryAbility",
