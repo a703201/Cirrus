@@ -1,0 +1,37 @@
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙOE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\GradientText.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¯hostModulesInfo¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0Ù.E:\Codes\Project\Transplant\weather-app\commonÃ’ÔrD’²hostDependencyName®hostModuleName²../ui/GradientText¦commonD®./GradientText¦commonÚ­/**
+ * æ¸å˜æ–‡æœ¬ï¼ˆP1-4, docs/13 Â§4.4/Â§10, docs/11 Â§5ï¼‰.
+ * Hero temperature uses `Text.shaderStyle` with a linear shader so the number
+ * itself carries the sky gradient; combined with the numeric-flip transition.
+ *
+ * âš ï¸ `shaderStyle` / `LinearGradientStyle` å± API 20+ æ–°ç‰¹æ€§ï¼Œç­¾åä»¥ DevEco ç¼–è¯‘æœŸä¸ºå‡†ã€‚
+ */
+@ComponentV2
+export struct GradientText {
+  @Param text: string = '';
+  @Param fontSize: number = 72;
+  @Param fontWeight: FontWeight = FontWeight.Lighter;
+  @Param colors: ResourceColor[] = ['#F59E0B', '#3B82F6'];
+  @Param flip: boolean = true;
+
+  /**
+   * `LinearGradientStyle` expects color stops `[ResourceColor, number][]` (color + position
+   * weight in 0..1), not a bare `ResourceColor[]`. Build evenly spaced stops from the colors.
+   */
+  private gradientStops(): Array<[ResourceColor, number]> {
+    const stops: Array<[ResourceColor, number]> = [];
+    const n: number = this.colors.length;
+    for (let i = 0; i < n; i++) {
+      const weight: number = n > 1 ? i / (n - 1) : 0;
+      stops.push([this.colors[i], weight]);
+    }
+    return stops;
+  }
+
+  build() {
+    Text(this.text)
+      .fontSize(this.fontSize)
+      .fontWeight(this.fontWeight)
+      .contentTransition(this.flip ? new NumericTextTransition({ enableBlur: true }) : undefined)
+      .shaderStyle(new LinearGradientStyle({ colors: this.gradientStops(), direction: GradientDirection.Bottom }))
+  }
+}ÀAÂÔrE”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache
