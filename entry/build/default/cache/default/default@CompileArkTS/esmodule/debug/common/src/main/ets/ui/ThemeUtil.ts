@@ -1,8 +1,12 @@
+import ConfigurationConstant from "@ohos:app.ability.ConfigurationConstant";
+import type common from "@ohos:app.ability.common";
+import { ThemeMode } from "@bundle:com.Lumio.Cirrus/entry@common/ets/models/Settings";
+import { Log } from "@bundle:com.Lumio.Cirrus/entry@common/ets/utils/Log";
 /**
  * 卷云·气象拟真 —— 动态天空主题（P1-10, docs/13 §4.2/§6）.
  *
  * 主色与背景渐变由「天气状况 × 昼夜」推导（确定性优先，不采用壁纸取色）。
- * 纯函数、无系统依赖，便于测试与跨设备复用。
+ * `palette()` 为纯函数、无系统依赖；`applyThemeMode()` 负责把用户偏好落到系统外观。
  */
 export interface SkyPalette {
     /** 背景渐变起始色（顶部）。 */
@@ -67,5 +71,32 @@ export class ThemeUtil {
                 : { bgTop: '#243B62', bgBottom: '#141F38', accent: '#7EA6F0' };
         }
         return { bgTop: '#C9D6E2', bgBottom: '#A9BACB', accent: '#5B7FB0' };
+    }
+}
+/**
+ * 应用用户主题偏好到系统外观（P1-10, docs/11 §5）。
+ * - LIGHT/DARK 经 `UIAbilityContext.setColorMode` 强制；AUTO 经 `COLOR_MODE_NOT_SET` 交还系统，
+ *   由 EntryAbility.onConfigurationUpdate 持续同步 `themeModel.dark`。
+ * 调用失败（如境外不支持 UI Design Kit）静默降级，不阻塞主流程。
+ */
+export function applyThemeMode(mode: ThemeMode, context: common.UIAbilityContext | undefined): void {
+    try {
+        if (context === undefined) {
+            return;
+        }
+        let colorMode: ConfigurationConstant.ColorMode;
+        if (mode === ThemeMode.DARK) {
+            colorMode = ConfigurationConstant.ColorMode.COLOR_MODE_DARK;
+        }
+        else if (mode === ThemeMode.LIGHT) {
+            colorMode = ConfigurationConstant.ColorMode.COLOR_MODE_LIGHT;
+        }
+        else {
+            colorMode = ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET;
+        }
+        context.setColorMode(colorMode);
+    }
+    catch (e) {
+        Log.w(`applyThemeMode(${mode}) skipped: ${e}`);
     }
 }

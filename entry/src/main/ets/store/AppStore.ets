@@ -1,7 +1,7 @@
 import { abilityAccessCtrl, common, Permissions } from '@kit.AbilityKit';
 import { i18n } from '@kit.LocalizationKit';
 import {
-  AppSettings, DEFAULT_SETTINGS, LocationInfo, TemperatureUnit, ThemeMode, WeatherData, Log
+  AppSettings, DEFAULT_SETTINGS, LocationInfo, TemperatureUnit, ThemeMode, WeatherData, Log, applyThemeMode
 } from 'common';
 import { WeatherRepository, settingsStore, rdbStore, locationProvider, distributedStore } from 'data';
 import { themeModel } from './ThemeModel';
@@ -50,6 +50,7 @@ export class AppStore {
     }
     this.settings = await settingsStore.load();
     themeModel.themeMode = this.settings.theme;
+    applyThemeMode(this.settings.theme, this.context);
     await this.reloadLocations();
     if (this.locations.length === 0) {
       const remote: LocationInfo[] = await distributedStore.getLocations();
@@ -208,6 +209,7 @@ export class AppStore {
     const sourceChanged: boolean = next.sourceId !== this.settings.sourceId;
     this.settings = next;
     themeModel.themeMode = next.theme;
+    applyThemeMode(next.theme, this.context);
     await settingsStore.save(next);
     await distributedStore.putSettings(next);
     if (sourceChanged) {

@@ -14,7 +14,7 @@ export class SettingsPage extends ViewV2 {
     }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 10 });
+            Column.create({ space: 12 });
             Column.padding(16);
             Column.width('100%');
         }, Column);
@@ -24,250 +24,223 @@ export class SettingsPage extends ViewV2 {
             Text.fontWeight(FontWeight.Medium);
         }, Text);
         Text.pop();
-        this.sourceSection.bind(this)();
-        this.unitSection.bind(this)();
-        this.themeSection.bind(this)();
-        this.materialSection.bind(this)();
-        this.languageSection.bind(this)();
+        this.optionRow.bind(this)({ "id": 50331685, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, this.sourceLabel(), this.sourceMenu);
+        this.optionRow.bind(this)({ "id": 50331690, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, this.unitLabel(), this.unitMenu);
+        this.optionRow.bind(this)({ "id": 50331686, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, this.themeLabel(), this.themeMenu);
+        this.optionRow.bind(this)({ "id": 50331683, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, this.materialLabel(), this.materialMenu);
+        this.optionRow.bind(this)({ "id": 50331681, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, this.languageLabel(), this.languageMenu);
         Column.pop();
     }
-    sourceSection(parent = null) {
+    /** 统一的「标签 + 当前值 + 指示箭头」下拉行；菜单由 `menu` builder 经 bindMenu 弹出。 */
+    optionRow(label: Resource, current: ResourceStr, menu: CustomBuilder, parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 6 });
-        }, Column);
+            Row.create({ space: 8 });
+            Row.width('100%');
+            Row.padding(14);
+            Row.backgroundColor('rgba(255,255,255,0.6)');
+            Row.borderRadius(12);
+            Row.bindMenu(menu);
+        }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331685, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.create(label);
             Text.fontSize(16);
-            Text.fontWeight(FontWeight.Medium);
+            Text.layoutWeight(1);
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Repeat<WeatherSource>(listSources(), this).each((ri: RepeatItem<WeatherSource>) => {
+            Text.create(current);
+            Text.fontSize(14);
+            Text.fontColor('#666666');
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('▾');
+            Text.fontSize(14);
+            Text.fontColor('#999999');
+        }, Text);
+        Text.pop();
+        Row.pop();
+    }
+    sourceMenu(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Menu.create();
+        }, Menu);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            ForEach.create();
+            const forEachItemGenFunction = _item => {
+                const src = _item;
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    Row.create();
-                    Row.padding(10);
-                    Row.backgroundColor('rgba(255,255,255,0.6)');
-                    Row.borderRadius(12);
-                }, Row);
-                this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    Text.create(ri.item.displayName);
-                    Text.fontSize(14);
-                    Text.layoutWeight(1);
-                }, Text);
-                Text.pop();
-                this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    Radio.create({ value: ri.item.id, group: 'source' });
-                    Radio.checked(ri.item.id === appStore.settings.sourceId);
-                    Radio.onChange((checked: boolean) => {
-                        if (checked) {
-                            appStore.updateSettings({ sourceId: ri.item.id });
-                        }
+                    MenuItem.create({ content: src.displayName });
+                    MenuItem.selected(src.id === appStore.settings.sourceId);
+                    MenuItem.onClick(() => {
+                        appStore.updateSettings({ sourceId: src.id });
                     });
-                }, Radio);
-                Row.pop();
-            })
-                .key((src: WeatherSource) => src.id).render(isInitialRender);
-        }, Repeat);
-        Column.pop();
+                }, MenuItem);
+                MenuItem.pop();
+            };
+            this.forEachUpdateFunction(elmtId, listSources(), forEachItemGenFunction);
+        }, ForEach);
+        ForEach.pop();
+        Menu.pop();
     }
-    unitSection(parent = null) {
+    unitMenu(parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 6 });
-        }, Column);
+            Menu.create();
+        }, Menu);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331690, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(16);
-            Text.fontWeight(FontWeight.Medium);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create({ space: 8 });
-        }, Row);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create();
-            Row.padding(10);
-            Row.backgroundColor('rgba(255,255,255,0.6)');
-            Row.borderRadius(12);
-            Row.layoutWeight(1);
-        }, Row);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331695, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(14);
-            Text.layoutWeight(1);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Radio.create({ value: TemperatureUnit.CELSIUS, group: 'unit' });
-            Radio.checked(appStore.settings.temperatureUnit === TemperatureUnit.CELSIUS);
-            Radio.onChange((checked: boolean) => {
-                if (checked) {
-                    appStore.updateSettings({ temperatureUnit: TemperatureUnit.CELSIUS });
-                }
+            MenuItem.create({ content: { "id": 50331695, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+            MenuItem.selected(appStore.settings.temperatureUnit === TemperatureUnit.CELSIUS);
+            MenuItem.onClick(() => {
+                appStore.updateSettings({ temperatureUnit: TemperatureUnit.CELSIUS });
             });
-        }, Radio);
-        Row.pop();
+        }, MenuItem);
+        MenuItem.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create();
-            Row.padding(10);
-            Row.backgroundColor('rgba(255,255,255,0.6)');
-            Row.borderRadius(12);
-            Row.layoutWeight(1);
-        }, Row);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331696, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(14);
-            Text.layoutWeight(1);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Radio.create({ value: TemperatureUnit.FAHRENHEIT, group: 'unit' });
-            Radio.checked(appStore.settings.temperatureUnit === TemperatureUnit.FAHRENHEIT);
-            Radio.onChange((checked: boolean) => {
-                if (checked) {
-                    appStore.updateSettings({ temperatureUnit: TemperatureUnit.FAHRENHEIT });
-                }
+            MenuItem.create({ content: { "id": 50331696, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+            MenuItem.selected(appStore.settings.temperatureUnit === TemperatureUnit.FAHRENHEIT);
+            MenuItem.onClick(() => {
+                appStore.updateSettings({ temperatureUnit: TemperatureUnit.FAHRENHEIT });
             });
-        }, Radio);
-        Row.pop();
-        Row.pop();
-        Column.pop();
+        }, MenuItem);
+        MenuItem.pop();
+        Menu.pop();
     }
-    themeSection(parent = null) {
+    themeMenu(parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 6 });
-        }, Column);
+            Menu.create();
+        }, Menu);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331686, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(16);
-            Text.fontWeight(FontWeight.Medium);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create({ space: 8 });
-        }, Row);
-        this.themeOption.bind(this)({ "id": 50331687, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, ThemeMode.AUTO);
-        this.themeOption.bind(this)({ "id": 50331689, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, ThemeMode.LIGHT);
-        this.themeOption.bind(this)({ "id": 50331688, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, ThemeMode.DARK);
-        Row.pop();
-        Column.pop();
-    }
-    themeOption(label: Resource, mode: ThemeMode, parent = null) {
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create();
-            Row.padding(10);
-            Row.backgroundColor('rgba(255,255,255,0.6)');
-            Row.borderRadius(12);
-            Row.layoutWeight(1);
-        }, Row);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create(label);
-            Text.fontSize(14);
-            Text.layoutWeight(1);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Radio.create({ value: mode, group: 'theme' });
-            Radio.checked(appStore.settings.theme === mode);
-            Radio.onChange((checked: boolean) => {
-                if (checked) {
-                    appStore.updateSettings({ theme: mode });
-                }
+            MenuItem.create({ content: { "id": 50331687, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+            MenuItem.selected(appStore.settings.theme === ThemeMode.AUTO);
+            MenuItem.onClick(() => {
+                appStore.updateSettings({ theme: ThemeMode.AUTO });
             });
-        }, Radio);
-        Row.pop();
-    }
-    materialSection(parent = null) {
+        }, MenuItem);
+        MenuItem.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 6 });
-        }, Column);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331683, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(16);
-            Text.fontWeight(FontWeight.Medium);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create({ space: 6 });
-        }, Row);
-        this.materialOption.bind(this)({ "id": 50331669, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.AUTO);
-        this.materialOption.bind(this)({ "id": 50331670, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.EXQUISITE);
-        Row.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create({ space: 6 });
-        }, Row);
-        this.materialOption.bind(this)({ "id": 50331671, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.GENTLE);
-        this.materialOption.bind(this)({ "id": 50331672, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.SMOOTH);
-        Row.pop();
-        Column.pop();
-    }
-    materialOption(label: Resource, tier: MaterialTier, parent = null) {
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create();
-            Row.padding(10);
-            Row.backgroundColor('rgba(255,255,255,0.6)');
-            Row.borderRadius(12);
-            Row.layoutWeight(1);
-        }, Row);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create(label);
-            Text.fontSize(14);
-            Text.layoutWeight(1);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Radio.create({ value: tier, group: 'material' });
-            Radio.checked(appStore.settings.materialLevel === tier);
-            Radio.onChange((checked: boolean) => {
-                if (checked) {
-                    appStore.updateSettings({ materialLevel: tier });
-                }
+            MenuItem.create({ content: { "id": 50331689, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+            MenuItem.selected(appStore.settings.theme === ThemeMode.LIGHT);
+            MenuItem.onClick(() => {
+                appStore.updateSettings({ theme: ThemeMode.LIGHT });
             });
-        }, Radio);
-        Row.pop();
-    }
-    languageSection(parent = null) {
+        }, MenuItem);
+        MenuItem.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 6 });
-        }, Column);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331681, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(16);
-            Text.fontWeight(FontWeight.Medium);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create({ space: 8 });
-        }, Row);
-        this.languageOption.bind(this)({ "id": 50331682, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, 'system');
-        this.languageOption.bind(this)('English', 'en');
-        this.languageOption.bind(this)('中文', 'zh-CN');
-        Row.pop();
-        Column.pop();
-    }
-    languageOption(label: Resource | string, lang: string, parent = null) {
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create();
-            Row.padding(10);
-            Row.backgroundColor('rgba(255,255,255,0.6)');
-            Row.borderRadius(12);
-            Row.layoutWeight(1);
-        }, Row);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create(label);
-            Text.fontSize(14);
-            Text.layoutWeight(1);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Radio.create({ value: lang, group: 'language' });
-            Radio.checked(appStore.settings.language === lang);
-            Radio.onChange((checked: boolean) => {
-                if (checked) {
-                    appStore.updateSettings({ language: lang });
-                }
+            MenuItem.create({ content: { "id": 50331688, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+            MenuItem.selected(appStore.settings.theme === ThemeMode.DARK);
+            MenuItem.onClick(() => {
+                appStore.updateSettings({ theme: ThemeMode.DARK });
             });
-        }, Radio);
-        Row.pop();
+        }, MenuItem);
+        MenuItem.pop();
+        Menu.pop();
+    }
+    materialMenu(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Menu.create();
+        }, Menu);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: { "id": 50331669, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+            MenuItem.selected(appStore.settings.materialLevel === MaterialTier.AUTO);
+            MenuItem.onClick(() => {
+                appStore.updateSettings({ materialLevel: MaterialTier.AUTO });
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: { "id": 50331670, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+            MenuItem.selected(appStore.settings.materialLevel === MaterialTier.EXQUISITE);
+            MenuItem.onClick(() => {
+                appStore.updateSettings({ materialLevel: MaterialTier.EXQUISITE });
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: { "id": 50331671, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+            MenuItem.selected(appStore.settings.materialLevel === MaterialTier.GENTLE);
+            MenuItem.onClick(() => {
+                appStore.updateSettings({ materialLevel: MaterialTier.GENTLE });
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: { "id": 50331672, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+            MenuItem.selected(appStore.settings.materialLevel === MaterialTier.SMOOTH);
+            MenuItem.onClick(() => {
+                appStore.updateSettings({ materialLevel: MaterialTier.SMOOTH });
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        Menu.pop();
+    }
+    languageMenu(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Menu.create();
+        }, Menu);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: { "id": 50331682, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+            MenuItem.selected(appStore.settings.language === 'system');
+            MenuItem.onClick(() => {
+                appStore.updateSettings({ language: 'system' });
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: 'English' });
+            MenuItem.selected(appStore.settings.language === 'en');
+            MenuItem.onClick(() => {
+                appStore.updateSettings({ language: 'en' });
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: '中文' });
+            MenuItem.selected(appStore.settings.language === 'zh-CN');
+            MenuItem.onClick(() => {
+                appStore.updateSettings({ language: 'zh-CN' });
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        Menu.pop();
+    }
+    private sourceLabel(): string {
+        const list: WeatherSource[] = listSources();
+        const found: WeatherSource | undefined = list.find((s: WeatherSource) => s.id === appStore.settings.sourceId);
+        return found ? found.displayName : '';
+    }
+    private unitLabel(): Resource {
+        return appStore.settings.temperatureUnit === TemperatureUnit.CELSIUS
+            ? { "id": 50331695, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } : { "id": 50331696, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+    }
+    private themeLabel(): Resource {
+        if (appStore.settings.theme === ThemeMode.LIGHT) {
+            return { "id": 50331689, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+        }
+        if (appStore.settings.theme === ThemeMode.DARK) {
+            return { "id": 50331688, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+        }
+        return { "id": 50331687, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+    }
+    private materialLabel(): Resource {
+        if (appStore.settings.materialLevel === MaterialTier.EXQUISITE) {
+            return { "id": 50331670, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+        }
+        if (appStore.settings.materialLevel === MaterialTier.GENTLE) {
+            return { "id": 50331671, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+        }
+        if (appStore.settings.materialLevel === MaterialTier.SMOOTH) {
+            return { "id": 50331672, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+        }
+        return { "id": 50331669, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+    }
+    private languageLabel(): ResourceStr {
+        if (appStore.settings.language === 'en') {
+            return 'English';
+        }
+        if (appStore.settings.language === 'zh-CN') {
+            return '中文';
+        }
+        return { "id": 50331682, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
     }
     rerender() {
         this.updateDirtyElements();

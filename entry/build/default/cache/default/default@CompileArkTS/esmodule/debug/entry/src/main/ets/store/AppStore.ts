@@ -2,7 +2,7 @@ import abilityAccessCtrl from "@ohos:abilityAccessCtrl";
 import type common from "@ohos:app.ability.common";
 import type { Permissions } from "@ohos:abilityAccessCtrl";
 import i18n from "@ohos:i18n";
-import { DEFAULT_SETTINGS, Log } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import { DEFAULT_SETTINGS, Log, applyThemeMode } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import type { AppSettings, LocationInfo, WeatherData } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { WeatherRepository, settingsStore, rdbStore, locationProvider, distributedStore } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
 import { themeModel } from "@bundle:com.Lumio.Cirrus/entry/ets/store/ThemeModel";
@@ -56,6 +56,7 @@ export class AppStore {
         }
         this.settings = await settingsStore.load();
         themeModel.themeMode = this.settings.theme;
+        applyThemeMode(this.settings.theme, this.context);
         await this.reloadLocations();
         if (this.locations.length === 0) {
             const remote: LocationInfo[] = await distributedStore.getLocations();
@@ -204,6 +205,7 @@ export class AppStore {
         const sourceChanged: boolean = next.sourceId !== this.settings.sourceId;
         this.settings = next;
         themeModel.themeMode = next.theme;
+        applyThemeMode(next.theme, this.context);
         await settingsStore.save(next);
         await distributedStore.putSettings(next);
         if (sourceChanged) {

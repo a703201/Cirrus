@@ -212,11 +212,11 @@
             "material": {
               "certpath": "C:\\Users\\a7032\\.ohos\\config\\default_weather-app_IlJFimzb5DzKeN00haHQel7X7zDT2B_SATsOmb1wW7g=.cer",
               "keyAlias": "debugKey",
-              "keyPassword": "0000001B72E6ED18C52699D87E2DD4C9366E5C449ED6C10CC746CA249FFB98D0F19E6A061DE4B4FA74E1E9",
+              "keyPassword": "0000001A1E4847B21FE6540E902DA197A2FEEF1C914A63FEEDAF93E68DD8339E71E981D70C9A3D7BACAB",
               "profile": "C:\\Users\\a7032\\.ohos\\config\\default_weather-app_IlJFimzb5DzKeN00haHQel7X7zDT2B_SATsOmb1wW7g=.p7b",
               "signAlg": "SHA256withECDSA",
               "storeFile": "C:\\Users\\a7032\\.ohos\\config\\default_weather-app_IlJFimzb5DzKeN00haHQel7X7zDT2B_SATsOmb1wW7g=.p12",
-              "storePassword": "0000001B6A2749E768FAFAAE9E4B2751F62D9F712BE109C1A0FC0931C5941232E283986EA8FA93859A8D18"
+              "storePassword": "0000001A42BF516C48DBCC5E55B7F292AD237D86315A61743E4F0E92E5B8B8F70D70E056383B1FB95840"
             }
           }
         ],
@@ -235,6 +235,29 @@
           },
           {
             "name": "release"
+          }
+        ],
+        "capabilities": [
+          {
+            "bundleName": "com.Lumio.Cirrus",
+            "config": [
+              {
+                "name": "Push Kit",
+                "capability": "com.huawei.service.push.base_service"
+              },
+              {
+                "name": "Device status detection",
+                "capability": "com.huawei.service.device_security.device_verify"
+              },
+              {
+                "name": "Map Kit",
+                "capability": "com.huawei.service.mapkit"
+              },
+              {
+                "name": "Safety Detect",
+                "capability": "com.huawei.service.device_security.safety_detect"
+              }
+            ]
           }
         ]
       },
