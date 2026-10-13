@@ -35,6 +35,17 @@
 - **明确不适用**：**实况窗（Live View Kit）** 不属于天气场景、**意图框架（Intents Kit）** 仅企业开发者且仅中国境内——均不纳入主流程（见 doc 11 §6.4/§6.5）。
 - **权限修正**：天气周期刷新用**延迟任务**（WorkScheduler），**无需** `ohos.permission.KEEP_BACKGROUND_RUNNING`（该权限属长时任务）。
 
+## 图标素材来源（第三方 · MIT）
+
+天气图标来自 **erikflowers/weather-icons**（<https://erikflowers.github.io/weather-icons>），采用 **MIT License**，在项目中免费使用、修改与分发。
+
+- 资源已合并至 `common/src/main/resources/base/media/`，共 **36 个 SVG**（文件名 `wx_<wmo基础键>_<day|night>`），与 `common/models/WmoCode.ts` 中 `wmoIconKey(code, isDay)` 的输出**一一对应**（如 `wx_clear_day`、`wx_rain_heavy_day`）。
+- UI 通过 `Image($r('common.media.' + wmoIconKey(code, isDay)))` 直接引用，**无需额外映射表**。
+- 原始 219 个 `wi-*.svg` 中选取 19 个代表性图标，按 WMO 天气代码语义复制重命名；映射关系见 `WmoCode.ts` 顶部注释。
+- 图标为单色字形，运行时经 `Image().fillColor()` 着色以适配浅色/深色卡片。
+
+> 原作者保留版权声明；本项目使用符合 MIT 条款，未做商标性使用。
+
 ## 在 DevEco Studio 打开
 
 1. DevEco Studio（HarmonyOS NEXT，API 26 对应版本）打开本目录。
@@ -49,10 +60,10 @@
 - `CacheStore` 为内存占位，待接 `@kit.ArkData`（`relationalStore` RDB）与 `distributedKVStore`（跨设备同步）。
 - `LocationProvider` 已接 `geoLocationManager`，运行时需动态申请 `LOCATION` / `APPROXIMATELY_LOCATION`。
 - `RefreshScheduler` 已接 WorkScheduler（延迟任务，**无需** `KEEP_BACKGROUND_RUNNING`），待细化周期策略（≤4 次/日）。
-- `WeatherFormAbility` 返回占位数据，待接真实天气。
+- `WeatherFormAbility` 已接真实天气：onAddForm 同步返占位、异步 `updateForm` 推 RDB 缓存真实数据（**P1-7 完成**）；卡片图标用 erikflowers/weather-icons（见「图标素材来源」）。
 - `QWeatherSource` 已结构实现，但 `icon→WMO` 对照表待补全，且**未注册**直至合规通过。
 - 默认位置为硬编码（Shanghai），待接定位与位置管理持久化。
-- UI 目前为普通 ArkUI 组件（非 HDS）；沉浸光感材质、状态管理 V2 迁移、数字翻牌等新特性**尚未落地**，见 doc 11 的里程碑安排。
+- UI 已接入 HDS（`HdsNavigation`/`HdsTabs`/`hdsMaterial`）、状态管理 V2、数字翻牌/渐变文本；沉浸光感材质与 HDS 视效**需真机验收**（模拟器不支持，见 doc 11）。
 
 ## 下一步建议
 

@@ -15,6 +15,7 @@ struct WeatherForm {
   @LocalStorageProp('tempMax') tempMax: string = '';
   @LocalStorageProp('tempMin') tempMin: string = '';
   @LocalStorageProp('updatedAt') updatedAt: string = '';
+  @LocalStorageProp('iconKey') iconKey: string = '';
 
   build() {
     Column({ space: 6 }) {
@@ -34,6 +35,12 @@ struct WeatherForm {
       .width('100%')
 
       Row({ space: 10 }) {
+        if (this.iconKey) {
+          Image($r('common.media.' + this.iconKey))
+            .width(34)
+            .height(34)
+            .fillColor('#3B82F6')
+        }
         Text(this.temperature)
           .fontSize(34)
           .fontWeight(FontWeight.Lighter)

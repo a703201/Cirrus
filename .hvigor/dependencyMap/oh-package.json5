@@ -1,1 +1,1 @@
-{"modelVersion":"26.0.0","name":"cirrus-weather","version":"1.0.0","description":"Cirrus (卷云) — HarmonyOS NEXT weather app (multi-source, multi-device, i18n)","main":"","author":"Cirrus Team","license":"Apache-2.0","dependencies":{},"devDependencies":{}}
+{"modelVersion":"26.0.0","name":"cirrus-weather","version":"1.0.0","description":"Cirrus (卷云) — HarmonyOS NEXT weather app (multi-source, multi-device, i18n)","main":"","author":"何宇翔","license":"Apache-2.0","dependencies":{},"devDependencies":{}}

@@ -2,7 +2,7 @@ import { FormExtensionAbility, formBindingData, formProvider } from '@kit.FormKi
 import { Want, common } from '@kit.AbilityKit';
 import { i18n } from '@kit.LocalizationKit';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { Log, wmoDescription, UnitUtil, DateTimeUtil } from 'common';
+import { Log, wmoDescription, wmoIconKey, UnitUtil, DateTimeUtil } from 'common';
 import { rdbStore, settingsStore, WeatherRepository } from 'data';
 
 const FORM_ID_KEY: string = 'formId';
@@ -16,6 +16,7 @@ interface FormCardData {
   tempMax: string;
   tempMin: string;
   updatedAt: string;
+  iconKey: string;
 }
 
 /**
@@ -64,7 +65,8 @@ export default class WeatherFormAbility extends FormExtensionAbility {
       condition: '',
       tempMax: '',
       tempMin: '',
-      updatedAt: ''
+      updatedAt: '',
+      iconKey: ''
     };
   }
 
@@ -107,13 +109,15 @@ export default class WeatherFormAbility extends FormExtensionAbility {
       ? UnitUtil.convertTemp(weather.daily[0].tempMin, settings.temperatureUnit)
       : undefined;
 
+    const iconKey: string = wmoIconKey(cur.weatherCode, cur.isDay);
     return {
       locationName: loc?.name ?? '',
       temperature: `${temp}${unitSym}`,
       condition: wmoDescription(cur.weatherCode, lang),
       tempMax: hi !== undefined ? `↑${hi}°` : '',
       tempMin: lo !== undefined ? `↓${lo}°` : '',
-      updatedAt: `更新 ${DateTimeUtil.formatHour(weather.fetchedAt)}`
+      updatedAt: `更新 ${DateTimeUtil.formatHour(weather.fetchedAt)}`,
+      iconKey: iconKey
     };
   }
 

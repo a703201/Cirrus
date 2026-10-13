@@ -3,6 +3,7 @@
     "Column",
     "Row",
     "Text",
+    "Image",
     "If"
   ]
 }

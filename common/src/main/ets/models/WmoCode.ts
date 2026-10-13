@@ -48,6 +48,12 @@ const WMO_TABLE: WmoEntry[] = [
   { code: 99, iconKey: 'thunderstorm_hail_heavy', dayNight: false, en: 'Thunderstorm w/ heavy hail', zh: '雷阵雨伴大冰雹', ja: '強い雹を伴う雷雨', ko: '강한 우박 동반 뇌우', fr: 'Orage avec grêle forte', es: 'Tormenta con granizo fuerte', de: 'Gewitter mit starkem Hagel' }
 ];
 
+/**
+ * 图标资源映射：返回的 key（如 `wx_clear_day`、`wx_rain_heavy_day`）即为
+ * `common/src/main/resources/base/media/` 下 SVG 的文件名（去掉 .svg）。
+ * 图标取自 erikflowers/weather-icons（MIT，见 README），按上表语义复制重命名，
+ * UI 直接 `Image($r('common.media.' + wmoIconKey(code, isDay)))` 引用，无需额外映射表。
+ */
 export function wmoIconKey(code: number, isDay: boolean): string {
   const entry: WmoEntry | undefined = WMO_TABLE.find((e) => e.code === code);
   const base: string = entry ? entry.iconKey : 'overcast';
