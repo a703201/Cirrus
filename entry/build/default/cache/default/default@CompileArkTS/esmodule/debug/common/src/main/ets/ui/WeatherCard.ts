@@ -50,30 +50,15 @@ export class WeatherCard extends ViewV2 {
             : Math.round(this.temperature);
         return `${c}°`;
     }
-    private symbol(): Resource {
+    /**
+     * 天气图标资源：文件名 = `wx_<base>_<day|night>`，与 `wmoIconKey()` 输出一致，
+     * 资源置于 common 模块 media（来自 erikflowers/weather-icons，MIT，见 README）。
+     */
+    private iconResource(): Resource {
         const key: string = wmoIconKey(this.weatherCode, this.isDay);
-        // NOTE: only the `sys.symbol.*` names validated by the SDK (API 26) resource
-        // compiler are used here. The previously referenced cloud_bolt / cloud_rain /
-        // cloud_fog / cloud_sun / cloud_moon do NOT exist in this SDK and fail the build.
-        if (key.startsWith('wx_clear') || key.startsWith('wx_mainly_clear')) {
-            return this.isDay ? { "id": 125831496, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } : { "id": 125831540, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
-        }
-        if (key.indexOf('overcast') >= 0) {
-            return { "id": 125832515, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
-        }
-        if (key.indexOf('thunderstorm') >= 0) {
-            return { "id": 125832622, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
-        }
-        if (key.indexOf('snow') >= 0) {
-            return { "id": 125832567, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
-        }
-        if (key.indexOf('rain') >= 0 || key.indexOf('drizzle') >= 0 || key.indexOf('showers') >= 0) {
-            return { "id": 125832593, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
-        }
-        if (key.indexOf('fog') >= 0) {
-            return { "id": 125832621, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
-        }
-        return this.isDay ? { "id": 125832585, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } : { "id": 125832604, "type": 40000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+        return { get id() {
+                return typeof __getResourceId__ === "function" ? __getResourceId__(this) : -1;
+            }, "type": -1, params: ['common.media.' + key], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
     }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -97,9 +82,11 @@ export class WeatherCard extends ViewV2 {
             Row.margin({ top: 6, bottom: 4 });
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            SymbolGlyph.create(this.symbol());
-            SymbolGlyph.fontSize(40);
-        }, SymbolGlyph);
+            Image.create(this.iconResource());
+            Image.width(44);
+            Image.height(44);
+            Image.fillColor(this.isDay ? '#3B82F6' : '#7EA6F0');
+        }, Image);
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
@@ -108,7 +95,7 @@ export class WeatherCard extends ViewV2 {
                         fontSize: 72,
                         fontWeight: FontWeight.Lighter,
                         colors: this.isDay ? ['#1A1A1A', '#3B82F6'] : ['#F2F2F2', '#7EA6F0']
-                    }, undefined, elmtId, () => { }, { page: "common/src/main/ets/ui/WeatherCard.ets", line: 67, col: 9 });
+                    }, undefined, elmtId, () => { }, { page: "common/src/main/ets/ui/WeatherCard.ets", line: 51, col: 9 });
                     ViewV2.create(componentCall);
                     let paramsLambda = () => {
                         return {

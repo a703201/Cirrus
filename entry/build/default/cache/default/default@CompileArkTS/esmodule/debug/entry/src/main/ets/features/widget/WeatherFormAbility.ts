@@ -5,7 +5,7 @@ import type Want from "@ohos:app.ability.Want";
 import type common from "@ohos:app.ability.common";
 import i18n from "@ohos:i18n";
 import type { BusinessError } from "@ohos:base";
-import { Log, wmoDescription, UnitUtil, DateTimeUtil } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import { Log, wmoDescription, wmoIconKey, UnitUtil, DateTimeUtil } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { rdbStore, settingsStore, WeatherRepository } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
 const FORM_ID_KEY: string = 'formId';
 const CACHE_TTL_MS: number = 30 * 60 * 1000;
@@ -17,6 +17,7 @@ interface FormCardData {
     tempMax: string;
     tempMin: string;
     updatedAt: string;
+    iconKey: string;
 }
 /**
  * 桌面/锁屏服务卡片 Ability（P1-7, PRD F08, docs/03 §5）。
@@ -59,7 +60,8 @@ export default class WeatherFormAbility extends FormExtensionAbility {
             condition: '',
             tempMax: '',
             tempMin: '',
-            updatedAt: ''
+            updatedAt: '',
+            iconKey: ''
         };
     }
     /** 独立读取真实天气（默认位置最新缓存 + 尽力而为的网络刷新）。 */
@@ -99,13 +101,15 @@ export default class WeatherFormAbility extends FormExtensionAbility {
         const lo: number | undefined = weather.daily.length
             ? UnitUtil.convertTemp(weather.daily[0].tempMin, settings.temperatureUnit)
             : undefined;
+        const iconKey: string = wmoIconKey(cur.weatherCode, cur.isDay);
         return {
             locationName: loc?.name ?? '',
             temperature: `${temp}${unitSym}`,
             condition: wmoDescription(cur.weatherCode, lang),
             tempMax: hi !== undefined ? `↑${hi}°` : '',
             tempMin: lo !== undefined ? `↓${lo}°` : '',
-            updatedAt: `更新 ${DateTimeUtil.formatHour(weather.fetchedAt)}`
+            updatedAt: `更新 ${DateTimeUtil.formatHour(weather.fetchedAt)}`,
+            iconKey: iconKey
         };
     }
     private async ensureInit(): Promise<void> {

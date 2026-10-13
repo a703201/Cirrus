@@ -7,9 +7,8 @@ import { wmoIconKey } from '../models/WmoCode';
  * Reusable current-weather card (state management V2).
  * 卷云·气象拟真（docs/13 §7）：内容卡采用稳定玻璃（`backgroundBlurStyle`）——因官方约束
  * ImmersiveMaterial 对内容区不生效；沉浸光感聚焦于标题栏/底部导航/弹窗。
- * 温度使用数字翻牌 + 渐变字（P1-4）；天气符号使用 SymbolGlyph。
- *
- * ⚠️ `$r('sys.symbol.*')` 名称以系统资源为准，需编译期校验。
+ * 温度使用数字翻牌 + 渐变字（P1-4）；天气图标使用 erikflowers/weather-icons（MIT，
+ * 见 README），资源置于 common 模块 media，文件名与 `wmoIconKey()` 输出一一对应。
  */
 @ComponentV2
 export struct WeatherCard {
@@ -29,30 +28,13 @@ export struct WeatherCard {
     return `${c}°`;
   }
 
-  private symbol(): Resource {
+  /**
+   * 天气图标资源：文件名 = `wx_<base>_<day|night>`，与 `wmoIconKey()` 输出一致，
+   * 资源置于 common 模块 media（来自 erikflowers/weather-icons，MIT，见 README）。
+   */
+  private iconResource(): Resource {
     const key: string = wmoIconKey(this.weatherCode, this.isDay);
-    // NOTE: only the `sys.symbol.*` names validated by the SDK (API 26) resource
-    // compiler are used here. The previously referenced cloud_bolt / cloud_rain /
-    // cloud_fog / cloud_sun / cloud_moon do NOT exist in this SDK and fail the build.
-    if (key.startsWith('wx_clear') || key.startsWith('wx_mainly_clear')) {
-      return this.isDay ? $r('sys.symbol.sun_max') : $r('sys.symbol.moon');
-    }
-    if (key.indexOf('overcast') >= 0) {
-      return $r('sys.symbol.cloud');
-    }
-    if (key.indexOf('thunderstorm') >= 0) {
-      return $r('sys.symbol.lightning');
-    }
-    if (key.indexOf('snow') >= 0) {
-      return $r('sys.symbol.snowflake');
-    }
-    if (key.indexOf('rain') >= 0 || key.indexOf('drizzle') >= 0 || key.indexOf('showers') >= 0) {
-      return $r('sys.symbol.umbrella');
-    }
-    if (key.indexOf('fog') >= 0) {
-      return $r('sys.symbol.foggy');
-    }
-    return this.isDay ? $r('sys.symbol.cloud_and_sun_fill') : $r('sys.symbol.cloud_moon_fill');
+    return $r('common.media.' + key);
   }
 
   build() {
@@ -62,8 +44,10 @@ export struct WeatherCard {
         .fontWeight(FontWeight.Medium)
         .fontColor('#1A1A1A')
       Row({ space: 8 }) {
-        SymbolGlyph(this.symbol())
-          .fontSize(40)
+        Image(this.iconResource())
+          .width(44)
+          .height(44)
+          .fillColor(this.isDay ? '#3B82F6' : '#7EA6F0')
         GradientText({
           text: this.tempText(),
           fontSize: 72,

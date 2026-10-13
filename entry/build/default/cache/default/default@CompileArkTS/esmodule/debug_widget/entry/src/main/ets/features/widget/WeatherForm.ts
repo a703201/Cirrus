@@ -8,6 +8,7 @@ interface WeatherForm_Params {
     tempMax?: string;
     tempMin?: string;
     updatedAt?: string;
+    iconKey?: string;
 }
 class WeatherForm extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
@@ -29,6 +30,7 @@ class WeatherForm extends ViewPU {
         this.__tempMax.purgeDependencyOnElmtId(rmElmtId);
         this.__tempMin.purgeDependencyOnElmtId(rmElmtId);
         this.__updatedAt.purgeDependencyOnElmtId(rmElmtId);
+        this.__iconKey.purgeDependencyOnElmtId(rmElmtId);
     }
     aboutToBeDeleted() {
         this.__locationName.aboutToBeDeleted();
@@ -37,6 +39,7 @@ class WeatherForm extends ViewPU {
         this.__tempMax.aboutToBeDeleted();
         this.__tempMin.aboutToBeDeleted();
         this.__updatedAt.aboutToBeDeleted();
+        this.__iconKey.aboutToBeDeleted();
         SubscriberManager.Get().delete(this.id__());
         this.aboutToBeDeletedInternal();
     }
@@ -82,6 +85,13 @@ class WeatherForm extends ViewPU {
     set updatedAt(newValue: string) {
         this.__updatedAt.set(newValue);
     }
+    private __iconKey: ObservedPropertyAbstractPU<string> = this.createLocalStorageProp<string>('iconKey', '', "iconKey");
+    get iconKey() {
+        return this.__iconKey.get();
+    }
+    set iconKey(newValue: string) {
+        this.__iconKey.set(newValue);
+    }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create({ space: 6 });
@@ -126,6 +136,26 @@ class WeatherForm extends ViewPU {
             Row.width('100%');
             Row.alignItems(VerticalAlign.Center);
         }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            if (this.iconKey) {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Image.create({ get id() {
+                                return typeof __getResourceId__ === "function" ? __getResourceId__(this) : -1;
+                            }, "type": -1, params: ['common.media.' + this.iconKey], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+                        Image.width(34);
+                        Image.height(34);
+                        Image.fillColor('#3B82F6');
+                    }, Image);
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                });
+            }
+        }, If);
+        If.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create(this.temperature);
             Text.fontSize(34);
@@ -198,6 +228,7 @@ class WeatherForm extends ViewPU {
         this.__tempMax.resetSource();
         this.__tempMin.resetSource();
         this.__updatedAt.resetSource();
+        this.__iconKey.resetSource();
     }
     static getEntryName(): string {
         return "WeatherForm";

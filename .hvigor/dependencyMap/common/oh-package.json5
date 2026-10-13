@@ -1,1 +1,1 @@
-{"name":"common","version":"1.0.0","description":"Cirrus shared module: models, utils, ui components","main":"src/main/ets/common/Index.ets","author":"Cirrus Team","license":"Apache-2.0","dependencies":{},"devDependencies":{}}
+{"name":"common","version":"1.0.0","description":"Cirrus shared module: models, utils, ui components","main":"src/main/ets/common/Index.ets","author":"何宇翔","license":"Apache-2.0","dependencies":{},"devDependencies":{}}
