@@ -7,5 +7,6 @@ export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/repository/WeatherReposit
 export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/local/CacheStore";
 export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/local/SettingsStore";
 export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/local/RdbStore";
+export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/local/DistributedStore";
 export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/location/LocationProvider";
 export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/scheduler/RefreshScheduler";

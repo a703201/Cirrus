@@ -2,7 +2,9 @@ if (!("finalizeConstruction" in ViewPU.prototype)) {
     Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
 }
 import { WeatherCard, wmoDescription } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import type { SkyPalette } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { appStore } from "@bundle:com.Lumio.Cirrus/entry/ets/store/AppStore";
+import { themeModel } from "@bundle:com.Lumio.Cirrus/entry/ets/store/ThemeModel";
 import { HourlyPage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/home/HourlyPage";
 import { DailyPage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/home/DailyPage";
 import { DetailsPage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/home/DetailsPage";
@@ -21,6 +23,11 @@ export class HomePage extends ViewV2 {
     readonly scroller: Scroller;
     @Local
     refreshing: boolean;
+    private palette(): SkyPalette {
+        const code: number = appStore.weather?.current.weatherCode ?? 0;
+        const isDay: boolean = appStore.weather?.current.isDay ?? true;
+        return themeModel.palette(code, isDay);
+    }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Refresh.create({ refreshing: { value: this.refreshing, changeEvent: newValue => { this.refreshing = newValue; } } });
@@ -29,6 +36,10 @@ export class HomePage extends ViewV2 {
             });
             Refresh.width('100%');
             Refresh.height('100%');
+            Refresh.linearGradient({
+                angle: 180,
+                colors: [[this.palette().bgTop, 0.0], [this.palette().bgBottom, 1.0]]
+            });
         }, Refresh);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Scroll.create(this.scroller);
@@ -53,7 +64,7 @@ export class HomePage extends ViewV2 {
                         Column.justifyContent(FlexAlign.Center);
                     }, Column);
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        Text.create({ "id": 50331670, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+                        Text.create({ "id": 50331674, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
                         Text.fontSize(16);
                         Text.fontColor('#6B6B6B');
                     }, Text);
@@ -75,7 +86,7 @@ export class HomePage extends ViewV2 {
                                     weatherCode: appStore.weather.current.weatherCode,
                                     isDay: appStore.weather.current.isDay,
                                     materialTier: appStore.settings.materialLevel
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 26, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 33, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -111,7 +122,7 @@ export class HomePage extends ViewV2 {
                                 let componentCall = new HourlyPage(this, {
                                     weather: appStore.weather,
                                     unit: appStore.settings.temperatureUnit
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 36, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 43, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -136,7 +147,7 @@ export class HomePage extends ViewV2 {
                                     weather: appStore.weather,
                                     unit: appStore.settings.temperatureUnit,
                                     lang: appStore.resolveLang()
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 40, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 47, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -162,7 +173,7 @@ export class HomePage extends ViewV2 {
                                 let componentCall = new DetailsPage(this, {
                                     current: appStore.weather.current,
                                     unit: appStore.settings.temperatureUnit
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 45, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 52, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -191,7 +202,7 @@ export class HomePage extends ViewV2 {
                         Column.justifyContent(FlexAlign.Center);
                     }, Column);
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        Text.create({ "id": 50331671, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+                        Text.create({ "id": 50331675, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
                         Text.fontSize(16);
                         Text.fontColor('#6B6B6B');
                     }, Text);
@@ -215,7 +226,7 @@ export class HomePage extends ViewV2 {
                         Column.justifyContent(FlexAlign.Center);
                     }, Column);
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        Text.create({ "id": 50331673, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+                        Text.create({ "id": 50331677, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
                         Text.fontSize(16);
                         Text.fontColor('#6B6B6B');
                     }, Text);

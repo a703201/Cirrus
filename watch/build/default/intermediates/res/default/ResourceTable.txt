@@ -1,0 +1,6 @@
+string app_name 0x04000000
+string entry_desc 0x04000002
+string module_desc 0x04000003
+color start_window_background 0x04000004
+media app_icon 0x04000001
+profile main_pages 0x04000005

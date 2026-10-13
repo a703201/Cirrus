@@ -51,7 +51,7 @@
 				"iconId":	50331649,
 				"labelId":	50331648,
 				"startWindowIconId":	50331649,
-				"startWindowBackgroundId":	50331693
+				"startWindowBackgroundId":	50331698
 			}],
 		"extensionAbilities":	[{
 				"name":	"WeatherFormAbility",
@@ -63,7 +63,7 @@
 				"metadata":	[{
 						"name":	"ohos.extension.form",
 						"resource":	"$profile:form_config",
-						"resourceId":	50331694
+						"resourceId":	50331699
 					}],
 				"descriptionId":	50331657,
 				"labelId":	50331648
@@ -75,7 +75,7 @@
 					"abilities":	["EntryAbility"],
 					"when":	"always"
 				},
-				"reasonId":	50331675
+				"reasonId":	50331679
 			}, {
 				"name":	"ohos.permission.LOCATION",
 				"reason":	"$string:perm_location",
@@ -83,7 +83,7 @@
 					"abilities":	["EntryAbility"],
 					"when":	"inuse"
 				},
-				"reasonId":	50331676
+				"reasonId":	50331680
 			}, {
 				"name":	"ohos.permission.APPROXIMATELY_LOCATION",
 				"reason":	"$string:perm_location",
@@ -91,13 +91,13 @@
 					"abilities":	["EntryAbility"],
 					"when":	"inuse"
 				},
-				"reasonId":	50331676
+				"reasonId":	50331680
 			}],
 		"packageName":	"entry",
 		"installationFree":	false,
 		"virtualMachine":	"ark24.0.0.0",
 		"compileMode":	"esmodule",
 		"dependencies":	[],
-		"descriptionId":	50331669
+		"descriptionId":	50331673
 	}
 }

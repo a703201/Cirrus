@@ -5,6 +5,7 @@ export * from '../models/Settings';
 export * from '../utils/Log';
 export * from '../utils/DateTimeUtil';
 export * from '../utils/UnitUtil';
+export * from '../ui/ThemeUtil';
 export { WeatherCard } from '../ui/WeatherCard';
 export { MaterialUtil } from '../ui/MaterialUtil';
 export { AnimatedNumber } from '../ui/AnimatedNumber';

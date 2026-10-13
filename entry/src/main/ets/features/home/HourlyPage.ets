@@ -10,16 +10,18 @@ export struct HourlyPage {
       Text($r('app.string.label_hourly')).fontSize(18).fontWeight(FontWeight.Medium)
       Scroll() {
         Row({ space: 8 }) {
-          ForEach(this.weather?.hourly ?? [], (h: HourlyPoint) => {
-            Column({ space: 4 }) {
-              Text(DateTimeUtil.formatHour(h.time)).fontSize(12).fontColor('#6B6B6B')
-              Text(`${UnitUtil.convertTemp(h.temperature, this.unit)}°`).fontSize(16).fontWeight(FontWeight.Medium)
-              Text(`${h.precipProb}%`).fontSize(12).fontColor('#3B82F6')
-            }
-            .padding(10)
-            .backgroundColor('rgba(255,255,255,0.5)')
-            .borderRadius(12)
-          }, (h: HourlyPoint) => h.time.toString())
+          Repeat<HourlyPoint>(this.weather?.hourly ?? [])
+            .each((ri: RepeatItem<HourlyPoint>) => {
+              Column({ space: 4 }) {
+                Text(DateTimeUtil.formatHour(ri.item.time)).fontSize(12).fontColor('#6B6B6B')
+                Text(`${UnitUtil.convertTemp(ri.item.temperature, this.unit)}°`).fontSize(16).fontWeight(FontWeight.Medium)
+                Text(`${ri.item.precipProb}%`).fontSize(12).fontColor('#3B82F6')
+              }
+              .padding(10)
+              .backgroundColor('rgba(255,255,255,0.5)')
+              .borderRadius(12)
+            })
+            .key((h: HourlyPoint) => h.time.toString())
         }
         .padding({ left: 4, right: 4 })
       }

@@ -39,9 +39,7 @@ export class DailyPage extends ViewV2 {
             Column.width('100%');
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            ForEach.create();
-            const forEachItemGenFunction = _item => {
-                const d = _item;
+            Repeat<DailyPoint>(this.weather?.daily ?? [], this).each((ri: RepeatItem<DailyPoint>) => {
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                     Row.create();
                     Row.padding(12);
@@ -49,29 +47,28 @@ export class DailyPage extends ViewV2 {
                     Row.borderRadius(12);
                 }, Row);
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    Text.create(d.date);
+                    Text.create(ri.item.date);
                     Text.fontSize(14);
                     Text.layoutWeight(1);
                 }, Text);
                 Text.pop();
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    Text.create(wmoDescription(d.weatherCodeDay, this.lang));
+                    Text.create(wmoDescription(ri.item.weatherCodeDay, this.lang));
                     Text.fontSize(14);
                     Text.fontColor('#6B6B6B');
                     Text.layoutWeight(2);
                 }, Text);
                 Text.pop();
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    Text.create(`${UnitUtil.convertTemp(d.tempMin, this.unit)}° / ${UnitUtil.convertTemp(d.tempMax, this.unit)}°`);
+                    Text.create(`${UnitUtil.convertTemp(ri.item.tempMin, this.unit)}° / ${UnitUtil.convertTemp(ri.item.tempMax, this.unit)}°`);
                     Text.fontSize(14);
                     Text.fontWeight(FontWeight.Medium);
                 }, Text);
                 Text.pop();
                 Row.pop();
-            };
-            this.forEachUpdateFunction(elmtId, this.weather?.daily ?? [], forEachItemGenFunction, (d: DailyPoint) => d.date, false, false);
-        }, ForEach);
-        ForEach.pop();
+            })
+                .key((d: DailyPoint) => d.date).render(isInitialRender);
+        }, Repeat);
         Column.pop();
         Column.pop();
     }

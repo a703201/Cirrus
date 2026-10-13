@@ -8,5 +8,6 @@ export * from '../repository/WeatherRepository';
 export * from '../local/CacheStore';
 export * from '../local/SettingsStore';
 export * from '../local/RdbStore';
+export * from '../local/DistributedStore';
 export * from '../location/LocationProvider';
 export * from '../scheduler/RefreshScheduler';

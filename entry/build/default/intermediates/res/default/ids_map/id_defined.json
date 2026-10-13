@@ -85,131 +85,131 @@
 			"id":	"0x03000014"
 		}, {
 			"type":	"string",
-			"name":	"module_desc",
+			"name":	"material_auto",
 			"id":	"0x03000015"
 		}, {
 			"type":	"string",
-			"name":	"msg_loading",
+			"name":	"material_exquisite",
 			"id":	"0x03000016"
 		}, {
 			"type":	"string",
-			"name":	"msg_offline",
+			"name":	"material_gentle",
 			"id":	"0x03000017"
 		}, {
 			"type":	"string",
-			"name":	"no_alerts",
+			"name":	"material_smooth",
 			"id":	"0x03000018"
 		}, {
 			"type":	"string",
-			"name":	"no_data",
+			"name":	"module_desc",
 			"id":	"0x03000019"
 		}, {
 			"type":	"string",
-			"name":	"perm_bg",
+			"name":	"msg_loading",
 			"id":	"0x0300001A"
 		}, {
 			"type":	"string",
-			"name":	"perm_internet",
+			"name":	"msg_offline",
 			"id":	"0x0300001B"
 		}, {
 			"type":	"string",
-			"name":	"perm_location",
+			"name":	"no_alerts",
 			"id":	"0x0300001C"
 		}, {
 			"type":	"string",
-			"name":	"settings_language",
+			"name":	"no_data",
 			"id":	"0x0300001D"
 		}, {
 			"type":	"string",
-			"name":	"settings_language_system",
+			"name":	"perm_bg",
 			"id":	"0x0300001E"
 		}, {
 			"type":	"string",
-			"name":	"settings_privacy",
+			"name":	"perm_internet",
 			"id":	"0x0300001F"
 		}, {
 			"type":	"string",
-			"name":	"settings_source",
+			"name":	"perm_location",
 			"id":	"0x03000020"
 		}, {
 			"type":	"string",
-			"name":	"settings_theme",
+			"name":	"settings_language",
 			"id":	"0x03000021"
 		}, {
 			"type":	"string",
-			"name":	"settings_theme_auto",
+			"name":	"settings_language_system",
 			"id":	"0x03000022"
 		}, {
 			"type":	"string",
-			"name":	"settings_theme_dark",
+			"name":	"settings_material",
 			"id":	"0x03000023"
 		}, {
 			"type":	"string",
-			"name":	"settings_theme_light",
+			"name":	"settings_privacy",
 			"id":	"0x03000024"
 		}, {
 			"type":	"string",
-			"name":	"settings_unit",
+			"name":	"settings_source",
 			"id":	"0x03000025"
 		}, {
 			"type":	"string",
-			"name":	"tab_alerts",
+			"name":	"settings_theme",
 			"id":	"0x03000026"
 		}, {
 			"type":	"string",
-			"name":	"tab_home",
+			"name":	"settings_theme_auto",
 			"id":	"0x03000027"
 		}, {
 			"type":	"string",
-			"name":	"tab_locations",
+			"name":	"settings_theme_dark",
 			"id":	"0x03000028"
 		}, {
 			"type":	"string",
-			"name":	"tab_settings",
+			"name":	"settings_theme_light",
 			"id":	"0x03000029"
 		}, {
 			"type":	"string",
-			"name":	"unit_celsius",
+			"name":	"settings_unit",
 			"id":	"0x0300002A"
 		}, {
 			"type":	"string",
-			"name":	"unit_fahrenheit",
+			"name":	"tab_alerts",
 			"id":	"0x0300002B"
 		}, {
 			"type":	"string",
-			"name":	"updated_at",
+			"name":	"tab_home",
 			"id":	"0x0300002C"
 		}, {
-			"type":	"color",
-			"name":	"start_window_background",
+			"type":	"string",
+			"name":	"tab_locations",
 			"id":	"0x0300002D"
 		}, {
-			"type":	"profile",
-			"name":	"form_config",
+			"type":	"string",
+			"name":	"tab_settings",
 			"id":	"0x0300002E"
 		}, {
-			"type":	"profile",
-			"name":	"main_pages",
+			"type":	"string",
+			"name":	"unit_celsius",
 			"id":	"0x0300002F"
 		}, {
 			"type":	"string",
-			"name":	"material_auto",
+			"name":	"unit_fahrenheit",
 			"id":	"0x03000030"
 		}, {
 			"type":	"string",
-			"name":	"material_exquisite",
+			"name":	"updated_at",
 			"id":	"0x03000031"
 		}, {
-			"type":	"string",
-			"name":	"material_gentle",
+			"type":	"color",
+			"name":	"start_window_background",
 			"id":	"0x03000032"
 		}, {
-			"type":	"string",
-			"name":	"material_smooth",
+			"type":	"profile",
+			"name":	"form_config",
 			"id":	"0x03000033"
 		}, {
-			"type":	"string",
-			"name":	"settings_material",
+			"type":	"profile",
+			"name":	"main_pages",
 			"id":	"0x03000034"
 		}]
 }

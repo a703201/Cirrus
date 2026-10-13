@@ -1,6 +1,8 @@
 {
   "entry\\src\\main\\ets\\features\\widget\\WeatherForm.ets": [
     "Column",
-    "Text"
+    "Row",
+    "Text",
+    "If"
   ]
 }

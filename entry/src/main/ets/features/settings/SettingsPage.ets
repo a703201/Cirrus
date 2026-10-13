@@ -22,21 +22,23 @@ export struct SettingsPage {
   sourceSection() {
     Column({ space: 6 }) {
       Text($r('app.string.settings_source')).fontSize(16).fontWeight(FontWeight.Medium)
-      ForEach(listSources(), (src: WeatherSource) => {
-        Row() {
-          Text(src.displayName).fontSize(14).layoutWeight(1)
-          Radio({ value: src.id, group: 'source' })
-            .checked(src.id === appStore.settings.sourceId)
-            .onChange((checked: boolean) => {
-              if (checked) {
-                appStore.updateSettings({ sourceId: src.id });
-              }
-            })
-        }
-        .padding(10)
-        .backgroundColor('rgba(255,255,255,0.6)')
-        .borderRadius(12)
-      }, (src: WeatherSource) => src.id)
+      Repeat<WeatherSource>(listSources())
+        .each((ri: RepeatItem<WeatherSource>) => {
+          Row() {
+            Text(ri.item.displayName).fontSize(14).layoutWeight(1)
+            Radio({ value: ri.item.id, group: 'source' })
+              .checked(ri.item.id === appStore.settings.sourceId)
+              .onChange((checked: boolean) => {
+                if (checked) {
+                  appStore.updateSettings({ sourceId: ri.item.id });
+                }
+              })
+          }
+          .padding(10)
+          .backgroundColor('rgba(255,255,255,0.6)')
+          .borderRadius(12)
+        })
+        .key((src: WeatherSource) => src.id)
     }
   }
 

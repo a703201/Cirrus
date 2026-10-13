@@ -1,0 +1,57 @@
+{
+	"app": {
+		"bundleName": "com.Lumio.Cirrus",
+		"bundleType": "app",
+		"vendor": "lumio",
+		"versionCode": 1000,
+		"versionName": "0.1.0",
+		"icon": "$media:app_icon",
+		"label": "$string:app_name",
+		"apiReleaseType": "Release",
+		"compileSdkVersion": "26.0.0.105",
+		"targetAPIVersion": 260000026,
+		"minAPIVersion": 260000026,
+		"compileSdkType": "HarmonyOS",
+		"targetMinorAPIVersion": 0,
+		"targetPatchAPIVersion": 0,
+		"minMinorAPIVersion": 0,
+		"minPatchAPIVersion": 0,
+		"appEnvironments": [],
+		"buildMode": "debug",
+		"debug": true
+	},
+	"module": {
+		"name": "watch",
+		"type": "entry",
+		"description": "$string:module_desc",
+		"mainElement": "WatchAbility",
+		"deviceTypes": [
+			"wearable"
+		],
+		"deliveryWithInstall": true,
+		"abilities": [
+			{
+				"name": "WatchAbility",
+				"srcEntry": "./ets/watchability/WatchAbility.ets",
+				"description": "$string:entry_desc",
+				"icon": "$media:app_icon",
+				"label": "$string:app_name",
+				"startWindowIcon": "$media:app_icon",
+				"startWindowBackground": "$color:start_window_background",
+				"exported": true,
+				"skills": [
+					{
+						"entities": [
+							"entity.system.home"
+						],
+						"actions": [
+							"action.system.home"
+						]
+					}
+				]
+			}
+		],
+		"packageName": "watch",
+		"installationFree": false
+	}
+}

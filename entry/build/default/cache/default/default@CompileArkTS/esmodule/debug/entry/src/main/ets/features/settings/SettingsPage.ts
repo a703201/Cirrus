@@ -19,7 +19,7 @@ export class SettingsPage extends ViewV2 {
             Column.width('100%');
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331689, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.create({ "id": 50331694, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
             Text.fontSize(20);
             Text.fontWeight(FontWeight.Medium);
         }, Text);
@@ -36,15 +36,13 @@ export class SettingsPage extends ViewV2 {
             Column.create({ space: 6 });
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331680, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.create({ "id": 50331685, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
             Text.fontSize(16);
             Text.fontWeight(FontWeight.Medium);
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            ForEach.create();
-            const forEachItemGenFunction = _item => {
-                const src = _item;
+            Repeat<WeatherSource>(listSources(), this).each((ri: RepeatItem<WeatherSource>) => {
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                     Row.create();
                     Row.padding(10);
@@ -52,25 +50,24 @@ export class SettingsPage extends ViewV2 {
                     Row.borderRadius(12);
                 }, Row);
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    Text.create(src.displayName);
+                    Text.create(ri.item.displayName);
                     Text.fontSize(14);
                     Text.layoutWeight(1);
                 }, Text);
                 Text.pop();
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    Radio.create({ value: src.id, group: 'source' });
-                    Radio.checked(src.id === appStore.settings.sourceId);
+                    Radio.create({ value: ri.item.id, group: 'source' });
+                    Radio.checked(ri.item.id === appStore.settings.sourceId);
                     Radio.onChange((checked: boolean) => {
                         if (checked) {
-                            appStore.updateSettings({ sourceId: src.id });
+                            appStore.updateSettings({ sourceId: ri.item.id });
                         }
                     });
                 }, Radio);
                 Row.pop();
-            };
-            this.forEachUpdateFunction(elmtId, listSources(), forEachItemGenFunction, (src: WeatherSource) => src.id, false, false);
-        }, ForEach);
-        ForEach.pop();
+            })
+                .key((src: WeatherSource) => src.id).render(isInitialRender);
+        }, Repeat);
         Column.pop();
     }
     unitSection(parent = null) {
@@ -78,7 +75,7 @@ export class SettingsPage extends ViewV2 {
             Column.create({ space: 6 });
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331685, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.create({ "id": 50331690, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
             Text.fontSize(16);
             Text.fontWeight(FontWeight.Medium);
         }, Text);
@@ -94,7 +91,7 @@ export class SettingsPage extends ViewV2 {
             Row.layoutWeight(1);
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331690, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.create({ "id": 50331695, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
             Text.fontSize(14);
             Text.layoutWeight(1);
         }, Text);
@@ -117,7 +114,7 @@ export class SettingsPage extends ViewV2 {
             Row.layoutWeight(1);
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331691, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.create({ "id": 50331696, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
             Text.fontSize(14);
             Text.layoutWeight(1);
         }, Text);
@@ -140,7 +137,7 @@ export class SettingsPage extends ViewV2 {
             Column.create({ space: 6 });
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331681, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.create({ "id": 50331686, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
             Text.fontSize(16);
             Text.fontWeight(FontWeight.Medium);
         }, Text);
@@ -148,9 +145,9 @@ export class SettingsPage extends ViewV2 {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Row.create({ space: 8 });
         }, Row);
-        this.themeOption.bind(this)({ "id": 50331682, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, ThemeMode.AUTO);
-        this.themeOption.bind(this)({ "id": 50331684, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, ThemeMode.LIGHT);
-        this.themeOption.bind(this)({ "id": 50331683, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, ThemeMode.DARK);
+        this.themeOption.bind(this)({ "id": 50331687, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, ThemeMode.AUTO);
+        this.themeOption.bind(this)({ "id": 50331689, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, ThemeMode.LIGHT);
+        this.themeOption.bind(this)({ "id": 50331688, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, ThemeMode.DARK);
         Row.pop();
         Column.pop();
     }
@@ -184,7 +181,7 @@ export class SettingsPage extends ViewV2 {
             Column.create({ space: 6 });
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331700, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.create({ "id": 50331683, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
             Text.fontSize(16);
             Text.fontWeight(FontWeight.Medium);
         }, Text);
@@ -192,14 +189,14 @@ export class SettingsPage extends ViewV2 {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Row.create({ space: 6 });
         }, Row);
-        this.materialOption.bind(this)({ "id": 50331696, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.AUTO);
-        this.materialOption.bind(this)({ "id": 50331697, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.EXQUISITE);
+        this.materialOption.bind(this)({ "id": 50331669, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.AUTO);
+        this.materialOption.bind(this)({ "id": 50331670, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.EXQUISITE);
         Row.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Row.create({ space: 6 });
         }, Row);
-        this.materialOption.bind(this)({ "id": 50331698, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.GENTLE);
-        this.materialOption.bind(this)({ "id": 50331699, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.SMOOTH);
+        this.materialOption.bind(this)({ "id": 50331671, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.GENTLE);
+        this.materialOption.bind(this)({ "id": 50331672, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, MaterialTier.SMOOTH);
         Row.pop();
         Column.pop();
     }
@@ -233,7 +230,7 @@ export class SettingsPage extends ViewV2 {
             Column.create({ space: 6 });
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331677, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.create({ "id": 50331681, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
             Text.fontSize(16);
             Text.fontWeight(FontWeight.Medium);
         }, Text);
@@ -241,7 +238,7 @@ export class SettingsPage extends ViewV2 {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Row.create({ space: 8 });
         }, Row);
-        this.languageOption.bind(this)({ "id": 50331678, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, 'system');
+        this.languageOption.bind(this)({ "id": 50331682, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, 'system');
         this.languageOption.bind(this)('English', 'en');
         this.languageOption.bind(this)('中文', 'zh-CN');
         Row.pop();

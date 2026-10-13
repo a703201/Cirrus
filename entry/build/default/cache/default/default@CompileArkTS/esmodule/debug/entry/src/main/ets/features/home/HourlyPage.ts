@@ -41,9 +41,7 @@ export class HourlyPage extends ViewV2 {
             Row.padding({ left: 4, right: 4 });
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            ForEach.create();
-            const forEachItemGenFunction = _item => {
-                const h = _item;
+            Repeat<HourlyPoint>(this.weather?.hourly ?? [], this).each((ri: RepeatItem<HourlyPoint>) => {
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                     Column.create({ space: 4 });
                     Column.padding(10);
@@ -51,28 +49,27 @@ export class HourlyPage extends ViewV2 {
                     Column.borderRadius(12);
                 }, Column);
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    Text.create(DateTimeUtil.formatHour(h.time));
+                    Text.create(DateTimeUtil.formatHour(ri.item.time));
                     Text.fontSize(12);
                     Text.fontColor('#6B6B6B');
                 }, Text);
                 Text.pop();
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    Text.create(`${UnitUtil.convertTemp(h.temperature, this.unit)}°`);
+                    Text.create(`${UnitUtil.convertTemp(ri.item.temperature, this.unit)}°`);
                     Text.fontSize(16);
                     Text.fontWeight(FontWeight.Medium);
                 }, Text);
                 Text.pop();
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    Text.create(`${h.precipProb}%`);
+                    Text.create(`${ri.item.precipProb}%`);
                     Text.fontSize(12);
                     Text.fontColor('#3B82F6');
                 }, Text);
                 Text.pop();
                 Column.pop();
-            };
-            this.forEachUpdateFunction(elmtId, this.weather?.hourly ?? [], forEachItemGenFunction, (h: HourlyPoint) => h.time.toString(), false, false);
-        }, ForEach);
-        ForEach.pop();
+            })
+                .key((h: HourlyPoint) => h.time.toString()).render(isInitialRender);
+        }, Repeat);
         Row.pop();
         Scroll.pop();
         Column.pop();

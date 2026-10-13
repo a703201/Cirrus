@@ -1,6 +1,5 @@
 {
   "string": [
-    { "name": "app_name", "value": "Cirrus" },
     { "name": "module_desc", "value": "Cirrus wearable" },
     { "name": "entry_desc", "value": "Watch ability" }
   ]

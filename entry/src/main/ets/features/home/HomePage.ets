@@ -1,5 +1,6 @@
-import { WeatherCard, wmoDescription, MaterialTier } from 'common';
+import { WeatherCard, wmoDescription, MaterialTier, SkyPalette } from 'common';
 import { appStore } from '../../store/AppStore';
+import { themeModel } from '../../store/ThemeModel';
 import { HourlyPage } from './HourlyPage';
 import { DailyPage } from './DailyPage';
 import { DetailsPage } from './DetailsPage';
@@ -8,6 +9,12 @@ import { DetailsPage } from './DetailsPage';
 export struct HomePage {
   @Param scroller: Scroller = new Scroller();
   @Local refreshing: boolean = false;
+
+  private palette(): SkyPalette {
+    const code: number = appStore.weather?.current.weatherCode ?? 0;
+    const isDay: boolean = appStore.weather?.current.isDay ?? true;
+    return themeModel.palette(code, isDay);
+  }
 
   build() {
     Refresh({ refreshing: $$this.refreshing }) {
@@ -83,5 +90,9 @@ export struct HomePage {
     })
     .width('100%')
     .height('100%')
+    .linearGradient({
+      angle: 180,
+      colors: [[this.palette().bgTop, 0.0], [this.palette().bgBottom, 1.0]]
+    })
   }
 }
