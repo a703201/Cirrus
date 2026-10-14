@@ -4,13 +4,12 @@ if (!("finalizeConstruction" in ViewPU.prototype)) {
 import mediaquery from "@ohos:mediaquery";
 import deviceInfo from "@ohos:deviceInfo";
 import { HdsNavigation } from "@hms:hds.hdsBaseComponent";
-import { HdsNavigationTitleMode } from "@hms:hds.hdsBaseComponent";
+import { HdsNavDestination } from "@hms:hds.hdsBaseComponent";
 import { HdsTabs } from "@hms:hds.hdsBaseComponent";
 import { HdsTabsController } from "@hms:hds.hdsBaseComponent";
-import { HideMode } from "@hms:hds.hdsBaseComponent";
-import { ScrollEffectType } from "@hms:hds.hdsBaseComponent";
 import { hdsMaterial } from "@hms:hds.hdsMaterial";
 import type { HdsNavigationAttribute } from "@hms:hds.hdsBaseComponent";
+import type { HdsNavDestinationAttribute } from "@hms:hds.hdsBaseComponent";
 import type { HdsTabsAttribute } from "@hms:hds.hdsBaseComponent";
 import { MaterialTier } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { appStore } from "@bundle:com.Lumio.Cirrus/entry/ets/store/AppStore";
@@ -19,6 +18,7 @@ import { HomePage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/home/HomeP
 import { LocationsPage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/locations/LocationsPage";
 import { AlertsPage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/alerts/AlertsPage";
 import { SettingsPage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/settings/SettingsPage";
+import { PrivacyView } from "@bundle:com.Lumio.Cirrus/entry/ets/features/settings/PrivacyView";
 import { TvHome } from "@bundle:com.Lumio.Cirrus/entry/ets/features/tv/TvHome";
 class Index extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
@@ -30,6 +30,7 @@ class Index extends ViewV2 {
         this.narrowListener = mediaquery.matchMediaSync('(width < 600vp)');
         this.tabController = new HdsTabsController();
         this.scroller = new Scroller();
+        this.pageStack = new NavPathStack();
         this.finalizeConstruction();
     }
     public resetStateVarsOnReuse(params: Object): void {
@@ -47,6 +48,7 @@ class Index extends ViewV2 {
     private narrowListener: mediaquery.MediaQueryListener;
     private tabController: HdsTabsController;
     private scroller: Scroller;
+    private pageStack: NavPathStack;
     aboutToAppear(): void {
         this.isTv = deviceInfo.deviceType === 'tv';
         this.wideListener.on('change', (mq: mediaquery.MediaQueryResult) => {
@@ -99,7 +101,7 @@ class Index extends ViewV2 {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new HomePage(this, { scroller: this.scroller }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 70, col: 9 });
+                            let componentCall = new HomePage(this, { scroller: this.scroller }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 75, col: 9 });
                             ViewV2.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -124,7 +126,7 @@ class Index extends ViewV2 {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new LocationsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 74, col: 9 });
+                            let componentCall = new LocationsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 79, col: 9 });
                             ViewV2.create(componentCall);
                             let paramsLambda = () => {
                                 return {};
@@ -145,7 +147,7 @@ class Index extends ViewV2 {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new AlertsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 78, col: 9 });
+                            let componentCall = new AlertsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 83, col: 9 });
                             ViewV2.create(componentCall);
                             let paramsLambda = () => {
                                 return {};
@@ -166,15 +168,19 @@ class Index extends ViewV2 {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new SettingsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 82, col: 9 });
+                            let componentCall = new SettingsPage(this, { pageStack: this.pageStack }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 87, col: 9 });
                             ViewV2.create(componentCall);
                             let paramsLambda = () => {
-                                return {};
+                                return {
+                                    pageStack: this.pageStack
+                                };
                             };
                             componentCall.paramsGenerator_ = paramsLambda;
                         }
                         else {
-                            this.updateStateVarsOfChildByElmtId(elmtId, {});
+                            this.updateStateVarsOfChildByElmtId(elmtId, {
+                                pageStack: this.pageStack
+                            });
                         }
                     }, { name: "SettingsPage" });
                 }
@@ -198,7 +204,7 @@ class Index extends ViewV2 {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new LocationsPage(this, { compact: true }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 106, col: 7 });
+                    let componentCall = new LocationsPage(this, { compact: true }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 111, col: 7 });
                     ViewV2.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -222,7 +228,7 @@ class Index extends ViewV2 {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new HomePage(this, { scroller: this.scroller }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 107, col: 7 });
+                    let componentCall = new HomePage(this, { scroller: this.scroller }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 112, col: 7 });
                     ViewV2.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -241,6 +247,39 @@ class Index extends ViewV2 {
         __Common__.pop();
         Row.pop();
     }
+    /**
+     * 二级页面构建（navDestination 的 builder）。
+     * ⚠️ ArkTS 不允许在普通 lambda 回调里直接写 UI 组件语法（navDestination 回调是普通函数类型，
+     * 直接写 HdsNavDestination(){} 会解析失败并级联报错），故按官方模式用 @Builder 直接传入。
+     * 当前仅「数据与隐私」一个二级页面；若后续新增 push 页面，给本 builder 加 (name: string)
+     * 参数并按 name 分拣（@Builder 支持参数，官方示例同款）。
+     */
+    privacyPage(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            HdsNavDestination.create();
+            HdsNavDestination.titleBar({
+                content: {
+                    title: { mainTitle: { "id": 50331776, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } }
+                }
+            });
+        }, HdsNavDestination);
+        {
+            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                if (isInitialRender) {
+                    let componentCall = new PrivacyView(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 128, col: 7 });
+                    ViewV2.create(componentCall);
+                    let paramsLambda = () => {
+                        return {};
+                    };
+                    componentCall.paramsGenerator_ = paramsLambda;
+                }
+                else {
+                    this.updateStateVarsOfChildByElmtId(elmtId, {});
+                }
+            }, { name: "PrivacyView" });
+        }
+        HdsNavDestination.pop();
+    }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
@@ -249,7 +288,7 @@ class Index extends ViewV2 {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new TvHome(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 115, col: 7 });
+                                let componentCall = new TvHome(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 139, col: 7 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {};
@@ -266,30 +305,8 @@ class Index extends ViewV2 {
             else {
                 this.ifElseBranchUpdateFunction(1, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        HdsNavigation.create();
-                        HdsNavigation.titleMode(HdsNavigationTitleMode.MINI);
-                        HdsNavigation.hideBackButton(true);
-                        HdsNavigation.titleBar({
-                            content: {
-                                title: { mainTitle: 'Cirrus' }
-                            },
-                            style: {
-                                scrollEffectOpts: {
-                                    enableScrollEffect: true,
-                                    scrollEffectType: ScrollEffectType.GRADIENT_BLUR
-                                },
-                                systemMaterialEffect: {
-                                    materialType: hdsMaterial.MaterialType.ADAPTIVE,
-                                    materialLevel: this.hdsLevel()
-                                }
-                            }
-                        });
-                        HdsNavigation.dynamicHideTitleBar({
-                            hideTitleArea: true,
-                            hideStatusBar: true,
-                            mode: HideMode.SCROLL_UP_TO
-                        });
-                        HdsNavigation.bindToScrollable([this.scroller]);
+                        HdsNavigation.create(this.pageStack);
+                        HdsNavigation.navDestination({ builder: this.privacyPage.bind(this) });
                         HdsNavigation.width('100%');
                         HdsNavigation.height('100%');
                     }, HdsNavigation);

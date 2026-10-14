@@ -1,83 +1,119 @@
 import { TemperatureUnit, ThemeMode, MaterialTier } from 'common';
 import { listSources, WeatherSource } from 'data';
 import { appStore } from '../../store/AppStore';
-import { PrivacyView } from './PrivacyView';
 
 /**
  * 设置页（P1-4/P1-10, docs/13 §9）。
- * 单项切换（数据源 / 单位 / 主题 / 材质 / 语言）统一改为下拉菜单（Menu + bindMenu），
- * 点击行即弹出菜单，已选项带选中态；选中后通过 `appStore.updateSettings` 持久化。
+ * 单项切换（数据源 / 单位 / 主题 / 材质 / 语言）统一改为下拉菜单（Menu + bindMenu）：
+ * bindMenu 按官方样本结构**直接绑定在 build() 内的行容器上**（不放进 @Builder 中转——
+ * CustomBuilder 内使用 bindMenu 弹出菜单受限，正是此前菜单点不开的根因），点击行即弹出菜单，
+ * 已选项带选中态；选中后通过 `appStore.updateSettings` 持久化。
+ * 「数据与隐私」经 NavPathStack.pushPath 进入二级页面（HdsNavDestination，见 Index.navDestination）。
  */
 @ComponentV2
 export struct SettingsPage {
-  @Local showPrivacy: boolean = false;
+  @Param pageStack: NavPathStack = new NavPathStack();
 
   build() {
-    if (this.showPrivacy) {
-      PrivacyView({ onBack: () => { this.showPrivacy = false; } })
-    } else {
-      Column({ space: 12 }) {
-        Text($r('app.string.tab_settings')).fontSize(20).fontWeight(FontWeight.Medium)
+    Column({ space: 12 }) {
+      Text($r('app.string.tab_settings')).fontSize(20).fontWeight(FontWeight.Medium)
 
-        this.optionRow($r('app.string.settings_source'), this.sourceLabel(), this.sourceMenu)
-        this.optionRow($r('app.string.settings_unit'), this.unitLabel(), this.unitMenu)
-        this.optionRow($r('app.string.settings_theme'), this.themeLabel(), this.themeMenu)
-        this.optionRow($r('app.string.settings_material'), this.materialLabel(), this.materialMenu)
-        this.optionRow($r('app.string.settings_language'), this.languageLabel(), this.languageMenu)
-
-        this.privacyRow()
+      // 数据源
+      Row({ space: 8 }) {
+        Text($r('app.string.settings_source')).fontSize(16).layoutWeight(1)
+        Text(this.sourceLabel()).fontSize(14).fontColor('#666666')
+        Text('▾').fontSize(14).fontColor('#999999').accessibilityLevel('no')
       }
-      .padding(16)
       .width('100%')
-      .height('100%')
-      .alignItems(HorizontalAlign.Start)
-    }
-  }
+      .padding(14)
+      .backgroundColor('rgba(255,255,255,0.6)')
+      .borderRadius(12)
+      .accessibilityGroup(true)
+      .bindMenu(this.sourceMenu)
 
-  @Builder
-  privacyRow() {
-    Row({ space: 8 }) {
-      Text($r('app.string.settings_privacy')).fontSize(16).layoutWeight(1)
-      Text('›').fontSize(14).fontColor('#999999').accessibilityLevel('no')
-    }
-    .width('100%')
-    .padding(14)
-    .backgroundColor('rgba(255,255,255,0.6)')
-    .borderRadius(12)
-    .accessibilityGroup(true)
-    .onClick(() => {
-      this.showPrivacy = true;
-    })
-  }
+      // 单位
+      Row({ space: 8 }) {
+        Text($r('app.string.settings_unit')).fontSize(16).layoutWeight(1)
+        Text(this.unitLabel()).fontSize(14).fontColor('#666666')
+        Text('▾').fontSize(14).fontColor('#999999').accessibilityLevel('no')
+      }
+      .width('100%')
+      .padding(14)
+      .backgroundColor('rgba(255,255,255,0.6)')
+      .borderRadius(12)
+      .accessibilityGroup(true)
+      .bindMenu(this.unitMenu)
 
-  /** 统一的「标签 + 当前值 + 指示箭头」下拉行；菜单由 `menu` builder 经 bindMenu 弹出。 */
-  @Builder
-  optionRow(label: Resource, current: ResourceStr, menu: CustomBuilder) {
-    Row({ space: 8 }) {
-      Text(label).fontSize(16).layoutWeight(1)
-      Text(current).fontSize(14).fontColor('#666666')
-      Text('▾').fontSize(14).fontColor('#999999').accessibilityLevel('no')
+      // 主题
+      Row({ space: 8 }) {
+        Text($r('app.string.settings_theme')).fontSize(16).layoutWeight(1)
+        Text(this.themeLabel()).fontSize(14).fontColor('#666666')
+        Text('▾').fontSize(14).fontColor('#999999').accessibilityLevel('no')
+      }
+      .width('100%')
+      .padding(14)
+      .backgroundColor('rgba(255,255,255,0.6)')
+      .borderRadius(12)
+      .accessibilityGroup(true)
+      .bindMenu(this.themeMenu)
+
+      // 沉浸光感
+      Row({ space: 8 }) {
+        Text($r('app.string.settings_material')).fontSize(16).layoutWeight(1)
+        Text(this.materialLabel()).fontSize(14).fontColor('#666666')
+        Text('▾').fontSize(14).fontColor('#999999').accessibilityLevel('no')
+      }
+      .width('100%')
+      .padding(14)
+      .backgroundColor('rgba(255,255,255,0.6)')
+      .borderRadius(12)
+      .accessibilityGroup(true)
+      .bindMenu(this.materialMenu)
+
+      // 语言
+      Row({ space: 8 }) {
+        Text($r('app.string.settings_language')).fontSize(16).layoutWeight(1)
+        Text(this.languageLabel()).fontSize(14).fontColor('#666666')
+        Text('▾').fontSize(14).fontColor('#999999').accessibilityLevel('no')
+      }
+      .width('100%')
+      .padding(14)
+      .backgroundColor('rgba(255,255,255,0.6)')
+      .borderRadius(12)
+      .accessibilityGroup(true)
+      .bindMenu(this.languageMenu)
+
+      // 数据与隐私（二级页面）
+      Row({ space: 8 }) {
+        Text($r('app.string.settings_privacy')).fontSize(16).layoutWeight(1)
+        Text('›').fontSize(14).fontColor('#999999').accessibilityLevel('no')
+      }
+      .width('100%')
+      .padding(14)
+      .backgroundColor('rgba(255,255,255,0.6)')
+      .borderRadius(12)
+      .accessibilityGroup(true)
+      .onClick(() => {
+        this.pageStack.pushPath({ name: 'Privacy' });
+      })
     }
+    .padding(16)
     .width('100%')
-    .padding(14)
-    .backgroundColor('rgba(255,255,255,0.6)')
-    .borderRadius(12)
-    .accessibilityGroup(true)
-    .bindMenu(menu)
+    .height('100%')
+    .alignItems(HorizontalAlign.Start)
   }
 
   @Builder
   sourceMenu() {
     Menu() {
-      Repeat<WeatherSource>(listSources())
-        .each((ri: RepeatItem<WeatherSource>) => {
-          MenuItem({ content: ri.item.displayName })
-            .selected(ri.item.id === appStore.settings.sourceId)
-            .onClick(() => {
-              appStore.updateSettings({ sourceId: ri.item.id });
-            })
-        })
-        .key((src: WeatherSource) => src.id)
+      // 菜单弹窗上下文用 ForEach（Repeat 面向主列表树，弹窗内不保证渲染）。
+      ForEach(listSources(), (src: WeatherSource) => {
+        MenuItem({ content: src.displayName })
+          .selected(src.id === appStore.settings.sourceId)
+          .onClick(() => {
+            appStore.updateSettings({ sourceId: src.id });
+          })
+      }, (src: WeatherSource) => src.id)
     }
   }
 

@@ -1,30 +1,14 @@
 /**
  * 数据流向说明 + 隐私政策内嵌（P2-7, docs/09 隐私与权限合规、docs/14 §5）。
- * 以内嵌页形式呈现（不依赖路由），保证离线可读、可随时访问。
+ * 二级页面内容组件：由 Index 的 navDestination 以 HdsNavDestination 装载（标题栏 + 返回由
+ * NavDestination 提供，不再自带返回头），保证离线可读、可随时访问。
  * 分区与 docs/09 §1~§4 合规矩阵一一对应：数据流向 / 权限使用 / 第三方数据源 / 隐私政策。
  * ⚠️ 正式发布前须以法务终稿复核全部文案（联系方式与生效信息为占位）。
  */
 @ComponentV2
 export struct PrivacyView {
-  @Param onBack: () => void = () => {};
-
   build() {
     Column({ space: 12 }) {
-      Row({ space: 8 }) {
-        Text('‹')
-          .fontSize(26)
-          .fontWeight(FontWeight.Medium)
-          .accessibilityText($r('app.string.privacy_title'))
-          .onClick(() => {
-            this.onBack();
-          })
-        Text($r('app.string.privacy_title'))
-          .fontSize(20)
-          .fontWeight(FontWeight.Medium)
-      }
-      .width('100%')
-      .alignItems(VerticalAlign.Center)
-
       Scroll() {
         Column({ space: 12 }) {
           this.dataFlowCard()

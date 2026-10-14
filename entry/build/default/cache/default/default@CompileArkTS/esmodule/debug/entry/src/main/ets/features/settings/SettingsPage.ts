@@ -5,81 +5,232 @@ import { TemperatureUnit, ThemeMode, MaterialTier } from "@bundle:com.Lumio.Cirr
 import { listSources } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
 import type { WeatherSource } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
 import { appStore } from "@bundle:com.Lumio.Cirrus/entry/ets/store/AppStore";
-import { PrivacyView } from "@bundle:com.Lumio.Cirrus/entry/ets/features/settings/PrivacyView";
 export class SettingsPage extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
         super(parent, elmtId, extraInfo);
-        this.showPrivacy = false;
+        this.initParam("pageStack", (params && "pageStack" in params) ? params.pageStack : new NavPathStack());
         this.finalizeConstruction();
     }
     public resetStateVarsOnReuse(params: Object): void {
-        this.showPrivacy = false;
+        this.resetParam("pageStack", (params && "pageStack" in params) ? params.pageStack : new NavPathStack());
     }
-    @Local
-    showPrivacy: boolean;
+    @Param
+    readonly pageStack: NavPathStack;
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            If.create();
-            if (this.showPrivacy) {
-                this.ifElseBranchUpdateFunction(0, () => {
-                    {
-                        this.observeComponentCreation2((elmtId, isInitialRender) => {
-                            if (isInitialRender) {
-                                let componentCall = new PrivacyView(this, { onBack: () => { this.showPrivacy = false; } }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/settings/SettingsPage.ets", line: 17, col: 7 });
-                                ViewV2.create(componentCall);
-                                let paramsLambda = () => {
-                                    return {
-                                        onBack: () => { this.showPrivacy = false; }
-                                    };
-                                };
-                                componentCall.paramsGenerator_ = paramsLambda;
-                            }
-                            else {
-                                this.updateStateVarsOfChildByElmtId(elmtId, {
-                                    onBack: () => { this.showPrivacy = false; }
-                                });
-                            }
-                        }, { name: "PrivacyView" });
-                    }
-                });
-            }
-            else {
-                this.ifElseBranchUpdateFunction(1, () => {
-                    this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        Column.create({ space: 12 });
-                        Column.padding(16);
-                        Column.width('100%');
-                        Column.height('100%');
-                        Column.alignItems(HorizontalAlign.Start);
-                    }, Column);
-                    this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        Text.create({ "id": 50331694, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-                        Text.fontSize(20);
-                        Text.fontWeight(FontWeight.Medium);
-                    }, Text);
-                    Text.pop();
-                    this.optionRow.bind(this)({ "id": 50331685, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, this.sourceLabel(), this.sourceMenu);
-                    this.optionRow.bind(this)({ "id": 50331690, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, this.unitLabel(), this.unitMenu);
-                    this.optionRow.bind(this)({ "id": 50331686, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, this.themeLabel(), this.themeMenu);
-                    this.optionRow.bind(this)({ "id": 50331683, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, this.materialLabel(), this.materialMenu);
-                    this.optionRow.bind(this)({ "id": 50331681, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, this.languageLabel(), this.languageMenu);
-                    this.privacyRow.bind(this)();
-                    Column.pop();
-                });
-            }
-        }, If);
-        If.pop();
-    }
-    privacyRow(parent = null) {
+            Column.create({ space: 12 });
+            Column.padding(16);
+            Column.width('100%');
+            Column.height('100%');
+            Column.alignItems(HorizontalAlign.Start);
+        }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331694, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(20);
+            Text.fontWeight(FontWeight.Medium);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // 数据源
             Row.create({ space: 8 });
+            // 数据源
             Row.width('100%');
+            // 数据源
             Row.padding(14);
+            // 数据源
             Row.backgroundColor('rgba(255,255,255,0.6)');
+            // 数据源
             Row.borderRadius(12);
+            // 数据源
             Row.accessibilityGroup(true);
+            // 数据源
+            Row.bindMenu({ builder: this.sourceMenu.bind(this) });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331685, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(16);
+            Text.layoutWeight(1);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(this.sourceLabel());
+            Text.fontSize(14);
+            Text.fontColor('#666666');
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('▾');
+            Text.fontSize(14);
+            Text.fontColor('#999999');
+            Text.accessibilityLevel('no');
+        }, Text);
+        Text.pop();
+        // 数据源
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // 单位
+            Row.create({ space: 8 });
+            // 单位
+            Row.width('100%');
+            // 单位
+            Row.padding(14);
+            // 单位
+            Row.backgroundColor('rgba(255,255,255,0.6)');
+            // 单位
+            Row.borderRadius(12);
+            // 单位
+            Row.accessibilityGroup(true);
+            // 单位
+            Row.bindMenu({ builder: this.unitMenu.bind(this) });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331690, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(16);
+            Text.layoutWeight(1);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(this.unitLabel());
+            Text.fontSize(14);
+            Text.fontColor('#666666');
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('▾');
+            Text.fontSize(14);
+            Text.fontColor('#999999');
+            Text.accessibilityLevel('no');
+        }, Text);
+        Text.pop();
+        // 单位
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // 主题
+            Row.create({ space: 8 });
+            // 主题
+            Row.width('100%');
+            // 主题
+            Row.padding(14);
+            // 主题
+            Row.backgroundColor('rgba(255,255,255,0.6)');
+            // 主题
+            Row.borderRadius(12);
+            // 主题
+            Row.accessibilityGroup(true);
+            // 主题
+            Row.bindMenu({ builder: this.themeMenu.bind(this) });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331686, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(16);
+            Text.layoutWeight(1);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(this.themeLabel());
+            Text.fontSize(14);
+            Text.fontColor('#666666');
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('▾');
+            Text.fontSize(14);
+            Text.fontColor('#999999');
+            Text.accessibilityLevel('no');
+        }, Text);
+        Text.pop();
+        // 主题
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // 沉浸光感
+            Row.create({ space: 8 });
+            // 沉浸光感
+            Row.width('100%');
+            // 沉浸光感
+            Row.padding(14);
+            // 沉浸光感
+            Row.backgroundColor('rgba(255,255,255,0.6)');
+            // 沉浸光感
+            Row.borderRadius(12);
+            // 沉浸光感
+            Row.accessibilityGroup(true);
+            // 沉浸光感
+            Row.bindMenu({ builder: this.materialMenu.bind(this) });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331683, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(16);
+            Text.layoutWeight(1);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(this.materialLabel());
+            Text.fontSize(14);
+            Text.fontColor('#666666');
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('▾');
+            Text.fontSize(14);
+            Text.fontColor('#999999');
+            Text.accessibilityLevel('no');
+        }, Text);
+        Text.pop();
+        // 沉浸光感
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // 语言
+            Row.create({ space: 8 });
+            // 语言
+            Row.width('100%');
+            // 语言
+            Row.padding(14);
+            // 语言
+            Row.backgroundColor('rgba(255,255,255,0.6)');
+            // 语言
+            Row.borderRadius(12);
+            // 语言
+            Row.accessibilityGroup(true);
+            // 语言
+            Row.bindMenu({ builder: this.languageMenu.bind(this) });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331681, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(16);
+            Text.layoutWeight(1);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(this.languageLabel());
+            Text.fontSize(14);
+            Text.fontColor('#666666');
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('▾');
+            Text.fontSize(14);
+            Text.fontColor('#999999');
+            Text.accessibilityLevel('no');
+        }, Text);
+        Text.pop();
+        // 语言
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // 数据与隐私（二级页面）
+            Row.create({ space: 8 });
+            // 数据与隐私（二级页面）
+            Row.width('100%');
+            // 数据与隐私（二级页面）
+            Row.padding(14);
+            // 数据与隐私（二级页面）
+            Row.backgroundColor('rgba(255,255,255,0.6)');
+            // 数据与隐私（二级页面）
+            Row.borderRadius(12);
+            // 数据与隐私（二级页面）
+            Row.accessibilityGroup(true);
+            // 数据与隐私（二级页面）
             Row.onClick(() => {
-                this.showPrivacy = true;
+                this.pageStack.pushPath({ name: 'Privacy' });
             });
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -95,57 +246,32 @@ export class SettingsPage extends ViewV2 {
             Text.accessibilityLevel('no');
         }, Text);
         Text.pop();
+        // 数据与隐私（二级页面）
         Row.pop();
-    }
-    /** 统一的「标签 + 当前值 + 指示箭头」下拉行；菜单由 `menu` builder 经 bindMenu 弹出。 */
-    optionRow(label: Resource, current: ResourceStr, menu: CustomBuilder, parent = null) {
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create({ space: 8 });
-            Row.width('100%');
-            Row.padding(14);
-            Row.backgroundColor('rgba(255,255,255,0.6)');
-            Row.borderRadius(12);
-            Row.accessibilityGroup(true);
-            Row.bindMenu(menu);
-        }, Row);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create(label);
-            Text.fontSize(16);
-            Text.layoutWeight(1);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create(current);
-            Text.fontSize(14);
-            Text.fontColor('#666666');
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('▾');
-            Text.fontSize(14);
-            Text.fontColor('#999999');
-            Text.accessibilityLevel('no');
-        }, Text);
-        Text.pop();
-        Row.pop();
+        Column.pop();
     }
     sourceMenu(parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Menu.create();
         }, Menu);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Repeat<WeatherSource>(listSources(), this).each((ri: RepeatItem<WeatherSource>) => {
+            // 菜单弹窗上下文用 ForEach（Repeat 面向主列表树，弹窗内不保证渲染）。
+            ForEach.create();
+            const forEachItemGenFunction = _item => {
+                const src = _item;
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    MenuItem.create({ content: ri.item.displayName });
-                    MenuItem.selected(ri.item.id === appStore.settings.sourceId);
+                    MenuItem.create({ content: src.displayName });
+                    MenuItem.selected(src.id === appStore.settings.sourceId);
                     MenuItem.onClick(() => {
-                        appStore.updateSettings({ sourceId: ri.item.id });
+                        appStore.updateSettings({ sourceId: src.id });
                     });
                 }, MenuItem);
                 MenuItem.pop();
-            })
-                .key((src: WeatherSource) => src.id).render(isInitialRender);
-        }, Repeat);
+            };
+            this.forEachUpdateFunction(elmtId, listSources(), forEachItemGenFunction, (src: WeatherSource) => src.id, false, false);
+        }, ForEach);
+        // 菜单弹窗上下文用 ForEach（Repeat 面向主列表树，弹窗内不保证渲染）。
+        ForEach.pop();
         Menu.pop();
     }
     unitMenu(parent = null) {
@@ -306,6 +432,14 @@ export class SettingsPage extends ViewV2 {
             return '中文';
         }
         return { "id": 50331682, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+    }
+    public updateStateVars(params) {
+        if (params === undefined) {
+            return;
+        }
+        if ("pageStack" in params) {
+            this.updateParam("pageStack", params.pageStack);
+        }
     }
     rerender() {
         this.updateDirtyElements();

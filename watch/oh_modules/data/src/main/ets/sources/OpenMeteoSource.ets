@@ -34,7 +34,7 @@ interface OmDaily {
   weather_code: number[];
   temperature_2m_max: number[];
   temperature_2m_min: number[];
-  precipitation_probability: number[];
+  precipitation_probability_max: number[];
   sunrise: string[];
   sunset: string[];
   uv_index_max: number[];
@@ -110,7 +110,9 @@ export class OpenMeteoSource implements WeatherSource {
       'current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,' +
         'wind_speed_10m,wind_direction_10m,surface_pressure,cloud_cover,visibility,is_day',
       'hourly=temperature_2m,weather_code,precipitation_probability,precipitation,wind_speed_10m',
-      'daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability,sunrise,sunset,uv_index_max',
+      // 注意：daily 无 precipitation_probability 变量（传了会 HTTP 400），
+      // 日降水概率用 precipitation_probability_max（%，已实测）。
+      'daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset,uv_index_max',
       'timezone=auto',
       'forecast_days=16',
       'past_days=1',
@@ -164,7 +166,7 @@ export class OpenMeteoSource implements WeatherSource {
         tempMin: om.daily.temperature_2m_min[i],
         weatherCodeDay: om.daily.weather_code[i],
         weatherCodeNight: om.daily.weather_code[i],
-        precipProb: om.daily.precipitation_probability[i],
+        precipProb: om.daily.precipitation_probability_max[i],
         sunrise: new Date(om.daily.sunrise[i]).getTime(),
         sunset: new Date(om.daily.sunset[i]).getTime(),
         uvIndexMax: om.daily.uv_index_max[i]
