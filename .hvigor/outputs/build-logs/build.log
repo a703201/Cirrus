@@ -8440,3 +8440,508 @@ Require stack:
 [2026-10-14T22:39:50.861] [DEBUG] debug-file - Picking option from product 'default' with build mode 'debug'.
 [2026-10-14T22:39:50.863] [DEBUG] debug-file - Product 'default' build option initialized
 [2026-10-14T22:39:50.863] [DEBUG] debug-file - End initialize project's product build option map with build mode 'debug'.
+[2026-10-14T22:39:50.864] [DEBUG] debug-file - Obtain build option for product 'default'in this build.
+[2026-10-14T22:39:50.874] [DEBUG] debug-file - E:\Codes\Project\Transplant\weather-app\build\cache\default\remote_hsp\remoteHspCache.json not exists.
+[2026-10-14T22:39:50.878] [DEBUG] debug-file - Start recording SDK configuration permission data.
+[2026-10-14T22:39:50.972] [DEBUG] debug-file - Sdk init in 97 ms 
+[2026-10-14T22:39:50.976] [DEBUG] debug-file - Project task initialization takes 4 ms 
+[2026-10-14T22:39:50.977] [DEBUG] debug-file - hvigorfile, begin to bind custom plugins...
+[2026-10-14T22:39:50.977] [DEBUG] debug-file - hvigorfile, no custom plugins were found in E:\Codes\Project\Transplant\weather-app\hvigorfile.ts
+[2026-10-14T22:39:50.977] [DEBUG] debug-file - hvigorfile, resolve finished E:\Codes\Project\Transplant\weather-app\hvigorfile.ts
+[2026-10-14T22:39:50.986] [DEBUG] debug-file - hvigorfile, resolving E:\Codes\Project\Transplant\weather-app\entry\hvigorfile.ts
+[2026-10-14T22:39:50.990] [DEBUG] debug-file - hvigorfile, require result:  { default: {} }
+[2026-10-14T22:39:50.990] [DEBUG] debug-file - hvigorfile, binding system plugins null
+[2026-10-14T22:39:50.991] [DEBUG] debug-file - Starting plugin build process
+[2026-10-14T22:39:50.991] [DEBUG] debug-file - Hap plugin creating...
+[2026-10-14T22:39:50.996] [DEBUG] debug-file - failed to load cangjie to dynamically generate schemas: Error: Cannot find module '@ohos/cangjie-build-support/index'
+Require stack:
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\hooks\cangjie-register.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\strategy\stage-init-strategy.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\builder\abstract-plugin-builder.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\builder\app-plugin-builder.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\factory\plugin-factory.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\index.js
+- E:\Codes\Project\Transplant\weather-app\hvigorfile.ts
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\internal\lifecycle\configuration.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\boot\index.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\daemon\cluster\worker-process-lifecycle.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\daemon\process\daemon-process-boot-script.js
+[2026-10-14T22:39:51.001] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=entry, buildMode=debug
+[2026-10-14T22:39:51.001] [DEBUG] debug-file - Target 'default' config initialized
+[2026-10-14T22:39:51.001] [DEBUG] debug-file - Module 'entry' target 'default' build option initialized
+[2026-10-14T22:39:51.001] [DEBUG] debug-file - End initialize module-target build option map, moduleName=entry
+[2026-10-14T22:39:51.001] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=entry, buildMode=release
+[2026-10-14T22:39:51.001] [DEBUG] debug-file - Target 'default' config initialized
+[2026-10-14T22:39:51.001] [DEBUG] debug-file - Module 'entry' target 'default' build option initialized
+[2026-10-14T22:39:51.001] [DEBUG] debug-file - End initialize module-target build option map, moduleName=entry
+[2026-10-14T22:39:51.002] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=entry, buildMode=debug
+[2026-10-14T22:39:51.002] [DEBUG] debug-file - Target 'default' config initialized
+[2026-10-14T22:39:51.002] [DEBUG] debug-file - Module 'entry' target 'default' build option initialized
+[2026-10-14T22:39:51.002] [DEBUG] debug-file - End initialize module-target build option map, moduleName=entry
+[2026-10-14T22:39:51.002] [DEBUG] debug-file - Obtain build option for module 'entry' target 'default'in this build.
+[2026-10-14T22:39:51.005] [DEBUG] debug-file - Module entry task initialization takes 2 ms 
+[2026-10-14T22:39:51.005] [DEBUG] debug-file - Hap plugin register hook start...
+[2026-10-14T22:39:51.006] [DEBUG] debug-file - Hap plugin register hook end...
+[2026-10-14T22:39:51.006] [DEBUG] debug-file - Plugin build process completed
+[2026-10-14T22:39:51.006] [DEBUG] debug-file - hvigorfile, begin to bind custom plugins...
+[2026-10-14T22:39:51.006] [DEBUG] debug-file - hvigorfile, no custom plugins were found in E:\Codes\Project\Transplant\weather-app\entry\hvigorfile.ts
+[2026-10-14T22:39:51.006] [DEBUG] debug-file - hvigorfile, resolve finished E:\Codes\Project\Transplant\weather-app\entry\hvigorfile.ts
+[2026-10-14T22:39:51.007] [DEBUG] debug-file - hvigorfile, resolving E:\Codes\Project\Transplant\weather-app\common\hvigorfile.ts
+[2026-10-14T22:39:51.012] [DEBUG] debug-file - hvigorfile, require result:  { default: {} }
+[2026-10-14T22:39:51.013] [DEBUG] debug-file - hvigorfile, binding system plugins null
+[2026-10-14T22:39:51.013] [DEBUG] debug-file - Starting plugin build process
+[2026-10-14T22:39:51.013] [DEBUG] debug-file - Har plugin creating...
+[2026-10-14T22:39:51.015] [DEBUG] debug-file - failed to load cangjie to dynamically generate schemas: Error: Cannot find module '@ohos/cangjie-build-support/index'
+Require stack:
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\hooks\cangjie-register.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\strategy\stage-init-strategy.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\builder\abstract-plugin-builder.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\builder\app-plugin-builder.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\factory\plugin-factory.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\index.js
+- E:\Codes\Project\Transplant\weather-app\hvigorfile.ts
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\internal\lifecycle\configuration.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\boot\index.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\daemon\cluster\worker-process-lifecycle.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\daemon\process\daemon-process-boot-script.js
+[2026-10-14T22:39:51.018] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=common, buildMode=debug
+[2026-10-14T22:39:51.018] [DEBUG] debug-file - Target 'default' config initialized
+[2026-10-14T22:39:51.019] [DEBUG] debug-file - Module 'common' target 'default' build option initialized
+[2026-10-14T22:39:51.019] [DEBUG] debug-file - End initialize module-target build option map, moduleName=common
+[2026-10-14T22:39:51.019] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=common, buildMode=release
+[2026-10-14T22:39:51.019] [DEBUG] debug-file - Target 'default' config initialized
+[2026-10-14T22:39:51.019] [DEBUG] debug-file - Module 'common' target 'default' build option initialized
+[2026-10-14T22:39:51.019] [DEBUG] debug-file - End initialize module-target build option map, moduleName=common
+[2026-10-14T22:39:51.019] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=common, buildMode=debug
+[2026-10-14T22:39:51.019] [DEBUG] debug-file - Target 'default' config initialized
+[2026-10-14T22:39:51.020] [DEBUG] debug-file - Module 'common' target 'default' build option initialized
+[2026-10-14T22:39:51.020] [DEBUG] debug-file - End initialize module-target build option map, moduleName=common
+[2026-10-14T22:39:51.020] [DEBUG] debug-file - Obtain build option for module 'common' target 'default'in this build.
+[2026-10-14T22:39:51.022] [DEBUG] debug-file - Module common task initialization takes 2 ms 
+[2026-10-14T22:39:51.023] [DEBUG] debug-file - Har plugin register hook start...
+[2026-10-14T22:39:51.023] [DEBUG] debug-file - Har plugin register hook end...
+[2026-10-14T22:39:51.023] [DEBUG] debug-file - Plugin build process completed
+[2026-10-14T22:39:51.023] [DEBUG] debug-file - hvigorfile, begin to bind custom plugins...
+[2026-10-14T22:39:51.023] [DEBUG] debug-file - hvigorfile, no custom plugins were found in E:\Codes\Project\Transplant\weather-app\common\hvigorfile.ts
+[2026-10-14T22:39:51.023] [DEBUG] debug-file - hvigorfile, resolve finished E:\Codes\Project\Transplant\weather-app\common\hvigorfile.ts
+[2026-10-14T22:39:51.024] [DEBUG] debug-file - hvigorfile, resolving E:\Codes\Project\Transplant\weather-app\data\hvigorfile.ts
+[2026-10-14T22:39:51.092] [DEBUG] debug-file - hvigorfile, require result:  { default: {} }
+[2026-10-14T22:39:51.099] [DEBUG] debug-file - hvigorfile, binding system plugins null
+[2026-10-14T22:39:51.100] [DEBUG] debug-file - Starting plugin build process
+[2026-10-14T22:39:51.101] [DEBUG] debug-file - Har plugin creating...
+[2026-10-14T22:39:51.110] [DEBUG] debug-file - failed to load cangjie to dynamically generate schemas: Error: Cannot find module '@ohos/cangjie-build-support/index'
+Require stack:
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\hooks\cangjie-register.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\strategy\stage-init-strategy.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\builder\abstract-plugin-builder.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\builder\app-plugin-builder.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\factory\plugin-factory.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\index.js
+- E:\Codes\Project\Transplant\weather-app\hvigorfile.ts
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\internal\lifecycle\configuration.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\boot\index.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\daemon\cluster\worker-process-lifecycle.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\daemon\process\daemon-process-boot-script.js
+[2026-10-14T22:39:51.125] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=data, buildMode=debug
+[2026-10-14T22:39:51.125] [DEBUG] debug-file - Target 'default' config initialized
+[2026-10-14T22:39:51.126] [DEBUG] debug-file - Module 'data' target 'default' build option initialized
+[2026-10-14T22:39:51.126] [DEBUG] debug-file - End initialize module-target build option map, moduleName=data
+[2026-10-14T22:39:51.127] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=data, buildMode=release
+[2026-10-14T22:39:51.130] [DEBUG] debug-file - Target 'default' config initialized
+[2026-10-14T22:39:51.130] [DEBUG] debug-file - Module 'data' target 'default' build option initialized
+[2026-10-14T22:39:51.131] [DEBUG] debug-file - End initialize module-target build option map, moduleName=data
+[2026-10-14T22:39:51.131] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=data, buildMode=debug
+[2026-10-14T22:39:51.132] [DEBUG] debug-file - Target 'default' config initialized
+[2026-10-14T22:39:51.132] [DEBUG] debug-file - Module 'data' target 'default' build option initialized
+[2026-10-14T22:39:51.147] [DEBUG] debug-file - End initialize module-target build option map, moduleName=data
+[2026-10-14T22:39:51.147] [DEBUG] debug-file - Obtain build option for module 'data' target 'default'in this build.
+[2026-10-14T22:39:51.152] [DEBUG] debug-file - Module data task initialization takes 2 ms 
+[2026-10-14T22:39:51.153] [DEBUG] debug-file - Har plugin register hook start...
+[2026-10-14T22:39:51.154] [DEBUG] debug-file - Har plugin register hook end...
+[2026-10-14T22:39:51.154] [DEBUG] debug-file - Plugin build process completed
+[2026-10-14T22:39:51.155] [DEBUG] debug-file - hvigorfile, begin to bind custom plugins...
+[2026-10-14T22:39:51.155] [DEBUG] debug-file - hvigorfile, no custom plugins were found in E:\Codes\Project\Transplant\weather-app\data\hvigorfile.ts
+[2026-10-14T22:39:51.155] [DEBUG] debug-file - hvigorfile, resolve finished E:\Codes\Project\Transplant\weather-app\data\hvigorfile.ts
+[2026-10-14T22:39:51.156] [DEBUG] debug-file - hvigorfile, resolving E:\Codes\Project\Transplant\weather-app\watch\hvigorfile.ts
+[2026-10-14T22:39:51.162] [DEBUG] debug-file - hvigorfile, require result:  { default: {} }
+[2026-10-14T22:39:51.167] [DEBUG] debug-file - hvigorfile, binding system plugins null
+[2026-10-14T22:39:51.169] [DEBUG] debug-file - Starting plugin build process
+[2026-10-14T22:39:51.169] [DEBUG] debug-file - Hap plugin creating...
+[2026-10-14T22:39:51.175] [DEBUG] debug-file - failed to load cangjie to dynamically generate schemas: Error: Cannot find module '@ohos/cangjie-build-support/index'
+Require stack:
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\hooks\cangjie-register.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\strategy\stage-init-strategy.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\builder\abstract-plugin-builder.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\builder\app-plugin-builder.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\src\plugin\factory\plugin-factory.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor-ohos-plugin\index.js
+- E:\Codes\Project\Transplant\weather-app\hvigorfile.ts
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\internal\lifecycle\configuration.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\boot\index.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\daemon\cluster\worker-process-lifecycle.js
+- E:\Program Files\Huawei\DevEco Studio\tools\hvigor\hvigor\src\base\daemon\process\daemon-process-boot-script.js
+[2026-10-14T22:39:51.177] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=watch, buildMode=debug
+[2026-10-14T22:39:51.178] [DEBUG] debug-file - Target 'default' config initialized
+[2026-10-14T22:39:51.178] [DEBUG] debug-file - Module 'watch' target 'default' build option initialized
+[2026-10-14T22:39:51.178] [DEBUG] debug-file - End initialize module-target build option map, moduleName=watch
+[2026-10-14T22:39:51.179] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=watch, buildMode=release
+[2026-10-14T22:39:51.179] [DEBUG] debug-file - Target 'default' config initialized
+[2026-10-14T22:39:51.201] [DEBUG] debug-file - Module 'watch' target 'default' build option initialized
+[2026-10-14T22:39:51.201] [DEBUG] debug-file - End initialize module-target build option map, moduleName=watch
+[2026-10-14T22:39:51.201] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=watch, buildMode=debug
+[2026-10-14T22:39:51.201] [DEBUG] debug-file - Target 'default' config initialized
+[2026-10-14T22:39:51.202] [DEBUG] debug-file - Module 'watch' target 'default' build option initialized
+[2026-10-14T22:39:51.202] [DEBUG] debug-file - End initialize module-target build option map, moduleName=watch
+[2026-10-14T22:39:51.202] [DEBUG] debug-file - Obtain build option for module 'watch' target 'default'in this build.
+[2026-10-14T22:39:51.205] [DEBUG] debug-file - Module watch task initialization takes 2 ms 
+[2026-10-14T22:39:51.206] [DEBUG] debug-file - Hap plugin register hook start...
+[2026-10-14T22:39:51.207] [DEBUG] debug-file - Hap plugin register hook end...
+[2026-10-14T22:39:51.209] [DEBUG] debug-file - Plugin build process completed
+[2026-10-14T22:39:51.211] [DEBUG] debug-file - hvigorfile, begin to bind custom plugins...
+[2026-10-14T22:39:51.211] [DEBUG] debug-file - hvigorfile, no custom plugins were found in E:\Codes\Project\Transplant\weather-app\watch\hvigorfile.ts
+[2026-10-14T22:39:51.218] [DEBUG] debug-file - hvigorfile, resolve finished E:\Codes\Project\Transplant\weather-app\watch\hvigorfile.ts
+[2026-10-14T22:39:51.301] [DEBUG] debug-file - hvigorfile, resolve hvigorfile dependencies in 82 ms 
+[2026-10-14T22:39:51.301] [DEBUG] debug-file - project has submodules:entry,common,data,watch
+[2026-10-14T22:39:51.302] [DEBUG] debug-file - module:entry no need to execute packageHap
+[2026-10-14T22:39:51.303] [DEBUG] debug-file - module:common no need to execute packageHap
+[2026-10-14T22:39:51.304] [DEBUG] debug-file - module:data no need to execute packageHap
+[2026-10-14T22:39:51.304] [DEBUG] debug-file - module:watch no need to execute packageHap
+[2026-10-14T22:39:51.311] [DEBUG] debug-file - start to load updatedOhPackageInfo to the disk
+[2026-10-14T22:39:51.397] [DEBUG] debug-file - load to the disk finished
+[2026-10-14T22:39:51.411] [DEBUG] debug-file - Start to initialize dependency information.
+[2026-10-14T22:39:51.414] [DEBUG] debug-file - Module weather-app Collected Dependency: 
+[2026-10-14T22:39:51.414] [DEBUG] debug-file - Module weather-app's total dependency: 0
+[2026-10-14T22:39:51.417] [DEBUG] debug-file - Start to initialize dependency information.
+[2026-10-14T22:39:51.516] [DEBUG] debug-file - Module entry Collected Dependency: E:\Codes\Project\Transplant\weather-app\common,E:\Codes\Project\Transplant\weather-app\data
+[2026-10-14T22:39:51.517] [DEBUG] debug-file - Module entry's total dependency: 2
+[2026-10-14T22:39:51.520] [DEBUG] debug-file - Start to initialize dependency information.
+[2026-10-14T22:39:51.525] [DEBUG] debug-file - Module common Collected Dependency: 
+[2026-10-14T22:39:51.525] [DEBUG] debug-file - Module common's total dependency: 0
+[2026-10-14T22:39:51.530] [DEBUG] debug-file - Start to initialize dependency information.
+[2026-10-14T22:39:51.538] [DEBUG] debug-file - Module data Collected Dependency: E:\Codes\Project\Transplant\weather-app\common
+[2026-10-14T22:39:51.538] [DEBUG] debug-file - Module data's total dependency: 1
+[2026-10-14T22:39:51.542] [DEBUG] debug-file - Start to initialize dependency information.
+[2026-10-14T22:39:51.565] [DEBUG] debug-file - Module watch Collected Dependency: E:\Codes\Project\Transplant\weather-app\common,E:\Codes\Project\Transplant\weather-app\data
+[2026-10-14T22:39:51.565] [DEBUG] debug-file - Module watch's total dependency: 2
+[2026-10-14T22:39:51.568] [DEBUG] debug-file - Configuration phase cost:771 ms 
+[2026-10-14T22:39:51.575] [DEBUG] debug-file - Configuration task cost before running: 814 ms 
+[2026-10-14T22:39:51.584] [DEBUG] debug-file - Executing task :entry:default@PreBuild
+[2026-10-14T22:39:51.745] [DEBUG] debug-file - Task 'entry:default@PreBuild' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:51.772] [DEBUG] debug-file - Incremental task entry:default@PreBuild pre-execution cost: 20 ms .
+[2026-10-14T22:39:51.772] [DEBUG] debug-file - entry : default@PreBuild cost memory 0.7369232177734375
+[2026-10-14T22:39:51.790] [INFO] debug-file - UP-TO-DATE :entry:default@PreBuild...  
+[2026-10-14T22:39:51.796] [DEBUG] debug-file - Executing task :common:default@PreBuild
+[2026-10-14T22:39:51.801] [DEBUG] debug-file - Task 'common:default@PreBuild' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:51.814] [DEBUG] debug-file - Incremental task common:default@PreBuild pre-execution cost: 9 ms .
+[2026-10-14T22:39:51.814] [DEBUG] debug-file - common : default@PreBuild cost memory 0.48482513427734375
+[2026-10-14T22:39:51.818] [INFO] debug-file - UP-TO-DATE :common:default@PreBuild...  
+[2026-10-14T22:39:51.852] [DEBUG] debug-file - Executing task :data:default@PreBuild
+[2026-10-14T22:39:51.858] [DEBUG] debug-file - Task 'data:default@PreBuild' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:51.876] [DEBUG] debug-file - Incremental task data:default@PreBuild pre-execution cost: 14 ms .
+[2026-10-14T22:39:51.877] [DEBUG] debug-file - data : default@PreBuild cost memory 0.49005126953125
+[2026-10-14T22:39:51.884] [INFO] debug-file - UP-TO-DATE :data:default@PreBuild...  
+[2026-10-14T22:39:51.916] [DEBUG] debug-file - Executing task :entry:default@CreateModuleInfo
+[2026-10-14T22:39:51.921] [DEBUG] debug-file - Task 'entry:default@CreateModuleInfo' cost while wrapping incremental declarations: 2 ms 
+[2026-10-14T22:39:51.922] [DEBUG] debug-file - entry : default@CreateModuleInfo cost memory 0.04058074951171875
+[2026-10-14T22:39:51.923] [DEBUG] debug-file - runTaskFromQueue task cost before running: 1 s 162 ms 
+[2026-10-14T22:39:51.938] [INFO] debug-file - Finished :entry:default@CreateModuleInfo... after 7 ms 
+[2026-10-14T22:39:51.963] [DEBUG] debug-file - Executing task :entry:default@GenerateMetadata
+[2026-10-14T22:39:51.965] [DEBUG] debug-file - Task 'entry:default@GenerateMetadata' cost while wrapping incremental declarations: 3 ms 
+[2026-10-14T22:39:51.969] [DEBUG] debug-file - Incremental task entry:default@GenerateMetadata pre-execution cost: 3 ms .
+[2026-10-14T22:39:51.970] [DEBUG] debug-file - entry : default@GenerateMetadata cost memory 0.0811614990234375
+[2026-10-14T22:39:51.973] [INFO] debug-file - UP-TO-DATE :entry:default@GenerateMetadata...  
+[2026-10-14T22:39:52.002] [DEBUG] debug-file - Executing task :entry:default@PreCheckSyscap
+[2026-10-14T22:39:52.003] [DEBUG] debug-file - entry : default@PreCheckSyscap cost memory 0.014892578125
+[2026-10-14T22:39:52.004] [DEBUG] debug-file - runTaskFromQueue task cost before running: 1 s 243 ms 
+[2026-10-14T22:39:52.007] [INFO] debug-file - Finished :entry:default@PreCheckSyscap... after 2 ms 
+[2026-10-14T22:39:52.022] [DEBUG] debug-file - Executing task :entry:default@GeneratePkgContextInfo
+[2026-10-14T22:39:52.058] [DEBUG] debug-file - Task 'entry:default@GeneratePkgContextInfo' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:52.058] [DEBUG] debug-file - entry : default@GeneratePkgContextInfo cost memory 0.33872222900390625
+[2026-10-14T22:39:52.059] [DEBUG] debug-file - runTaskFromQueue task cost before running: 1 s 298 ms 
+[2026-10-14T22:39:52.059] [INFO] debug-file - Finished :entry:default@GeneratePkgContextInfo... after 37 ms 
+[2026-10-14T22:39:52.117] [DEBUG] debug-file - Executing task :entry:default@GeneratePkgSdkInfo
+[2026-10-14T22:39:52.127] [DEBUG] debug-file - Task 'entry:default@GeneratePkgSdkInfo' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:52.128] [DEBUG] debug-file - Incremental task entry:default@GeneratePkgSdkInfo pre-execution cost: 2 ms .
+[2026-10-14T22:39:52.129] [DEBUG] debug-file - entry : default@GeneratePkgSdkInfo cost memory 0.14606475830078125
+[2026-10-14T22:39:52.129] [INFO] debug-file - UP-TO-DATE :entry:default@GeneratePkgSdkInfo...  
+[2026-10-14T22:39:52.138] [DEBUG] debug-file - Executing task :entry:default@ProcessIntegratedHsp
+[2026-10-14T22:39:52.138] [DEBUG] debug-file - entry:default@ProcessIntegratedHsp is not up-to-date, since the output file 'E:\Codes\Project\Transplant\weather-app\build\cache\default\integrated_hsp\integratedHspCache.json' does not exist.
+[2026-10-14T22:39:52.139] [DEBUG] debug-file - Incremental task entry:default@ProcessIntegratedHsp pre-execution cost: 1 ms .
+[2026-10-14T22:39:52.139] [DEBUG] debug-file - entry : default@ProcessIntegratedHsp cost memory 0.05236053466796875
+[2026-10-14T22:39:52.139] [DEBUG] debug-file - runTaskFromQueue task cost before running: 1 s 378 ms 
+[2026-10-14T22:39:52.140] [INFO] debug-file - Finished :entry:default@ProcessIntegratedHsp... after 2 ms 
+[2026-10-14T22:39:52.142] [DEBUG] debug-file - Executing task :common:default@CreateHarBuildProfile
+[2026-10-14T22:39:52.143] [DEBUG] debug-file - Task 'common:default@CreateHarBuildProfile' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:52.146] [DEBUG] debug-file - Incremental task common:default@CreateHarBuildProfile pre-execution cost: 3 ms .
+[2026-10-14T22:39:52.146] [DEBUG] debug-file - common : default@CreateHarBuildProfile cost memory 0.07833099365234375
+[2026-10-14T22:39:52.147] [INFO] debug-file - UP-TO-DATE :common:default@CreateHarBuildProfile...  
+[2026-10-14T22:39:52.149] [DEBUG] debug-file - Executing task :common:default@ConfigureCmake
+[2026-10-14T22:39:52.149] [DEBUG] debug-file - common : default@ConfigureCmake cost memory 0.02149200439453125
+[2026-10-14T22:39:52.149] [DEBUG] debug-file - runTaskFromQueue task cost before running: 1 s 388 ms 
+[2026-10-14T22:39:52.149] [INFO] debug-file - Finished :common:default@ConfigureCmake... after 1 ms 
+[2026-10-14T22:39:52.153] [DEBUG] debug-file - Executing task :common:default@MergeProfile
+[2026-10-14T22:39:52.154] [DEBUG] debug-file - Task 'common:default@MergeProfile' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:52.159] [DEBUG] debug-file - Incremental task common:default@MergeProfile pre-execution cost: 3 ms .
+[2026-10-14T22:39:52.159] [DEBUG] debug-file - common : default@MergeProfile cost memory 0.11238861083984375
+[2026-10-14T22:39:52.161] [INFO] debug-file - UP-TO-DATE :common:default@MergeProfile...  
+[2026-10-14T22:39:52.163] [DEBUG] debug-file - Executing task :entry:default@SyscapTransform
+[2026-10-14T22:39:52.163] [DEBUG] debug-file - File: 'E:\Codes\Project\Transplant\weather-app\entry\src\main\syscap.json' from 'sysCapJsonPath' is not exists, just ignore.
+[2026-10-14T22:39:52.164] [DEBUG] debug-file - Task 'entry:default@SyscapTransform' cost while wrapping incremental declarations: 2 ms 
+[2026-10-14T22:39:52.169] [DEBUG] debug-file - entry:default@SyscapTransform is not up-to-date, since the output file 'E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\syscap\default\rpcid.sc' does not exist.
+[2026-10-14T22:39:52.169] [DEBUG] debug-file - Incremental task entry:default@SyscapTransform pre-execution cost: 5 ms .
+[2026-10-14T22:39:52.169] [DEBUG] debug-file - entry : default@SyscapTransform cost memory 0.1181488037109375
+[2026-10-14T22:39:52.170] [DEBUG] debug-file - runTaskFromQueue task cost before running: 1 s 409 ms 
+[2026-10-14T22:39:52.171] [INFO] debug-file - Finished :entry:default@SyscapTransform... after 7 ms 
+[2026-10-14T22:39:52.174] [DEBUG] debug-file - Executing task :entry:default@ProcessRouterMap
+[2026-10-14T22:39:52.180] [DEBUG] debug-file - Incremental task entry:default@ProcessRouterMap pre-execution cost: 4 ms .
+[2026-10-14T22:39:52.181] [DEBUG] debug-file - entry : default@ProcessRouterMap cost memory 0.11527252197265625
+[2026-10-14T22:39:52.182] [INFO] debug-file - UP-TO-DATE :entry:default@ProcessRouterMap...  
+[2026-10-14T22:39:52.213] [DEBUG] debug-file - Executing task :entry:default@ProcessShareConfig
+[2026-10-14T22:39:52.255] [DEBUG] debug-file - Incremental task entry:default@ProcessShareConfig pre-execution cost: 7 ms .
+[2026-10-14T22:39:52.257] [DEBUG] debug-file - entry : default@ProcessShareConfig cost memory 0.10079193115234375
+[2026-10-14T22:39:52.259] [INFO] debug-file - UP-TO-DATE :entry:default@ProcessShareConfig...  
+[2026-10-14T22:39:52.262] [DEBUG] debug-file - Executing task :entry:default@ProcessStartupConfig
+[2026-10-14T22:39:52.262] [DEBUG] debug-file - Task 'entry:default@ProcessStartupConfig' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:52.263] [DEBUG] debug-file - entry:default@ProcessStartupConfig is not up-to-date, since the output file 'E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\startup\default\startup_config.json' does not exist.
+[2026-10-14T22:39:52.263] [DEBUG] debug-file - Incremental task entry:default@ProcessStartupConfig pre-execution cost: 1 ms .
+[2026-10-14T22:39:52.264] [DEBUG] debug-file - entry : default@ProcessStartupConfig cost memory 0.0862274169921875
+[2026-10-14T22:39:52.264] [DEBUG] debug-file - runTaskFromQueue task cost before running: 1 s 503 ms 
+[2026-10-14T22:39:52.264] [INFO] debug-file - Finished :entry:default@ProcessStartupConfig... after 3 ms 
+[2026-10-14T22:39:52.268] [DEBUG] debug-file - Executing task :data:default@CreateHarBuildProfile
+[2026-10-14T22:39:52.269] [DEBUG] debug-file - Task 'data:default@CreateHarBuildProfile' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:52.271] [DEBUG] debug-file - Incremental task data:default@CreateHarBuildProfile pre-execution cost: 3 ms .
+[2026-10-14T22:39:52.272] [DEBUG] debug-file - data : default@CreateHarBuildProfile cost memory 0.0765228271484375
+[2026-10-14T22:39:52.272] [INFO] debug-file - UP-TO-DATE :data:default@CreateHarBuildProfile...  
+[2026-10-14T22:39:52.274] [DEBUG] debug-file - Executing task :common:default@BuildNativeWithCmake
+[2026-10-14T22:39:52.275] [DEBUG] debug-file - common : default@BuildNativeWithCmake cost memory 0.0147247314453125
+[2026-10-14T22:39:52.275] [DEBUG] debug-file - runTaskFromQueue task cost before running: 1 s 514 ms 
+[2026-10-14T22:39:52.276] [INFO] debug-file - Finished :common:default@BuildNativeWithCmake... after 1 ms 
+[2026-10-14T22:39:52.278] [DEBUG] debug-file - Executing task :data:default@MergeProfile
+[2026-10-14T22:39:52.279] [DEBUG] debug-file - Task 'data:default@MergeProfile' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:52.354] [DEBUG] debug-file - Incremental task data:default@MergeProfile pre-execution cost: 75 ms .
+[2026-10-14T22:39:52.354] [DEBUG] debug-file - data : default@MergeProfile cost memory -5.975349426269531
+[2026-10-14T22:39:52.358] [INFO] debug-file - UP-TO-DATE :data:default@MergeProfile...  
+[2026-10-14T22:39:52.448] [DEBUG] debug-file - Obtain build option for module 'common' target 'default'in this build.
+[2026-10-14T22:39:52.452] [DEBUG] debug-file - Obtain build option for module 'data' target 'default'in this build.
+[2026-10-14T22:39:52.468] [DEBUG] debug-file - Executing task :entry:default@GenerateLoaderJson
+[2026-10-14T22:39:52.470] [DEBUG] debug-file - Task 'entry:default@GenerateLoaderJson' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:52.522] [DEBUG] debug-file - Obtain build option for module 'common' target 'default'in this build.
+[2026-10-14T22:39:52.523] [DEBUG] debug-file - Obtain build option for module 'data' target 'default'in this build.
+[2026-10-14T22:39:52.525] [DEBUG] debug-file - Obtain build option for module 'common' target 'default'in this build.
+[2026-10-14T22:39:52.525] [DEBUG] debug-file - Obtain build option for module 'data' target 'default'in this build.
+[2026-10-14T22:39:52.557] [DEBUG] debug-file - Obtain build option for module 'common' target 'default'in this build.
+[2026-10-14T22:39:52.557] [DEBUG] debug-file - Obtain build option for module 'data' target 'default'in this build.
+[2026-10-14T22:39:52.560] [DEBUG] debug-file - Obtain build option for module 'common' target 'default'in this build.
+[2026-10-14T22:39:52.562] [DEBUG] debug-file - Obtain build option for module 'data' target 'default'in this build.
+[2026-10-14T22:39:52.666] [DEBUG] debug-file - Obtain build option for module 'common' target 'default'in this build.
+[2026-10-14T22:39:52.667] [DEBUG] debug-file - Obtain build option for module 'data' target 'default'in this build.
+[2026-10-14T22:39:52.684] [DEBUG] debug-file - Incremental task entry:default@GenerateLoaderJson pre-execution cost: 158 ms .
+[2026-10-14T22:39:52.684] [DEBUG] debug-file - entry : default@GenerateLoaderJson cost memory 0.5237274169921875
+[2026-10-14T22:39:52.725] [DEBUG] debug-file - Obtain build option for module 'common' target 'default'in this build.
+[2026-10-14T22:39:52.726] [DEBUG] debug-file - Obtain build option for module 'data' target 'default'in this build.
+[2026-10-14T22:39:52.769] [DEBUG] debug-file - Obtain build option for module 'common' target 'default'in this build.
+[2026-10-14T22:39:52.769] [DEBUG] debug-file - Obtain build option for module 'data' target 'default'in this build.
+[2026-10-14T22:39:52.770] [INFO] debug-file - UP-TO-DATE :entry:default@GenerateLoaderJson...  
+[2026-10-14T22:39:52.772] [DEBUG] debug-file - Executing task :entry:default@CreateBuildProfile
+[2026-10-14T22:39:52.773] [DEBUG] debug-file - Task 'entry:default@CreateBuildProfile' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:52.775] [DEBUG] debug-file - Incremental task entry:default@CreateBuildProfile pre-execution cost: 2 ms .
+[2026-10-14T22:39:52.775] [DEBUG] debug-file - entry : default@CreateBuildProfile cost memory 0.09416961669921875
+[2026-10-14T22:39:52.775] [INFO] debug-file - UP-TO-DATE :entry:default@CreateBuildProfile...  
+[2026-10-14T22:39:52.777] [DEBUG] debug-file - Executing task :common:default@BuildNativeWithNinja
+[2026-10-14T22:39:52.778] [DEBUG] debug-file - common : default@BuildNativeWithNinja cost memory 0.020172119140625
+[2026-10-14T22:39:52.778] [DEBUG] debug-file - runTaskFromQueue task cost before running: 2 s 17 ms 
+[2026-10-14T22:39:52.779] [INFO] debug-file - Finished :common:default@BuildNativeWithNinja... after 1 ms 
+[2026-10-14T22:39:52.780] [DEBUG] debug-file - Executing task :data:default@ConfigureCmake
+[2026-10-14T22:39:52.781] [DEBUG] debug-file - data : default@ConfigureCmake cost memory 0.01418304443359375
+[2026-10-14T22:39:52.781] [DEBUG] debug-file - runTaskFromQueue task cost before running: 2 s 20 ms 
+[2026-10-14T22:39:52.781] [INFO] debug-file - Finished :data:default@ConfigureCmake... after 1 ms 
+[2026-10-14T22:39:52.783] [DEBUG] debug-file - Executing task :entry:default@MergeProfile
+[2026-10-14T22:39:52.785] [DEBUG] debug-file - Task 'entry:default@MergeProfile' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:52.790] [DEBUG] debug-file - Incremental task entry:default@MergeProfile pre-execution cost: 4 ms .
+[2026-10-14T22:39:52.791] [DEBUG] debug-file - entry : default@MergeProfile cost memory 0.15433502197265625
+[2026-10-14T22:39:52.792] [INFO] debug-file - UP-TO-DATE :entry:default@MergeProfile...  
+[2026-10-14T22:39:52.796] [DEBUG] debug-file - Executing task :common:default@ProcessLibs
+[2026-10-14T22:39:52.797] [DEBUG] debug-file - Task 'common:default@ProcessLibs' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:52.800] [DEBUG] debug-file - Incremental task common:default@ProcessLibs pre-execution cost: 3 ms .
+[2026-10-14T22:39:52.801] [DEBUG] debug-file - common : default@ProcessLibs cost memory 0.0945281982421875
+[2026-10-14T22:39:52.802] [INFO] debug-file - UP-TO-DATE :common:default@ProcessLibs...  
+[2026-10-14T22:39:52.803] [DEBUG] debug-file - Executing task :data:default@BuildNativeWithCmake
+[2026-10-14T22:39:52.803] [DEBUG] debug-file - data : default@BuildNativeWithCmake cost memory 0.04155731201171875
+[2026-10-14T22:39:52.804] [DEBUG] debug-file - runTaskFromQueue task cost before running: 2 s 43 ms 
+[2026-10-14T22:39:52.804] [INFO] debug-file - Finished :data:default@BuildNativeWithCmake... after 1 ms 
+[2026-10-14T22:39:52.807] [DEBUG] debug-file - Executing task :entry:default@MakePackInfo
+[2026-10-14T22:39:52.863] [DEBUG] debug-file - Incremental task entry:default@MakePackInfo pre-execution cost: 54 ms .
+[2026-10-14T22:39:52.863] [DEBUG] debug-file - entry : default@MakePackInfo cost memory 0.11660003662109375
+[2026-10-14T22:39:52.865] [INFO] debug-file - UP-TO-DATE :entry:default@MakePackInfo...  
+[2026-10-14T22:39:52.869] [DEBUG] debug-file - Executing task :entry:default@ProcessProfile
+[2026-10-14T22:39:52.872] [DEBUG] debug-file - Task 'entry:default@ProcessProfile' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:52.921] [DEBUG] debug-file - Incremental task entry:default@ProcessProfile pre-execution cost: 2 ms .
+[2026-10-14T22:39:52.925] [DEBUG] debug-file - entry : default@ProcessProfile cost memory 0.1447906494140625
+[2026-10-14T22:39:52.935] [INFO] debug-file - UP-TO-DATE :entry:default@ProcessProfile...  
+[2026-10-14T22:39:52.945] [DEBUG] debug-file - Executing task :common:default@DoNativeStrip
+[2026-10-14T22:39:52.945] [DEBUG] debug-file - File: 'E:\Codes\Project\Transplant\weather-app\common\build\default\intermediates\binxo\default' from 'doBinxoNativeLibs' is not exists, just ignore.
+[2026-10-14T22:39:52.948] [DEBUG] debug-file - Task 'common:default@DoNativeStrip' cost while wrapping incremental declarations: 3 ms 
+[2026-10-14T22:39:52.951] [DEBUG] debug-file - Incremental task common:default@DoNativeStrip pre-execution cost: 3 ms .
+[2026-10-14T22:39:52.951] [DEBUG] debug-file - common : default@DoNativeStrip cost memory 0.07427978515625
+[2026-10-14T22:39:52.959] [INFO] debug-file - UP-TO-DATE :common:default@DoNativeStrip...  
+[2026-10-14T22:39:52.984] [DEBUG] debug-file - Executing task :entry:default@ConfigureCmake
+[2026-10-14T22:39:53.026] [DEBUG] debug-file - entry : default@ConfigureCmake cost memory 0.01416778564453125
+[2026-10-14T22:39:53.030] [DEBUG] debug-file - runTaskFromQueue task cost before running: 2 s 268 ms 
+[2026-10-14T22:39:53.031] [INFO] debug-file - Finished :entry:default@ConfigureCmake... after 56 ms 
+[2026-10-14T22:39:53.045] [DEBUG] debug-file - restool module names: entry,common,data,watch; moduleName=entry, taskName=default@ProcessResource
+[2026-10-14T22:39:53.137] [DEBUG] debug-file - Executing task :entry:default@ProcessResource
+[2026-10-14T22:39:53.138] [DEBUG] debug-file - Task 'entry:default@ProcessResource' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:53.143] [DEBUG] debug-file - Incremental task entry:default@ProcessResource pre-execution cost: 3 ms .
+[2026-10-14T22:39:53.143] [DEBUG] debug-file - entry : default@ProcessResource cost memory 0.11673736572265625
+[2026-10-14T22:39:53.186] [INFO] debug-file - UP-TO-DATE :entry:default@ProcessResource...  
+[2026-10-14T22:39:53.188] [DEBUG] debug-file - Executing task :data:default@BuildNativeWithNinja
+[2026-10-14T22:39:53.189] [DEBUG] debug-file - data : default@BuildNativeWithNinja cost memory 0.01937103271484375
+[2026-10-14T22:39:53.189] [DEBUG] debug-file - runTaskFromQueue task cost before running: 2 s 428 ms 
+[2026-10-14T22:39:53.189] [INFO] debug-file - Finished :data:default@BuildNativeWithNinja... after 1 ms 
+[2026-10-14T22:39:53.191] [DEBUG] debug-file - Executing task :entry:default@BuildNativeWithCmake
+[2026-10-14T22:39:53.192] [DEBUG] debug-file - entry : default@BuildNativeWithCmake cost memory 0.01596832275390625
+[2026-10-14T22:39:53.192] [DEBUG] debug-file - runTaskFromQueue task cost before running: 2 s 431 ms 
+[2026-10-14T22:39:53.192] [INFO] debug-file - Finished :entry:default@BuildNativeWithCmake... after 1 ms 
+[2026-10-14T22:39:53.195] [DEBUG] debug-file - restool module names: entry,common,data,watch; moduleName=entry, taskName=default@CompileResource
+[2026-10-14T22:39:53.198] [DEBUG] debug-file - Executing task :entry:default@CompileResource
+[2026-10-14T22:39:53.562] [DEBUG] debug-file - Incremental task entry:default@CompileResource pre-execution cost: 360 ms .
+[2026-10-14T22:39:53.562] [DEBUG] debug-file - entry : default@CompileResource cost memory 1.1075820922851562
+[2026-10-14T22:39:53.642] [INFO] debug-file - UP-TO-DATE :entry:default@CompileResource...  
+[2026-10-14T22:39:53.646] [DEBUG] debug-file - Executing task :data:default@ProcessLibs
+[2026-10-14T22:39:53.649] [DEBUG] debug-file - Task 'data:default@ProcessLibs' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:53.656] [DEBUG] debug-file - Incremental task data:default@ProcessLibs pre-execution cost: 5 ms .
+[2026-10-14T22:39:53.657] [DEBUG] debug-file - data : default@ProcessLibs cost memory 0.0928955078125
+[2026-10-14T22:39:53.661] [INFO] debug-file - UP-TO-DATE :data:default@ProcessLibs...  
+[2026-10-14T22:39:53.671] [DEBUG] debug-file - Executing task :entry:default@CompileArkTS
+[2026-10-14T22:39:53.671] [DEBUG] debug-file - obfuscationOptions: undefined
+[2026-10-14T22:39:53.773] [DEBUG] debug-file - Task 'entry:default@CompileArkTS' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:53.974] [DEBUG] debug-file - Incremental task entry:default@CompileArkTS pre-execution cost: 167 ms .
+[2026-10-14T22:39:53.975] [DEBUG] debug-file - entry : default@CompileArkTS cost memory 1.102996826171875
+[2026-10-14T22:39:54.098] [INFO] debug-file - UP-TO-DATE :entry:default@CompileArkTS...  
+[2026-10-14T22:39:54.110] [DEBUG] debug-file - Executing task :entry:default@BuildJS
+[2026-10-14T22:39:54.111] [DEBUG] debug-file - Task 'entry:default@BuildJS' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:54.164] [DEBUG] debug-file - entry : default@BuildJS cost memory 0.13466644287109375
+[2026-10-14T22:39:54.165] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 404 ms 
+[2026-10-14T22:39:54.165] [INFO] debug-file - Finished :entry:default@BuildJS... after 55 ms 
+[2026-10-14T22:39:54.167] [DEBUG] debug-file - Executing task :data:default@DoNativeStrip
+[2026-10-14T22:39:54.168] [DEBUG] debug-file - File: 'E:\Codes\Project\Transplant\weather-app\data\build\default\intermediates\binxo\default' from 'doBinxoNativeLibs' is not exists, just ignore.
+[2026-10-14T22:39:54.168] [DEBUG] debug-file - Task 'data:default@DoNativeStrip' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:54.170] [DEBUG] debug-file - Incremental task data:default@DoNativeStrip pre-execution cost: 2 ms .
+[2026-10-14T22:39:54.170] [DEBUG] debug-file - data : default@DoNativeStrip cost memory 0.07386016845703125
+[2026-10-14T22:39:54.171] [INFO] debug-file - UP-TO-DATE :data:default@DoNativeStrip...  
+[2026-10-14T22:39:54.173] [DEBUG] debug-file - Executing task :entry:default@BuildNativeWithNinja
+[2026-10-14T22:39:54.173] [DEBUG] debug-file - entry : default@BuildNativeWithNinja cost memory 0.01947784423828125
+[2026-10-14T22:39:54.173] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 412 ms 
+[2026-10-14T22:39:54.174] [INFO] debug-file - Finished :entry:default@BuildNativeWithNinja... after 1 ms 
+[2026-10-14T22:39:54.208] [DEBUG] debug-file - Executing task :entry:default@ProcessLibs
+[2026-10-14T22:39:54.251] [DEBUG] debug-file - Task 'entry:default@ProcessLibs' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:54.270] [DEBUG] debug-file - Incremental task entry:default@ProcessLibs pre-execution cost: 12 ms .
+[2026-10-14T22:39:54.271] [DEBUG] debug-file - entry : default@ProcessLibs cost memory 0.325439453125
+[2026-10-14T22:39:54.276] [INFO] debug-file - UP-TO-DATE :entry:default@ProcessLibs...  
+[2026-10-14T22:39:54.279] [DEBUG] debug-file - Executing task :entry:default@DoNativeStrip
+[2026-10-14T22:39:54.280] [DEBUG] debug-file - File: 'E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\binxo\default' from 'doBinxoNativeLibs' is not exists, just ignore.
+[2026-10-14T22:39:54.281] [DEBUG] debug-file - Task 'entry:default@DoNativeStrip' cost while wrapping incremental declarations: 2 ms 
+[2026-10-14T22:39:54.283] [DEBUG] debug-file - Incremental task entry:default@DoNativeStrip pre-execution cost: 2 ms .
+[2026-10-14T22:39:54.283] [DEBUG] debug-file - entry : default@DoNativeStrip cost memory 0.0837249755859375
+[2026-10-14T22:39:54.284] [INFO] debug-file - UP-TO-DATE :entry:default@DoNativeStrip...  
+[2026-10-14T22:39:54.288] [DEBUG] debug-file - Executing task :entry:default@CacheNativeLibs
+[2026-10-14T22:39:54.289] [DEBUG] debug-file - File: 'E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\binxo\default' from 'cacheBinxoNativeLibs' is not exists, just ignore.
+[2026-10-14T22:39:54.290] [DEBUG] debug-file - Task 'entry:default@CacheNativeLibs' cost while wrapping incremental declarations: 1 ms 
+[2026-10-14T22:39:54.293] [DEBUG] debug-file - Incremental task entry:default@CacheNativeLibs pre-execution cost: 3 ms .
+[2026-10-14T22:39:54.293] [DEBUG] debug-file - entry : default@CacheNativeLibs cost memory 0.08724212646484375
+[2026-10-14T22:39:54.293] [INFO] debug-file - UP-TO-DATE :entry:default@CacheNativeLibs...  
+[2026-10-14T22:39:54.295] [DEBUG] debug-file - Executing task :entry:default@GeneratePkgModuleJson
+[2026-10-14T22:39:54.296] [DEBUG] debug-file - File: 'E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\preload\default\preload.json' from 'preloadSoJsonPath' is not exists, just ignore.
+[2026-10-14T22:39:54.297] [DEBUG] debug-file - Error occurs while handling @Input 'shouldDeduplicateHar': The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+[2026-10-14T22:39:54.300] [DEBUG] debug-file - Task 'entry:default@GeneratePkgModuleJson' cost while wrapping incremental declarations: 4 ms 
+[2026-10-14T22:39:54.334] [DEBUG] debug-file - Incremental task entry:default@GeneratePkgModuleJson pre-execution cost: 2 ms .
+[2026-10-14T22:39:54.338] [DEBUG] debug-file - entry : default@GeneratePkgModuleJson cost memory -6.054840087890625
+[2026-10-14T22:39:54.342] [INFO] debug-file - UP-TO-DATE :entry:default@GeneratePkgModuleJson...  
+[2026-10-14T22:39:54.347] [DEBUG] debug-file - Executing task :entry:default@ProcessCompiledResources
+[2026-10-14T22:39:54.349] [DEBUG] debug-file - File: 'E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\preload\default\preload.json' from 'preloadSoJsonPath' is not exists, just ignore.
+[2026-10-14T22:39:54.363] [DEBUG] debug-file - Task 'entry:default@ProcessCompiledResources' cost while wrapping incremental declarations: 15 ms 
+[2026-10-14T22:39:54.365] [DEBUG] debug-file - entry : default@ProcessCompiledResources cost memory 0.052520751953125
+[2026-10-14T22:39:54.379] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 618 ms 
+[2026-10-14T22:39:54.412] [INFO] debug-file - Finished :entry:default@ProcessCompiledResources... after 32 ms 
+[2026-10-14T22:39:54.417] [DEBUG] debug-file - Executing task :entry:default@PackageHap
+[2026-10-14T22:39:54.685] [DEBUG] debug-file - Incremental task entry:default@PackageHap pre-execution cost: 265 ms .
+[2026-10-14T22:39:54.687] [DEBUG] debug-file - entry : default@PackageHap cost memory 0.59930419921875
+[2026-10-14T22:39:54.739] [INFO] debug-file - UP-TO-DATE :entry:default@PackageHap...  
+[2026-10-14T22:39:54.748] [DEBUG] debug-file - Executing task :entry:default@PackingCheck
+[2026-10-14T22:39:54.908] [DEBUG] debug-file - entry : default@PackingCheck cost memory 0.4503021240234375
+[2026-10-14T22:39:54.908] [DEBUG] debug-file - runTaskFromQueue task cost before running: 4 s 147 ms 
+[2026-10-14T22:39:54.908] [INFO] debug-file - Finished :entry:default@PackingCheck... after 160 ms 
+[2026-10-14T22:39:54.911] [DEBUG] debug-file - Executing task :entry:default@SignHap
+[2026-10-14T22:39:54.923] [DEBUG] debug-file - Incremental task entry:default@SignHap pre-execution cost: 8 ms .
+[2026-10-14T22:39:54.923] [DEBUG] debug-file - entry : default@SignHap cost memory 0.08734130859375
+[2026-10-14T22:39:54.925] [INFO] debug-file - UP-TO-DATE :entry:default@SignHap...  
+[2026-10-14T22:39:54.927] [DEBUG] debug-file - Executing task :entry:default@CollectDebugSymbol
+[2026-10-14T22:39:54.929] [DEBUG] debug-file - entry : default@CollectDebugSymbol cost memory 0.08349609375
+[2026-10-14T22:39:54.930] [DEBUG] debug-file - runTaskFromQueue task cost before running: 4 s 169 ms 
+[2026-10-14T22:39:54.930] [INFO] debug-file - Finished :entry:default@CollectDebugSymbol... after 3 ms 
+[2026-10-14T22:39:54.930] [DEBUG] debug-file - Executing task :entry:assembleHap
+[2026-10-14T22:39:54.931] [DEBUG] debug-file - entry : assembleHap cost memory 0.0124359130859375
+[2026-10-14T22:39:54.931] [DEBUG] debug-file - runTaskFromQueue task cost before running: 4 s 170 ms 
+[2026-10-14T22:39:54.931] [INFO] debug-file - Finished :entry:assembleHap... after 1 ms 
+[2026-10-14T22:39:54.935] [INFO] debug-file - BUILD SUCCESSFUL in 4 s 174 ms 
+[2026-10-14T22:39:54.938] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@PreBuild is up-to-date.
+[2026-10-14T22:39:54.938] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task common:default@PreBuild is up-to-date.
+[2026-10-14T22:39:54.939] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task data:default@PreBuild is up-to-date.
+[2026-10-14T22:39:54.939] [DEBUG] debug-file - Update task entry:default@CreateModuleInfo output file:E:\Codes\Project\Transplant\weather-app\entry\build\default\generated\profile\default\ModuleInfo.ts cache.
+[2026-10-14T22:39:54.939] [DEBUG] debug-file - Incremental task entry:default@CreateModuleInfo post-execution cost:1 ms .
+[2026-10-14T22:39:54.940] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@GenerateMetadata is up-to-date.
+[2026-10-14T22:39:54.940] [DEBUG] debug-file - Update task entry:default@GeneratePkgContextInfo output file:E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\loader\default\pkgContextInfo.json cache.
+[2026-10-14T22:39:54.941] [DEBUG] debug-file - Incremental task entry:default@GeneratePkgContextInfo post-execution cost:1 ms .
+[2026-10-14T22:39:54.941] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@GeneratePkgSdkInfo is up-to-date.
+[2026-10-14T22:39:54.942] [DEBUG] debug-file - Update task entry:default@ProcessIntegratedHsp output file:E:\Codes\Project\Transplant\weather-app\build\cache\default\integrated_hsp\integratedHspCache.json cache.
+[2026-10-14T22:39:54.943] [DEBUG] debug-file - Incremental task entry:default@ProcessIntegratedHsp post-execution cost:2 ms .
+[2026-10-14T22:39:54.943] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task common:default@CreateHarBuildProfile is up-to-date.
+[2026-10-14T22:39:54.943] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task common:default@MergeProfile is up-to-date.
+[2026-10-14T22:39:54.943] [DEBUG] debug-file - Update task entry:default@SyscapTransform input file:E:\Program Files\Huawei\DevEco Studio\sdk\default\openharmony\toolchains\syscap_tool.exe cache by regenerate.
+[2026-10-14T22:39:55.098] [DEBUG] debug-file - Update task entry:default@SyscapTransform input file:E:\Program Files\Huawei\DevEco Studio\sdk\default\openharmony\ets\api\device-define cache by regenerate.
+[2026-10-14T22:39:55.131] [DEBUG] debug-file - Update task entry:default@SyscapTransform output file:E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\syscap\default\rpcid.sc cache.
+[2026-10-14T22:39:55.132] [DEBUG] debug-file - Incremental task entry:default@SyscapTransform post-execution cost:190 ms .
+[2026-10-14T22:39:55.133] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@ProcessRouterMap is up-to-date.
+[2026-10-14T22:39:55.133] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@ProcessShareConfig is up-to-date.
+[2026-10-14T22:39:55.133] [DEBUG] debug-file - Update task entry:default@ProcessStartupConfig output file:E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\startup\default\startup_config.json cache.
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - Incremental task entry:default@ProcessStartupConfig post-execution cost:1 ms .
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task data:default@CreateHarBuildProfile is up-to-date.
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task data:default@MergeProfile is up-to-date.
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@GenerateLoaderJson is up-to-date.
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@CreateBuildProfile is up-to-date.
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@MergeProfile is up-to-date.
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task common:default@ProcessLibs is up-to-date.
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@MakePackInfo is up-to-date.
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@ProcessProfile is up-to-date.
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task common:default@DoNativeStrip is up-to-date.
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@ProcessResource is up-to-date.
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@CompileResource is up-to-date.
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task data:default@ProcessLibs is up-to-date.
+[2026-10-14T22:39:55.134] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@CompileArkTS is up-to-date.
+[2026-10-14T22:39:55.138] [DEBUG] debug-file - Update task entry:default@BuildJS input file:E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\loader\default cache by regenerate.
+[2026-10-14T22:39:55.140] [DEBUG] debug-file - Update task entry:default@BuildJS input file:E:\Codes\Project\Transplant\weather-app\common\src\main\ets\common\Index.ets cache by regenerate.
+[2026-10-14T22:39:55.140] [DEBUG] debug-file - Update task entry:default@BuildJS input file:E:\Codes\Project\Transplant\weather-app\data\src\main\ets\data\Index.ets cache by regenerate.
+[2026-10-14T22:39:55.140] [DEBUG] debug-file - Update task entry:default@BuildJS input file:E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\res\default\resources\rawfile cache by regenerate.
+[2026-10-14T22:39:55.142] [DEBUG] debug-file - Update task entry:default@BuildJS input file:E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\res\default\ResourceTable.txt cache by regenerate.
+[2026-10-14T22:39:55.142] [DEBUG] debug-file - Update task entry:default@BuildJS input file:E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\res\default\ark_module.json cache by regenerate.
+[2026-10-14T22:39:55.143] [DEBUG] debug-file - Update task entry:default@BuildJS input file:E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\res\default\resources\base\profile cache by regenerate.
+[2026-10-14T22:39:55.144] [DEBUG] debug-file - Update task entry:default@BuildJS output file:E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\loader_out\default\js cache.
+[2026-10-14T22:39:55.144] [DEBUG] debug-file - Incremental task entry:default@BuildJS post-execution cost:10 ms .
+[2026-10-14T22:39:55.145] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task data:default@DoNativeStrip is up-to-date.
+[2026-10-14T22:39:55.145] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@ProcessLibs is up-to-date.
+[2026-10-14T22:39:55.145] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@DoNativeStrip is up-to-date.
+[2026-10-14T22:39:55.145] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@CacheNativeLibs is up-to-date.
+[2026-10-14T22:39:55.145] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@GeneratePkgModuleJson is up-to-date.
+[2026-10-14T22:39:55.145] [DEBUG] debug-file - Incremental task entry:default@ProcessCompiledResources post-execution cost:1 ms .
+[2026-10-14T22:39:55.145] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@PackageHap is up-to-date.
+[2026-10-14T22:39:55.145] [DEBUG] debug-file - There is no need to refresh cache, since the incremental task entry:default@SignHap is up-to-date.
+[2026-10-14T22:39:55.147] [DEBUG] debug-file - Update task entry:default@CollectDebugSymbol input file:E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\loader_out\default\ets\sourceMaps.map cache by regenerate.
+[2026-10-14T22:39:55.147] [DEBUG] debug-file - Update task entry:default@CollectDebugSymbol input file:E:\Codes\Project\Transplant\weather-app\entry\build\default\intermediates\libs\default cache by regenerate.
+[2026-10-14T22:39:55.148] [DEBUG] debug-file - Update task entry:default@CollectDebugSymbol output file:E:\Codes\Project\Transplant\weather-app\entry\build\default\outputs\default\symbol cache.
+[2026-10-14T22:39:55.148] [DEBUG] debug-file - Incremental task entry:default@CollectDebugSymbol post-execution cost:3 ms .
+[2026-10-14T22:39:55.412] [DEBUG] debug-file - hvigor build process will be closed.
+[2026-10-14T22:39:55.517] [DEBUG] debug-file - session manager: send message to worker process. WorkerThreadId: 0, data: {"type":"hvigor_failed","reason":"Server has disconnected."}
+[2026-10-14T22:39:55.520] [DEBUG] debug-file - session manager: send message to worker process. WorkerThreadId: 0, data: {"type":"CloseWatch","reason":"Server has disconnected."}
+[2026-10-14T22:39:55.519] [DEBUG] debug-file - watch worker: worker id should be larger than 0. Nothing will be sent to any worker thread.
+[2026-10-14T22:39:55.521] [DEBUG] debug-file - ABORT_WORK sent to workers.
+[2026-10-14T22:39:55.542] [DEBUG] debug-file - watch worker: worker id should be larger than 0. Nothing will be sent to any worker thread.
