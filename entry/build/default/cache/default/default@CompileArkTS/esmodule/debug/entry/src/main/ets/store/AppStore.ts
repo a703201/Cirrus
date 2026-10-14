@@ -6,6 +6,7 @@ import { DEFAULT_SETTINGS, Log, applyThemeMode } from "@bundle:com.Lumio.Cirrus/
 import type { AppSettings, LocationInfo, WeatherData } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { WeatherRepository, settingsStore, rdbStore, locationProvider, distributedStore } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
 import { themeModel } from "@bundle:com.Lumio.Cirrus/entry/ets/store/ThemeModel";
+import { NotificationUtil } from "@bundle:com.Lumio.Cirrus/entry/ets/notify/NotificationUtil";
 const LOCATION_PERMISSIONS: Permissions[] = ['ohos.permission.APPROXIMATELY_LOCATION', 'ohos.permission.LOCATION'];
 /** Seed location so the first launch always shows something (P0). TODO: onboarding. */
 const SEED_LOCATION: LocationInfo = {
@@ -57,6 +58,7 @@ export class AppStore {
         this.settings = await settingsStore.load();
         themeModel.themeMode = this.settings.theme;
         applyThemeMode(this.settings.theme, this.context);
+        await NotificationUtil.ensureEnabled(context);
         await this.reloadLocations();
         if (this.locations.length === 0) {
             const remote: LocationInfo[] = await distributedStore.getLocations();
@@ -109,6 +111,8 @@ export class AppStore {
         this.error = '';
         try {
             this.weather = await this.repo.getWeather(loc, this.resolveLang(), this.settings.sourceId);
+            await NotificationUtil.publishAlerts(this.weather);
+            await NotificationUtil.publishDailySummary(this.weather);
         }
         catch (e) {
             this.error = `${e}`;

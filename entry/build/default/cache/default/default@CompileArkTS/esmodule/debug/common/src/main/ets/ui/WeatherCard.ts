@@ -68,6 +68,8 @@ export class WeatherCard extends ViewV2 {
             Column.backgroundColor('rgba(255,255,255,0.35)');
             Column.backgroundBlurStyle(MaterialUtil.cardBlurStyle(this.materialTier));
             Column.borderRadius(24);
+            Column.accessibilityGroup(true);
+            Column.accessibilityText(`${this.tempText()} ${this.condition}`);
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create(this.locationName);

@@ -1,22 +1,24 @@
 import { mediaquery } from '@kit.ArkUI';
 import { deviceInfo } from '@kit.BasicServicesKit';
 import {
-  HdsNavigation, HdsNavigationTitleMode, HdsSideBar, HdsTabs, HdsTabsController,
+  HdsNavigation, HdsNavigationTitleMode, HdsTabs, HdsTabsController,
   HideMode, ScrollEffectType, hdsMaterial
 } from '@kit.UIDesignKit';
-import { MaterialTier, Log } from 'common';
+import { MaterialTier } from 'common';
 import { appStore } from '../store/AppStore';
 import { uiState } from '../store/UiState';
 import { HomePage } from '../features/home/HomePage';
 import { LocationsPage } from '../features/locations/LocationsPage';
+import { AlertsPage } from '../features/alerts/AlertsPage';
 import { SettingsPage } from '../features/settings/SettingsPage';
 import { TvHome } from '../features/tv/TvHome';
 
 /**
  * App entry page (state management V2) — 卷云·气象拟真（docs/13 §10）.
  * - P1-2/P1-3: HdsNavigation（标题栏渐变模糊 + 动态显隐）+ HdsTabs（悬浮胶囊 + 智感握姿）。
- * - P1-5: 大屏（>=840vp）主从布局 + `HdsSideBar` 侧栏；Pura X 外屏等窄屏（<600vp）单列；页签经 PersistenceV2 记忆。
+ * - P1-5: 大屏（>=840vp）主从布局；Pura X 外屏等窄屏（<600vp）单列；页签经 PersistenceV2 记忆。
  * - P1-6: TV 走焦点式 TvHome。
+ * - P2-1: 新增「预警」页签。
  *
  * ⚠️ HDS 组件与 systemMaterialEffect 属 API 26 新特性；模拟器不支持沉浸视效，须真机验收。
  */
@@ -26,7 +28,6 @@ struct Index {
   @Local isWide: boolean = false;
   @Local isNarrow: boolean = false;
   @Local isTv: boolean = false;
-  @Local hdsAvailable: boolean = false;
   private wideListener: mediaquery.MediaQueryListener = mediaquery.matchMediaSync('(width >= 840vp)');
   private narrowListener: mediaquery.MediaQueryListener = mediaquery.matchMediaSync('(width < 600vp)');
   private tabController: HdsTabsController = new HdsTabsController();
@@ -34,7 +35,6 @@ struct Index {
 
   aboutToAppear(): void {
     this.isTv = deviceInfo.deviceType === 'tv';
-    this.detectHds();
     this.wideListener.on('change', (mq: mediaquery.MediaQueryResult) => {
       this.isWide = mq.matches;
     });
@@ -48,15 +48,6 @@ struct Index {
   aboutToDisappear(): void {
     this.wideListener.off('change');
     this.narrowListener.off('change');
-  }
-
-  /** HDS 能力探测：沉浸光感材质可用才启用 `HdsSideBar`，否则回退普通 Row（docs/11 §2.4）。 */
-  private detectHds(): void {
-    try {
-      this.hdsAvailable = hdsMaterial.getSystemMaterialTypes().length > 0;
-    } catch (e) {
-      this.hdsAvailable = false;
-    }
   }
 
   private hdsLevel(): hdsMaterial.MaterialLevel {
@@ -84,6 +75,10 @@ struct Index {
       }.tabBar($r('app.string.tab_locations'))
 
       TabContent() {
+        AlertsPage()
+      }.tabBar($r('app.string.tab_alerts'))
+
+      TabContent() {
         SettingsPage()
       }.tabBar($r('app.string.tab_settings'))
     }
@@ -107,43 +102,12 @@ struct Index {
 
   @Builder
   masterDetail() {
-    if (this.hdsAvailable) {
-      HdsSideBar({
-        sideBarPanelBuilder: (): void => {
-          this.sideBarBuilder();
-        },
-        contentPanelBuilder: (): void => {
-          this.contentBuilder();
-        },
-        sideBarContainerType: SideBarContainerType.Embed,
-        maxSideBarWidth: 280,
-        sideBarWidth: 240
-      })
-      .width('100%')
-      .height('100%')
-    } else {
-      Row() {
-        LocationsPage({ compact: true }).width('30%').padding(8)
-        HomePage({ scroller: this.scroller }).layoutWeight(1)
-      }
-      .width('100%')
-      .height('100%')
+    Row() {
+      LocationsPage({ compact: true }).width('30%').padding(8)
+      HomePage({ scroller: this.scroller }).layoutWeight(1)
     }
-  }
-
-  @Builder
-  sideBarBuilder() {
-    LocationsPage({ compact: true })
-      .width('100%')
-      .height('100%')
-      .padding(8)
-  }
-
-  @Builder
-  contentBuilder() {
-    HomePage({ scroller: this.scroller })
-      .width('100%')
-      .height('100%')
+    .width('100%')
+    .height('100%')
   }
 
   build() {

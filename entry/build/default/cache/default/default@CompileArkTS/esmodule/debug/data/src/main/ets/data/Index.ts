@@ -2,6 +2,7 @@ export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/sources/WeatherSource";
 export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/sources/registry";
 export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/sources/OpenMeteoSource";
 export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/sources/QWeatherSource";
+export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/sources/QWeatherConfig";
 export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/sources/QWeatherCodes";
 export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/repository/WeatherRepository";
 export * from "@bundle:com.Lumio.Cirrus/entry@data/ets/local/CacheStore";

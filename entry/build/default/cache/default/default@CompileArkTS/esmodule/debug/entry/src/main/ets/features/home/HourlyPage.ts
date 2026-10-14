@@ -47,11 +47,13 @@ export class HourlyPage extends ViewV2 {
                     Column.padding(10);
                     Column.backgroundColor('rgba(255,255,255,0.5)');
                     Column.borderRadius(12);
+                    Column.accessibilityGroup(true);
+                    Column.accessibilityText(`${DateTimeUtil.formatHour(ri.item.time)} ${UnitUtil.convertTemp(ri.item.temperature, this.unit)}度 降水概率${ri.item.precipProb}%`);
                 }, Column);
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                     Text.create(DateTimeUtil.formatHour(ri.item.time));
                     Text.fontSize(12);
-                    Text.fontColor('#6B6B6B');
+                    Text.fontColor('#595959');
                 }, Text);
                 Text.pop();
                 this.observeComponentCreation2((elmtId, isInitialRender) => {

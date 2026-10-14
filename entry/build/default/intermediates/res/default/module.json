@@ -72,24 +72,24 @@
 				"name":	"ohos.permission.INTERNET",
 				"reason":	"$string:perm_internet",
 				"usedScene":	{
-					"abilities":	["EntryAbility"],
-					"when":	"always"
+					"when":	"always",
+					"abilities":	["EntryAbility"]
 				},
 				"reasonId":	50331679
 			}, {
 				"name":	"ohos.permission.LOCATION",
 				"reason":	"$string:perm_location",
 				"usedScene":	{
-					"abilities":	["EntryAbility"],
-					"when":	"inuse"
+					"when":	"inuse",
+					"abilities":	["EntryAbility"]
 				},
 				"reasonId":	50331680
 			}, {
 				"name":	"ohos.permission.APPROXIMATELY_LOCATION",
 				"reason":	"$string:perm_location",
 				"usedScene":	{
-					"abilities":	["EntryAbility"],
-					"when":	"inuse"
+					"when":	"inuse",
+					"abilities":	["EntryAbility"]
 				},
 				"reasonId":	50331680
 			}],

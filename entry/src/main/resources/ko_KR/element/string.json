@@ -1,1 +1,360 @@
-{"string": [{"name": "app_name", "value": "권운"}, {"name": "module_desc", "value": "권운 날씨 앱"}, {"name": "entry_desc", "value": "기본 기능"}, {"name": "form_desc", "value": "날씨 위젯"}, {"name": "perm_internet", "value": "인터넷에서 날씨 데이터를 가져오기 위해"}, {"name": "perm_location", "value": "현재 위치의 날씨를 확인하기 위해"}, {"name": "perm_bg", "value": "백그라운드에서 날씨를 새로고침하기 위해"}, {"name": "tab_home", "value": "날씨"}, {"name": "tab_locations", "value": "위치"}, {"name": "tab_settings", "value": "설정"}, {"name": "tab_alerts", "value": "경보"}, {"name": "settings_source", "value": "데이터 소스"}, {"name": "settings_unit", "value": "단위"}, {"name": "settings_theme", "value": "테마"}, {"name": "settings_language", "value": "언어"}, {"name": "settings_privacy", "value": "데이터 및 개인정보"}, {"name": "settings_theme_auto", "value": "자동"}, {"name": "settings_theme_light", "value": "라이트"}, {"name": "settings_theme_dark", "value": "다크"}, {"name": "settings_language_system", "value": "시스템"}, {"name": "unit_celsius", "value": "°C"}, {"name": "unit_fahrenheit", "value": "°F"}, {"name": "location_search", "value": "도시 검색"}, {"name": "no_data", "value": "데이터 없음"}, {"name": "no_alerts", "value": "활성 경보 없음"}, {"name": "updated_at", "value": "업데이트"}, {"name": "current_location", "value": "현재 위치"}, {"name": "label_hourly", "value": "시간별"}, {"name": "label_daily", "value": "일별"}, {"name": "label_details", "value": "상세"}, {"name": "label_humidity", "value": "습도"}, {"name": "label_wind", "value": "풍속"}, {"name": "label_pressure", "value": "기압"}, {"name": "label_uv", "value": "자외선"}, {"name": "label_visibility", "value": "가시거리"}, {"name": "label_cloud", "value": "구름량"}, {"name": "msg_loading", "value": "로딩 중..."}, {"name": "msg_offline", "value": "오프라인"}, {"name": "action_locate", "value": "현재 위치 사용"}, {"name": "action_search", "value": "검색"}, {"name": "action_add", "value": "추가"}, {"name": "action_delete", "value": "삭제"}, {"name": "action_set_default", "value": "기본으로 설정"}, {"name": "label_default", "value": "기본"}, {"name": "settings_material", "value": "몰입 광감"}, {"name": "material_auto", "value": "자동"}, {"name": "material_exquisite", "value": "정교"}, {"name": "material_gentle", "value": "균형"}, {"name": "material_smooth", "value": "가벼움"}]}
+{
+  "string": [
+    {
+      "name": "app_name",
+      "value": "권운"
+    },
+    {
+      "name": "module_desc",
+      "value": "권운 날씨 앱"
+    },
+    {
+      "name": "entry_desc",
+      "value": "기본 기능"
+    },
+    {
+      "name": "form_desc",
+      "value": "날씨 위젯"
+    },
+    {
+      "name": "perm_internet",
+      "value": "인터넷에서 날씨 데이터를 가져오기 위해"
+    },
+    {
+      "name": "perm_location",
+      "value": "현재 위치의 날씨를 확인하기 위해"
+    },
+    {
+      "name": "perm_bg",
+      "value": "백그라운드에서 날씨를 새로고침하기 위해"
+    },
+    {
+      "name": "tab_home",
+      "value": "날씨"
+    },
+    {
+      "name": "tab_locations",
+      "value": "위치"
+    },
+    {
+      "name": "tab_settings",
+      "value": "설정"
+    },
+    {
+      "name": "tab_alerts",
+      "value": "경보"
+    },
+    {
+      "name": "settings_source",
+      "value": "데이터 소스"
+    },
+    {
+      "name": "settings_unit",
+      "value": "단위"
+    },
+    {
+      "name": "settings_theme",
+      "value": "테마"
+    },
+    {
+      "name": "settings_language",
+      "value": "언어"
+    },
+    {
+      "name": "settings_privacy",
+      "value": "데이터 및 개인정보"
+    },
+    {
+      "name": "privacy_title",
+      "value": "개인정보 및 데이터"
+    },
+    {
+      "name": "privacy_data_flow_title",
+      "value": "데이터 흐름"
+    },
+    {
+      "name": "privacy_policy_title",
+      "value": "개인정보 처리방침"
+    },
+    {
+      "name": "privacy_flow_out_title",
+      "value": "기기를 떠나는 데이터"
+    },
+    {
+      "name": "privacy_flow_out_body",
+      "value": "선택한 날씨 소스에 날씨를 조회하기 위해 대략적인 좌표(정밀 위치를 허용한 경우에만 정확한 좌표)만 HTTPS로 전송합니다. 기기 식별자, 계정, 광고 ID는 첨부하지 않습니다."
+    },
+    {
+      "name": "privacy_flow_local_title",
+      "value": "기기에 남는 데이터"
+    },
+    {
+      "name": "privacy_flow_local_body",
+      "value": "날씨 결과는 오프라인 확인을 위해 기기 내(RDB)에 캐시되고, 위치와 설정은 기기 내(RDB / Preferences)에 저장됩니다."
+    },
+    {
+      "name": "privacy_flow_sync_title",
+      "value": "기기 간 동기화(선택)"
+    },
+    {
+      "name": "privacy_flow_sync_body",
+      "value": "켜면 위치와 설정이 분산 KV를 통해 HarmonyOS 기기 간에 동기화됩니다. 설정에서 언제든지 끌 수 있습니다."
+    },
+    {
+      "name": "privacy_flow_push_title",
+      "value": "경보 푸시(선택)"
+    },
+    {
+      "name": "privacy_flow_push_body",
+      "value": "알림을 허용하면 기상 경보가 Push Kit과 데이터 제공자를 통해 전달될 수 있습니다. 시스템 설정에서 언제든지 끌 수 있습니다."
+    },
+    {
+      "name": "privacy_flow_no_track_title",
+      "value": "추적 및 광고 없음"
+    },
+    {
+      "name": "privacy_flow_no_track_body",
+      "value": "계정, 원격 분석, 광고, 제3자 분석 SDK가 없습니다. 위 날씨 조회 외에는 어떤 데이터도 전송하지 않습니다."
+    },
+    {
+      "name": "privacy_permissions_title",
+      "value": "사용하는 권한"
+    },
+    {
+      "name": "privacy_perm_internet_title",
+      "value": "인터넷(INTERNET)"
+    },
+    {
+      "name": "privacy_perm_internet_body",
+      "value": "필수 — 선택한 날씨 소스에서 데이터를 가져오는 데 사용합니다."
+    },
+    {
+      "name": "privacy_perm_location_title",
+      "value": "위치(LOCATION, 대략적 위치 우선)"
+    },
+    {
+      "name": "privacy_perm_location_body",
+      "value": "선택 — “현재 위치 사용”을 누를 때만 요청하며 대략적 위치를 우선합니다. 도시 단위 날씨에 정밀 위치는 필요하지 않습니다."
+    },
+    {
+      "name": "privacy_perm_notification_title",
+      "value": "알림"
+    },
+    {
+      "name": "privacy_perm_notification_body",
+      "value": "선택 — 일일 요약과 경보 알림에 사용하며, 실행 시 권한을 요청합니다. 거부해도 알림 기능만 꺼집니다."
+    },
+    {
+      "name": "privacy_third_party_title",
+      "value": "제3자 데이터 소스"
+    },
+    {
+      "name": "privacy_third_openmeteo_title",
+      "value": "Open-Meteo(기본)"
+    },
+    {
+      "name": "privacy_third_openmeteo_body",
+      "value": "키가 필요 없는 글로벌 소스로, 조회 좌표만 받으며 계정이 필요 없습니다."
+    },
+    {
+      "name": "privacy_third_qweather_title",
+      "value": "QWeather(선택)"
+    },
+    {
+      "name": "privacy_third_qweather_body",
+      "value": "API 키가 필요하며 키는 암호화되어 이 기기에만 저장됩니다. 기본은 꺼짐이며 설정에서 직접 켜고 언제든지 기본 소스로 돌아갈 수 있습니다."
+    },
+    {
+      "name": "privacy_policy_collect_title",
+      "value": "수집 항목"
+    },
+    {
+      "name": "privacy_policy_collect_body",
+      "value": "날씨를 보여주는 데 필요한 최소한만 수집합니다: 허용 시 대략적 위치, 추가한 위치, 환경설정."
+    },
+    {
+      "name": "privacy_policy_storage_title",
+      "value": "저장 및 삭제"
+    },
+    {
+      "name": "privacy_policy_storage_body",
+      "value": "데이터는 기기에만 남습니다. “위치” 페이지에서 위치 삭제와 캐시 삭제가 언제든 가능하며, 앱을 삭제하면 모두 지워집니다."
+    },
+    {
+      "name": "privacy_policy_rights_title",
+      "value": "이용자의 권리"
+    },
+    {
+      "name": "privacy_policy_rights_body",
+      "value": "데이터의 확인, 백업, 삭제가 언제든 가능합니다. 선택 권한을 거부해도 해당 기능만 꺼지고 앱은 계속 사용할 수 있습니다."
+    },
+    {
+      "name": "privacy_policy_minors_title",
+      "value": "미성년자"
+    },
+    {
+      "name": "privacy_policy_minors_body",
+      "value": "미성년자의 개인정보를 고의로 수집하지 않습니다."
+    },
+    {
+      "name": "privacy_policy_cross_border_title",
+      "value": "국경 간 이용"
+    },
+    {
+      "name": "privacy_policy_cross_border_body",
+      "value": "추가한 도시가 해외에 있을 수 있으며 기본 소스는 전 세계를 지원합니다. 머무는 지역의 법규도 지켜 주세요."
+    },
+    {
+      "name": "privacy_policy_contact_title",
+      "value": "문의"
+    },
+    {
+      "name": "privacy_policy_contact_body",
+      "value": "프라이버시 관련 문의는 앱스토어 페이지에 남겨 주세요. 공식 연락처는 출시 전에 제공됩니다."
+    },
+    {
+      "name": "privacy_meta_note",
+      "value": "프라이버시 고지 v1.0 · 2026-10 갱신 · 앱에 내장되어 오프라인으로 볼 수 있으며, 출시 전 법률 검토를 거칩니다."
+    },
+    {
+      "name": "settings_theme_auto",
+      "value": "자동"
+    },
+    {
+      "name": "settings_theme_light",
+      "value": "라이트"
+    },
+    {
+      "name": "settings_theme_dark",
+      "value": "다크"
+    },
+    {
+      "name": "settings_language_system",
+      "value": "시스템"
+    },
+    {
+      "name": "unit_celsius",
+      "value": "°C"
+    },
+    {
+      "name": "unit_fahrenheit",
+      "value": "°F"
+    },
+    {
+      "name": "location_search",
+      "value": "도시 검색"
+    },
+    {
+      "name": "no_data",
+      "value": "데이터 없음"
+    },
+    {
+      "name": "no_alerts",
+      "value": "활성 경보 없음"
+    },
+    {
+      "name": "updated_at",
+      "value": "업데이트"
+    },
+    {
+      "name": "current_location",
+      "value": "현재 위치"
+    },
+    {
+      "name": "label_hourly",
+      "value": "시간별"
+    },
+    {
+      "name": "label_daily",
+      "value": "일별"
+    },
+    {
+      "name": "label_details",
+      "value": "상세"
+    },
+    {
+      "name": "label_humidity",
+      "value": "습도"
+    },
+    {
+      "name": "label_wind",
+      "value": "풍속"
+    },
+    {
+      "name": "label_pressure",
+      "value": "기압"
+    },
+    {
+      "name": "label_uv",
+      "value": "자외선"
+    },
+    {
+      "name": "label_visibility",
+      "value": "가시거리"
+    },
+    {
+      "name": "label_cloud",
+      "value": "구름량"
+    },
+    {
+      "name": "label_aqi",
+      "value": "AQI"
+    },
+    {
+      "name": "label_air_quality",
+      "value": "대기질"
+    },
+    {
+      "name": "msg_loading",
+      "value": "로딩 중..."
+    },
+    {
+      "name": "msg_offline",
+      "value": "오프라인"
+    },
+    {
+      "name": "action_locate",
+      "value": "현재 위치 사용"
+    },
+    {
+      "name": "action_search",
+      "value": "검색"
+    },
+    {
+      "name": "action_add",
+      "value": "추가"
+    },
+    {
+      "name": "action_delete",
+      "value": "삭제"
+    },
+    {
+      "name": "action_set_default",
+      "value": "기본으로 설정"
+    },
+    {
+      "name": "label_default",
+      "value": "기본"
+    },
+    {
+      "name": "settings_material",
+      "value": "몰입 광감"
+    },
+    {
+      "name": "material_auto",
+      "value": "자동"
+    },
+    {
+      "name": "material_exquisite",
+      "value": "정교"
+    },
+    {
+      "name": "material_gentle",
+      "value": "균형"
+    },
+    {
+      "name": "material_smooth",
+      "value": "가벼움"
+    }
+  ]
+}

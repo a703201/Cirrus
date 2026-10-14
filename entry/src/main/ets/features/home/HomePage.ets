@@ -51,6 +51,7 @@ export struct HomePage {
             })
             DetailsPage({
               current: appStore.weather.current,
+              airQuality: appStore.weather.airQuality,
               unit: appStore.settings.temperatureUnit
             })
           } else if (appStore.error.length > 0) {

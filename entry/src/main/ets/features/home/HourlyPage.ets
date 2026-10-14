@@ -13,13 +13,15 @@ export struct HourlyPage {
           Repeat<HourlyPoint>(this.weather?.hourly ?? [])
             .each((ri: RepeatItem<HourlyPoint>) => {
               Column({ space: 4 }) {
-                Text(DateTimeUtil.formatHour(ri.item.time)).fontSize(12).fontColor('#6B6B6B')
+                Text(DateTimeUtil.formatHour(ri.item.time)).fontSize(12).fontColor('#595959')
                 Text(`${UnitUtil.convertTemp(ri.item.temperature, this.unit)}°`).fontSize(16).fontWeight(FontWeight.Medium)
                 Text(`${ri.item.precipProb}%`).fontSize(12).fontColor('#3B82F6')
               }
               .padding(10)
               .backgroundColor('rgba(255,255,255,0.5)')
               .borderRadius(12)
+              .accessibilityGroup(true)
+              .accessibilityText(`${DateTimeUtil.formatHour(ri.item.time)} ${UnitUtil.convertTemp(ri.item.temperature, this.unit)}度 降水概率${ri.item.precipProb}%`)
             })
             .key((h: HourlyPoint) => h.time.toString())
         }

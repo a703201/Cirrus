@@ -1,4 +1,4 @@
-Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙME:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WmoCode.tsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¯hostModulesInfo¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0Ù.E:\Codes\Project\Transplant\weather-app\commonÃ‘ÔrD’²hostDependencyName®hostModuleName±../models/WmoCode¦commonÚ¼/**
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙME:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WmoCode.tsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¯hostModulesInfo¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0Ù.E:\Codes\Project\Transplant\weather-app\commonÃ‘ÔrD’²hostDependencyName®hostModuleName±../models/WmoCode¦commonÚ</**
  * WMO weather code â†’ icon key + localized description (7 languages).
  * Consolidated here for the scaffold (interfaceæ–‡æ¡£ Â§3.5). Each source maps its
  * own icon/condition ids into WMO codes; UI always reads from this single table.
@@ -48,6 +48,12 @@ const WMO_TABLE: WmoEntry[] = [
   { code: 99, iconKey: 'thunderstorm_hail_heavy', dayNight: false, en: 'Thunderstorm w/ heavy hail', zh: 'é›·é˜µé›¨ä¼´å¤§å†°é›¹', ja: 'å¼·ã„é›¹ã‚’ä¼´ã†é›·é›¨', ko: 'ê°•í•œ ìš°ë°• ë™ë°˜ ë‡Œìš°', fr: 'Orage avec grÃªle forte', es: 'Tormenta con granizo fuerte', de: 'Gewitter mit starkem Hagel' }
 ];
 
+/**
+ * å›¾æ ‡èµ„æºæ˜ å°„ï¼šè¿”å›çš„ keyï¼ˆå¦‚ `wx_clear_day`ã€`wx_rain_heavy_day`ï¼‰å³ä¸º
+ * `common/src/main/resources/base/media/` ä¸‹ SVG çš„æ–‡ä»¶åï¼ˆå»æ‰ .svgï¼‰ã€‚
+ * å›¾æ ‡å–è‡ª erikflowers/weather-iconsï¼ˆMITï¼Œè§ READMEï¼‰ï¼ŒæŒ‰ä¸Šè¡¨è¯­ä¹‰å¤åˆ¶é‡å‘½åï¼Œ
+ * UI ç›´æ¥ `Image($r('common.media.' + wmoIconKey(code, isDay)))` å¼•ç”¨ï¼Œæ— éœ€é¢å¤–æ˜ å°„è¡¨ã€‚
+ */
 export function wmoIconKey(code: number, isDay: boolean): string {
   const entry: WmoEntry | undefined = WMO_TABLE.find((e) => e.code === code);
   const base: string = entry ? entry.iconKey : 'overcast';

@@ -1,1 +1,360 @@
-{"string": [{"name": "app_name", "value": "卷云"}, {"name": "module_desc", "value": "卷云天气应用"}, {"name": "entry_desc", "value": "主能力"}, {"name": "form_desc", "value": "天气卡片"}, {"name": "perm_internet", "value": "用于从互联网获取天气数据"}, {"name": "perm_location", "value": "用于获取您当前位置的天气"}, {"name": "perm_bg", "value": "用于在后台刷新天气"}, {"name": "tab_home", "value": "天气"}, {"name": "tab_locations", "value": "位置"}, {"name": "tab_settings", "value": "设置"}, {"name": "tab_alerts", "value": "预警"}, {"name": "settings_source", "value": "数据源"}, {"name": "settings_unit", "value": "单位"}, {"name": "settings_theme", "value": "主题"}, {"name": "settings_language", "value": "语言"}, {"name": "settings_privacy", "value": "数据与隐私"}, {"name": "settings_theme_auto", "value": "自动"}, {"name": "settings_theme_light", "value": "浅色"}, {"name": "settings_theme_dark", "value": "深色"}, {"name": "settings_language_system", "value": "系统"}, {"name": "unit_celsius", "value": "°C"}, {"name": "unit_fahrenheit", "value": "°F"}, {"name": "location_search", "value": "搜索城市"}, {"name": "no_data", "value": "暂无数据"}, {"name": "no_alerts", "value": "暂无预警"}, {"name": "updated_at", "value": "更新于"}, {"name": "current_location", "value": "当前位置"}, {"name": "label_hourly", "value": "逐时"}, {"name": "label_daily", "value": "逐日"}, {"name": "label_details", "value": "详情"}, {"name": "label_humidity", "value": "湿度"}, {"name": "label_wind", "value": "风速"}, {"name": "label_pressure", "value": "气压"}, {"name": "label_uv", "value": "紫外线"}, {"name": "label_visibility", "value": "能见度"}, {"name": "label_cloud", "value": "云量"}, {"name": "msg_loading", "value": "加载中..."}, {"name": "msg_offline", "value": "离线"}, {"name": "action_locate", "value": "定位"}, {"name": "action_search", "value": "搜索"}, {"name": "action_add", "value": "添加"}, {"name": "action_delete", "value": "删除"}, {"name": "action_set_default", "value": "设为默认"}, {"name": "label_default", "value": "默认"}, {"name": "settings_material", "value": "沉浸光感"}, {"name": "material_auto", "value": "自动"}, {"name": "material_exquisite", "value": "精致"}, {"name": "material_gentle", "value": "均衡"}, {"name": "material_smooth", "value": "轻量"}]}
+{
+  "string": [
+    {
+      "name": "app_name",
+      "value": "卷云"
+    },
+    {
+      "name": "module_desc",
+      "value": "卷云天气应用"
+    },
+    {
+      "name": "entry_desc",
+      "value": "主能力"
+    },
+    {
+      "name": "form_desc",
+      "value": "天气卡片"
+    },
+    {
+      "name": "perm_internet",
+      "value": "用于从互联网获取天气数据"
+    },
+    {
+      "name": "perm_location",
+      "value": "用于获取您当前位置的天气"
+    },
+    {
+      "name": "perm_bg",
+      "value": "用于在后台刷新天气"
+    },
+    {
+      "name": "tab_home",
+      "value": "天气"
+    },
+    {
+      "name": "tab_locations",
+      "value": "位置"
+    },
+    {
+      "name": "tab_settings",
+      "value": "设置"
+    },
+    {
+      "name": "tab_alerts",
+      "value": "预警"
+    },
+    {
+      "name": "settings_source",
+      "value": "数据源"
+    },
+    {
+      "name": "settings_unit",
+      "value": "单位"
+    },
+    {
+      "name": "settings_theme",
+      "value": "主题"
+    },
+    {
+      "name": "settings_language",
+      "value": "语言"
+    },
+    {
+      "name": "settings_privacy",
+      "value": "数据与隐私"
+    },
+    {
+      "name": "privacy_title",
+      "value": "隐私与数据"
+    },
+    {
+      "name": "privacy_data_flow_title",
+      "value": "数据流向说明"
+    },
+    {
+      "name": "privacy_policy_title",
+      "value": "隐私政策"
+    },
+    {
+      "name": "privacy_flow_out_title",
+      "value": "离开设备的数据"
+    },
+    {
+      "name": "privacy_flow_out_body",
+      "value": "仅将粗略坐标（授权精确定位时为精确坐标）经 HTTPS 发送至你所选的天气源用于查询；不附加设备标识、账号或广告 ID。"
+    },
+    {
+      "name": "privacy_flow_local_title",
+      "value": "留存本机的数据"
+    },
+    {
+      "name": "privacy_flow_local_body",
+      "value": "天气结果缓存于本机数据库（RDB）供离线查看；位置与设置保存在本机（RDB / Preferences）。"
+    },
+    {
+      "name": "privacy_flow_sync_title",
+      "value": "跨设备同步（可选）"
+    },
+    {
+      "name": "privacy_flow_sync_body",
+      "value": "开启后，位置与设置通过分布式 KV 在你的鸿蒙设备间同步；可在设置中随时关闭。"
+    },
+    {
+      "name": "privacy_flow_push_title",
+      "value": "预警推送（可选）"
+    },
+    {
+      "name": "privacy_flow_push_body",
+      "value": "允许通知后，气象预警可经 Push Kit 及数据提供方送达；可在系统设置中随时关闭。"
+    },
+    {
+      "name": "privacy_flow_no_track_title",
+      "value": "无遥测与广告"
+    },
+    {
+      "name": "privacy_flow_no_track_body",
+      "value": "无账号、无遥测、无广告、无第三方分析 SDK；除上述天气查询外不上传任何数据。"
+    },
+    {
+      "name": "privacy_permissions_title",
+      "value": "权限使用"
+    },
+    {
+      "name": "privacy_perm_internet_title",
+      "value": "网络（INTERNET）"
+    },
+    {
+      "name": "privacy_perm_internet_body",
+      "value": "必需——用于从所选天气源获取天气数据。"
+    },
+    {
+      "name": "privacy_perm_location_title",
+      "value": "位置（LOCATION，粗略优先）"
+    },
+    {
+      "name": "privacy_perm_location_body",
+      "value": "可选——仅在你点击「使用当前位置」时按需申请，优先申请粗略位置，城市级天气无需精确定位。"
+    },
+    {
+      "name": "privacy_perm_notification_title",
+      "value": "通知"
+    },
+    {
+      "name": "privacy_perm_notification_body",
+      "value": "可选——用于每日摘要与预警提醒，运行时授权，拒绝后仅关闭提醒功能。"
+    },
+    {
+      "name": "privacy_third_party_title",
+      "value": "第三方数据源"
+    },
+    {
+      "name": "privacy_third_openmeteo_title",
+      "value": "Open-Meteo（默认）"
+    },
+    {
+      "name": "privacy_third_openmeteo_body",
+      "value": "免密钥的全球源，仅接收查询坐标，不要求账号。"
+    },
+    {
+      "name": "privacy_third_qweather_title",
+      "value": "和风天气（可选）"
+    },
+    {
+      "name": "privacy_third_qweather_body",
+      "value": "需 API Key，密钥仅以加密形式保存在本机；默认关闭，由你在设置中主动开启，可随时切回默认源。"
+    },
+    {
+      "name": "privacy_policy_collect_title",
+      "value": "收集范围"
+    },
+    {
+      "name": "privacy_policy_collect_body",
+      "value": "仅收集展示天气所需的最小数据：授权时的粗略位置、你添加的位置与你的偏好设置。"
+    },
+    {
+      "name": "privacy_policy_storage_title",
+      "value": "存储与删除"
+    },
+    {
+      "name": "privacy_policy_storage_body",
+      "value": "数据仅留存本机；可随时在「位置」页删除位置、清除缓存，卸载应用即清除全部数据。"
+    },
+    {
+      "name": "privacy_policy_rights_title",
+      "value": "你的权利"
+    },
+    {
+      "name": "privacy_policy_rights_body",
+      "value": "你可随时查阅、备份与删除自己的数据；拒绝可选权限仅停用对应功能，不影响使用。"
+    },
+    {
+      "name": "privacy_policy_minors_title",
+      "value": "未成年人"
+    },
+    {
+      "name": "privacy_policy_minors_body",
+      "value": "我们不会主动收集未成年人个人信息。"
+    },
+    {
+      "name": "privacy_policy_cross_border_title",
+      "value": "跨境使用"
+    },
+    {
+      "name": "privacy_policy_cross_border_body",
+      "value": "你添加的城市可能位于境外，默认源覆盖全球；请同时遵守所在地区法律法规。"
+    },
+    {
+      "name": "privacy_policy_contact_title",
+      "value": "联系方式"
+    },
+    {
+      "name": "privacy_policy_contact_body",
+      "value": "如对隐私有疑问，可通过应用商店页面留言反馈；正式联系方式将于发布前提供。"
+    },
+    {
+      "name": "privacy_meta_note",
+      "value": "隐私说明版本 1.0 · 更新于 2026-10 · 本页随应用内置、离线可读；正式发布前以法务终稿为准。"
+    },
+    {
+      "name": "settings_theme_auto",
+      "value": "自动"
+    },
+    {
+      "name": "settings_theme_light",
+      "value": "浅色"
+    },
+    {
+      "name": "settings_theme_dark",
+      "value": "深色"
+    },
+    {
+      "name": "settings_language_system",
+      "value": "系统"
+    },
+    {
+      "name": "unit_celsius",
+      "value": "°C"
+    },
+    {
+      "name": "unit_fahrenheit",
+      "value": "°F"
+    },
+    {
+      "name": "location_search",
+      "value": "搜索城市"
+    },
+    {
+      "name": "no_data",
+      "value": "暂无数据"
+    },
+    {
+      "name": "no_alerts",
+      "value": "暂无预警"
+    },
+    {
+      "name": "updated_at",
+      "value": "更新于"
+    },
+    {
+      "name": "current_location",
+      "value": "当前位置"
+    },
+    {
+      "name": "label_hourly",
+      "value": "逐时"
+    },
+    {
+      "name": "label_daily",
+      "value": "逐日"
+    },
+    {
+      "name": "label_details",
+      "value": "详情"
+    },
+    {
+      "name": "label_humidity",
+      "value": "湿度"
+    },
+    {
+      "name": "label_wind",
+      "value": "风速"
+    },
+    {
+      "name": "label_pressure",
+      "value": "气压"
+    },
+    {
+      "name": "label_uv",
+      "value": "紫外线"
+    },
+    {
+      "name": "label_visibility",
+      "value": "能见度"
+    },
+    {
+      "name": "label_cloud",
+      "value": "云量"
+    },
+    {
+      "name": "label_aqi",
+      "value": "AQI"
+    },
+    {
+      "name": "label_air_quality",
+      "value": "空气质量"
+    },
+    {
+      "name": "msg_loading",
+      "value": "加载中..."
+    },
+    {
+      "name": "msg_offline",
+      "value": "离线"
+    },
+    {
+      "name": "action_locate",
+      "value": "定位"
+    },
+    {
+      "name": "action_search",
+      "value": "搜索"
+    },
+    {
+      "name": "action_add",
+      "value": "添加"
+    },
+    {
+      "name": "action_delete",
+      "value": "删除"
+    },
+    {
+      "name": "action_set_default",
+      "value": "设为默认"
+    },
+    {
+      "name": "label_default",
+      "value": "默认"
+    },
+    {
+      "name": "settings_material",
+      "value": "沉浸光感"
+    },
+    {
+      "name": "material_auto",
+      "value": "自动"
+    },
+    {
+      "name": "material_exquisite",
+      "value": "精致"
+    },
+    {
+      "name": "material_gentle",
+      "value": "均衡"
+    },
+    {
+      "name": "material_smooth",
+      "value": "轻量"
+    }
+  ]
+}

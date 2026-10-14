@@ -5,6 +5,7 @@ import {
 } from 'common';
 import { WeatherRepository, settingsStore, rdbStore, locationProvider, distributedStore } from 'data';
 import { themeModel } from './ThemeModel';
+import { NotificationUtil } from '../notify/NotificationUtil';
 
 const LOCATION_PERMISSIONS: Permissions[] =
   ['ohos.permission.APPROXIMATELY_LOCATION', 'ohos.permission.LOCATION'];
@@ -51,6 +52,7 @@ export class AppStore {
     this.settings = await settingsStore.load();
     themeModel.themeMode = this.settings.theme;
     applyThemeMode(this.settings.theme, this.context);
+    await NotificationUtil.ensureEnabled(context);
     await this.reloadLocations();
     if (this.locations.length === 0) {
       const remote: LocationInfo[] = await distributedStore.getLocations();
@@ -109,6 +111,8 @@ export class AppStore {
     this.error = '';
     try {
       this.weather = await this.repo.getWeather(loc, this.resolveLang(), this.settings.sourceId);
+      await NotificationUtil.publishAlerts(this.weather);
+      await NotificationUtil.publishDailySummary(this.weather);
     } catch (e) {
       this.error = `${e}`;
       Log.e(`refresh failed: ${this.error}`);

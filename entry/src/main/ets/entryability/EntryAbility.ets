@@ -4,6 +4,7 @@ import { BusinessError } from '@kit.BasicServicesKit';
 import { Log } from 'common';
 import { appStore } from '../store/AppStore';
 import { themeModel } from '../store/ThemeModel';
+import { PushService } from '../push/PushService';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
@@ -12,6 +13,7 @@ export default class EntryAbility extends UIAbility {
     appStore.init(this.context).catch((e: Object) => {
       Log.e(`appStore.init failed: ${e}`);
     });
+    PushService.init();
   }
 
   onDestroy(): void {

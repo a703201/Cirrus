@@ -90,39 +90,39 @@
     "OPTIMIZATION_STRATEGY": "memory",
     "TASK_TIME": {
       "923fe53966c6cd9343e11af776cd4b05be315ea4b200b02e4d5dfb0f929b73bf": {
-        "init": 471300,
-        "CreateModuleInfo": 850100,
-        "PreCheckSyscap": 508500,
-        "GeneratePkgContextInfo": 13306500,
-        "ProcessIntegratedHsp": 2067600,
-        "SyscapTransform": 4759400,
-        "ProcessStartupConfig": 5456100,
-        "ConfigureCmake": 280400,
-        "BuildNativeWithCmake": 2524900,
-        "BuildJS": 6156900,
-        "BuildNativeWithNinja": 1055200,
-        "ProcessCompiledResources": 1581300,
-        "PackingCheck": 12394900,
-        "CollectDebugSymbol": 3751800,
-        "assembleHap": 782800
+        "init": 2464700,
+        "CreateModuleInfo": 7173900,
+        "PreCheckSyscap": 3802000,
+        "GeneratePkgContextInfo": 37083500,
+        "ProcessIntegratedHsp": 1992400,
+        "SyscapTransform": 7106200,
+        "ProcessStartupConfig": 2512400,
+        "ConfigureCmake": 56645700,
+        "BuildNativeWithCmake": 752300,
+        "BuildJS": 55813000,
+        "BuildNativeWithNinja": 1239000,
+        "ProcessCompiledResources": 32842600,
+        "PackingCheck": 160134100,
+        "CollectDebugSymbol": 2431200,
+        "assembleHap": 379000
       },
       "92a5dc04bd6f9fb8f29f8066fed8a5c1e81bc59ad48a11283b63736867e4f2a8": {
-        "init": 338500,
-        "ConfigureCmake": 433500,
-        "BuildNativeWithCmake": 821500,
-        "BuildNativeWithNinja": 1564300
+        "init": 3171900,
+        "ConfigureCmake": 659900,
+        "BuildNativeWithCmake": 1128000,
+        "BuildNativeWithNinja": 1267600
       },
       "3a6eb0790f39ac87c94f3856b2dd2c5d110e6811602261a9a923d3bb23adc8b7": {
-        "init": 280700,
-        "ConfigureCmake": 565000,
-        "BuildNativeWithCmake": 584100,
-        "BuildNativeWithNinja": 3508100
+        "init": 8157200,
+        "ConfigureCmake": 618400,
+        "BuildNativeWithCmake": 775000,
+        "BuildNativeWithNinja": 1211500
       },
       "baed831623943be39ebf0ef44ae1e9c8fc3eeab51b5f89c113ca410d76a34c1d": {
-        "init": 474800
+        "init": 3087400
       },
       "APP": {
-        "init": 302100
+        "init": 1690000
       }
     },
     "CUSTOM_TASK_TIME": {},
@@ -135,8 +135,8 @@
       "ENABLE_CPP_FUNCTION_LEVEL_INCREMENTAL": false
     },
     "CONFIG_PROPERTIES": {},
-    "PID": 29792,
-    "TOTAL_TIME": 1204870700,
-    "BUILD_ID": "202610132247064440"
+    "PID": 4092,
+    "TOTAL_TIME": 4173767300,
+    "BUILD_ID": "202610142239507610"
   }
 }

@@ -172,12 +172,14 @@ export class HomePage extends ViewV2 {
                             if (isInitialRender) {
                                 let componentCall = new DetailsPage(this, {
                                     current: appStore.weather.current,
+                                    airQuality: appStore.weather.airQuality,
                                     unit: appStore.settings.temperatureUnit
                                 }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 52, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
                                         current: appStore.weather.current,
+                                        airQuality: appStore.weather.airQuality,
                                         unit: appStore.settings.temperatureUnit
                                     };
                                 };
@@ -186,6 +188,7 @@ export class HomePage extends ViewV2 {
                             else {
                                 this.updateStateVarsOfChildByElmtId(elmtId, {
                                     current: appStore.weather.current,
+                                    airQuality: appStore.weather.airQuality,
                                     unit: appStore.settings.temperatureUnit
                                 });
                             }

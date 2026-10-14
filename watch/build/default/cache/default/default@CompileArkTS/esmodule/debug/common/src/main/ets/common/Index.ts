@@ -9,3 +9,4 @@ export { WeatherCard } from "@bundle:com.Lumio.Cirrus/watch@common/ets/ui/Weathe
 export { MaterialUtil } from "@bundle:com.Lumio.Cirrus/watch@common/ets/ui/MaterialUtil";
 export { AnimatedNumber } from "@bundle:com.Lumio.Cirrus/watch@common/ets/ui/AnimatedNumber";
 export { GradientText } from "@bundle:com.Lumio.Cirrus/watch@common/ets/ui/GradientText";
+export { applyThemeMode } from "@bundle:com.Lumio.Cirrus/watch@common/ets/ui/ThemeUtil";

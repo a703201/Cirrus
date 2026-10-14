@@ -3,6 +3,7 @@ export * from '../sources/WeatherSource';
 export * from '../sources/registry';
 export * from '../sources/OpenMeteoSource';
 export * from '../sources/QWeatherSource';
+export * from '../sources/QWeatherConfig';
 export * from '../sources/QWeatherCodes';
 export * from '../repository/WeatherRepository';
 export * from '../local/CacheStore';

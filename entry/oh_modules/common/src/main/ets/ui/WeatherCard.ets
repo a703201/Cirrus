@@ -72,5 +72,7 @@ export struct WeatherCard {
     .backgroundColor('rgba(255,255,255,0.35)')
     .backgroundBlurStyle(MaterialUtil.cardBlurStyle(this.materialTier))
     .borderRadius(24)
+    .accessibilityGroup(true)
+    .accessibilityText(`${this.tempText()} ${this.condition}`)
   }
 }

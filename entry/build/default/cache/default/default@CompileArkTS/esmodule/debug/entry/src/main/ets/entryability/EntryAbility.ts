@@ -8,6 +8,7 @@ import type { BusinessError } from "@ohos:base";
 import { Log } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { appStore } from "@bundle:com.Lumio.Cirrus/entry/ets/store/AppStore";
 import { themeModel } from "@bundle:com.Lumio.Cirrus/entry/ets/store/ThemeModel";
+import { PushService } from "@bundle:com.Lumio.Cirrus/entry/ets/push/PushService";
 export default class EntryAbility extends UIAbility {
     onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
         Log.i('EntryAbility.onCreate');
@@ -15,6 +16,7 @@ export default class EntryAbility extends UIAbility {
         appStore.init(this.context).catch((e: Object) => {
             Log.e(`appStore.init failed: ${e}`);
         });
+        PushService.init();
     }
     onDestroy(): void {
         Log.i('EntryAbility.onDestroy');

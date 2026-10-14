@@ -1,1 +1,360 @@
-{"string": [{"name": "app_name", "value": "Zirrus"}, {"name": "module_desc", "value": "Zirrus Wetter-App"}, {"name": "entry_desc", "value": "Hauptfunktion"}, {"name": "form_desc", "value": "Wetter-Widget"}, {"name": "perm_internet", "value": "Zum Abrufen von Wetterdaten aus dem Internet"}, {"name": "perm_location", "value": "Zum Abrufen des Wetters an Ihrem Standort"}, {"name": "perm_bg", "value": "Zum Aktualisieren des Wetters im Hintergrund"}, {"name": "tab_home", "value": "Wetter"}, {"name": "tab_locations", "value": "Orte"}, {"name": "tab_settings", "value": "Einstellungen"}, {"name": "tab_alerts", "value": "Warnungen"}, {"name": "settings_source", "value": "Datenquelle"}, {"name": "settings_unit", "value": "Einheiten"}, {"name": "settings_theme", "value": "Design"}, {"name": "settings_language", "value": "Sprache"}, {"name": "settings_privacy", "value": "Daten und Datenschutz"}, {"name": "settings_theme_auto", "value": "Auto"}, {"name": "settings_theme_light", "value": "Hell"}, {"name": "settings_theme_dark", "value": "Dunkel"}, {"name": "settings_language_system", "value": "System"}, {"name": "unit_celsius", "value": "°C"}, {"name": "unit_fahrenheit", "value": "°F"}, {"name": "location_search", "value": "Stadt suchen"}, {"name": "no_data", "value": "Keine Daten"}, {"name": "no_alerts", "value": "Keine aktiven Warnungen"}, {"name": "updated_at", "value": "Aktualisiert um"}, {"name": "current_location", "value": "Aktueller Standort"}, {"name": "label_hourly", "value": "Stündlich"}, {"name": "label_daily", "value": "Täglich"}, {"name": "label_details", "value": "Details"}, {"name": "label_humidity", "value": "Luftfeuchtigkeit"}, {"name": "label_wind", "value": "Wind"}, {"name": "label_pressure", "value": "Luftdruck"}, {"name": "label_uv", "value": "UV"}, {"name": "label_visibility", "value": "Sichtweite"}, {"name": "label_cloud", "value": "Bewölkung"}, {"name": "msg_loading", "value": "Laden..."}, {"name": "msg_offline", "value": "Offline"}, {"name": "action_locate", "value": "Standort verwenden"}, {"name": "action_search", "value": "Suchen"}, {"name": "action_add", "value": "Hinzufügen"}, {"name": "action_delete", "value": "Löschen"}, {"name": "action_set_default", "value": "Als Standard festlegen"}, {"name": "label_default", "value": "Standard"}, {"name": "settings_material", "value": "Immersives Licht"}, {"name": "material_auto", "value": "Auto"}, {"name": "material_exquisite", "value": "Reich"}, {"name": "material_gentle", "value": "Ausgeglichen"}, {"name": "material_smooth", "value": "Leicht"}]}
+{
+  "string": [
+    {
+      "name": "app_name",
+      "value": "Zirrus"
+    },
+    {
+      "name": "module_desc",
+      "value": "Zirrus Wetter-App"
+    },
+    {
+      "name": "entry_desc",
+      "value": "Hauptfunktion"
+    },
+    {
+      "name": "form_desc",
+      "value": "Wetter-Widget"
+    },
+    {
+      "name": "perm_internet",
+      "value": "Zum Abrufen von Wetterdaten aus dem Internet"
+    },
+    {
+      "name": "perm_location",
+      "value": "Zum Abrufen des Wetters an Ihrem Standort"
+    },
+    {
+      "name": "perm_bg",
+      "value": "Zum Aktualisieren des Wetters im Hintergrund"
+    },
+    {
+      "name": "tab_home",
+      "value": "Wetter"
+    },
+    {
+      "name": "tab_locations",
+      "value": "Orte"
+    },
+    {
+      "name": "tab_settings",
+      "value": "Einstellungen"
+    },
+    {
+      "name": "tab_alerts",
+      "value": "Warnungen"
+    },
+    {
+      "name": "settings_source",
+      "value": "Datenquelle"
+    },
+    {
+      "name": "settings_unit",
+      "value": "Einheiten"
+    },
+    {
+      "name": "settings_theme",
+      "value": "Design"
+    },
+    {
+      "name": "settings_language",
+      "value": "Sprache"
+    },
+    {
+      "name": "settings_privacy",
+      "value": "Daten und Datenschutz"
+    },
+    {
+      "name": "privacy_title",
+      "value": "Datenschutz & Daten"
+    },
+    {
+      "name": "privacy_data_flow_title",
+      "value": "Datenfluss"
+    },
+    {
+      "name": "privacy_policy_title",
+      "value": "Datenschutzerklärung"
+    },
+    {
+      "name": "privacy_flow_out_title",
+      "value": "Was dein Gerät verlässt"
+    },
+    {
+      "name": "privacy_flow_out_body",
+      "value": "Nur ungefähre Koordinaten (genauere nur mit deiner Erlaubnis) werden per HTTPS an die gewählte Wetterquelle gesendet. Keine Geräte-, Konto- oder Werbe-ID wird angehängt."
+    },
+    {
+      "name": "privacy_flow_local_title",
+      "value": "Was auf dem Gerät bleibt"
+    },
+    {
+      "name": "privacy_flow_local_body",
+      "value": "Wetterergebnisse werden lokal (RDB) für die Offline-Ansicht zwischengespeichert; Orte und Einstellungen bleiben auf dem Gerät (RDB / Preferences)."
+    },
+    {
+      "name": "privacy_flow_sync_title",
+      "value": "Geräteübergreifende Synchronisierung (optional)"
+    },
+    {
+      "name": "privacy_flow_sync_body",
+      "value": "Wenn aktiviert, synchronisieren sich Orte und Einstellungen über Distributed KVStore zwischen deinen HarmonyOS-Geräten; jederzeit in den Einstellungen abschaltbar."
+    },
+    {
+      "name": "privacy_flow_push_title",
+      "value": "Warn-Push (optional)"
+    },
+    {
+      "name": "privacy_flow_push_body",
+      "value": "Wenn du Benachrichtigungen erlaubst, können Wetterwarnungen über Push Kit und den Datenanbieter zugestellt werden; jederzeit in den Systemeinstellungen abschaltbar."
+    },
+    {
+      "name": "privacy_flow_no_track_title",
+      "value": "Kein Tracking, keine Werbung"
+    },
+    {
+      "name": "privacy_flow_no_track_body",
+      "value": "Kein Konto, keine Telemetrie, keine Werbung, kein Drittanbieter-Analyse-SDK. Über die genannten Wetterabfragen hinaus wird nichts hochgeladen."
+    },
+    {
+      "name": "privacy_permissions_title",
+      "value": "Verwendete Berechtigungen"
+    },
+    {
+      "name": "privacy_perm_internet_title",
+      "value": "Internet (INTERNET)"
+    },
+    {
+      "name": "privacy_perm_internet_body",
+      "value": "Erforderlich — holt Wetterdaten von der gewählten Quelle."
+    },
+    {
+      "name": "privacy_perm_location_title",
+      "value": "Standort (LOCATION, ungefähr bevorzugt)"
+    },
+    {
+      "name": "privacy_perm_location_body",
+      "value": "Optional — wird nur bei „Aktuellen Standort verwenden“ angefragt; ungefährer Standort genügt für Wetter auf Stadtebene."
+    },
+    {
+      "name": "privacy_perm_notification_title",
+      "value": "Benachrichtigungen"
+    },
+    {
+      "name": "privacy_perm_notification_body",
+      "value": "Optional — für Tageszusammenfassung und Warnungen; Freigabe zur Laufzeit, Ablegen deaktiviert nur die Erinnerungen."
+    },
+    {
+      "name": "privacy_third_party_title",
+      "value": "Drittanbieter-Datenquellen"
+    },
+    {
+      "name": "privacy_third_openmeteo_title",
+      "value": "Open-Meteo (Standard)"
+    },
+    {
+      "name": "privacy_third_openmeteo_body",
+      "value": "Schlüsselfreie globale Quelle; erhält nur die Abfragekoordinaten und benötigt kein Konto."
+    },
+    {
+      "name": "privacy_third_qweather_title",
+      "value": "QWeather (optional)"
+    },
+    {
+      "name": "privacy_third_qweather_body",
+      "value": "Erfordert einen API-Schlüssel, der verschlüsselt nur auf diesem Gerät gespeichert wird. Standardmäßig aus; in den Einstellungen selbst aktivierbar, jederzeit umschaltbar."
+    },
+    {
+      "name": "privacy_policy_collect_title",
+      "value": "Was wir sammeln"
+    },
+    {
+      "name": "privacy_policy_collect_body",
+      "value": "Nur das Minimum für die Wetteranzeige: ungefährer Standort (wenn erlaubt), von dir hinzugefügte Orte und deine Einstellungen."
+    },
+    {
+      "name": "privacy_policy_storage_title",
+      "value": "Speicherung und Löschung"
+    },
+    {
+      "name": "privacy_policy_storage_body",
+      "value": "Daten bleiben auf deinem Gerät. Orte löschen oder Cache leeren jederzeit unter „Orte“; die Deinstallation entfernt alles."
+    },
+    {
+      "name": "privacy_policy_rights_title",
+      "value": "Deine Rechte"
+    },
+    {
+      "name": "privacy_policy_rights_body",
+      "value": "Du kannst deine Daten jederzeit einsehen, sichern und löschen; das Ablehnen optionaler Berechtigungen deaktiviert nur die jeweilige Funktion."
+    },
+    {
+      "name": "privacy_policy_minors_title",
+      "value": "Minderjährige"
+    },
+    {
+      "name": "privacy_policy_minors_body",
+      "value": "Wir sammeln nicht wissentlich persönliche Daten von Minderjährigen."
+    },
+    {
+      "name": "privacy_policy_cross_border_title",
+      "value": "Grenzüberschreitende Nutzung"
+    },
+    {
+      "name": "privacy_policy_cross_border_body",
+      "value": "Hinzugefügte Städte können im Ausland liegen; die Standardquelle deckt die ganze Welt ab. Beachte auch die lokalen Datenschutzgesetze."
+    },
+    {
+      "name": "privacy_policy_contact_title",
+      "value": "Kontakt"
+    },
+    {
+      "name": "privacy_policy_contact_body",
+      "value": "Fragen zum Datenschutz? Hinterlasse eine Nachricht auf der Store-Seite; offizielle Kontaktdaten folgen vor der Veröffentlichung."
+    },
+    {
+      "name": "privacy_meta_note",
+      "value": "Datenschutzhinweis v1.0 · Aktualisiert 2026-10 · In der App integriert und offline lesbar; vor Veröffentlichung rechtlich geprüft."
+    },
+    {
+      "name": "settings_theme_auto",
+      "value": "Auto"
+    },
+    {
+      "name": "settings_theme_light",
+      "value": "Hell"
+    },
+    {
+      "name": "settings_theme_dark",
+      "value": "Dunkel"
+    },
+    {
+      "name": "settings_language_system",
+      "value": "System"
+    },
+    {
+      "name": "unit_celsius",
+      "value": "°C"
+    },
+    {
+      "name": "unit_fahrenheit",
+      "value": "°F"
+    },
+    {
+      "name": "location_search",
+      "value": "Stadt suchen"
+    },
+    {
+      "name": "no_data",
+      "value": "Keine Daten"
+    },
+    {
+      "name": "no_alerts",
+      "value": "Keine aktiven Warnungen"
+    },
+    {
+      "name": "updated_at",
+      "value": "Aktualisiert um"
+    },
+    {
+      "name": "current_location",
+      "value": "Aktueller Standort"
+    },
+    {
+      "name": "label_hourly",
+      "value": "Stündlich"
+    },
+    {
+      "name": "label_daily",
+      "value": "Täglich"
+    },
+    {
+      "name": "label_details",
+      "value": "Details"
+    },
+    {
+      "name": "label_humidity",
+      "value": "Luftfeuchtigkeit"
+    },
+    {
+      "name": "label_wind",
+      "value": "Wind"
+    },
+    {
+      "name": "label_pressure",
+      "value": "Luftdruck"
+    },
+    {
+      "name": "label_uv",
+      "value": "UV"
+    },
+    {
+      "name": "label_visibility",
+      "value": "Sichtweite"
+    },
+    {
+      "name": "label_cloud",
+      "value": "Bewölkung"
+    },
+    {
+      "name": "label_aqi",
+      "value": "AQI"
+    },
+    {
+      "name": "label_air_quality",
+      "value": "Luftqualität"
+    },
+    {
+      "name": "msg_loading",
+      "value": "Laden..."
+    },
+    {
+      "name": "msg_offline",
+      "value": "Offline"
+    },
+    {
+      "name": "action_locate",
+      "value": "Standort verwenden"
+    },
+    {
+      "name": "action_search",
+      "value": "Suchen"
+    },
+    {
+      "name": "action_add",
+      "value": "Hinzufügen"
+    },
+    {
+      "name": "action_delete",
+      "value": "Löschen"
+    },
+    {
+      "name": "action_set_default",
+      "value": "Als Standard festlegen"
+    },
+    {
+      "name": "label_default",
+      "value": "Standard"
+    },
+    {
+      "name": "settings_material",
+      "value": "Immersives Licht"
+    },
+    {
+      "name": "material_auto",
+      "value": "Auto"
+    },
+    {
+      "name": "material_exquisite",
+      "value": "Reich"
+    },
+    {
+      "name": "material_gentle",
+      "value": "Ausgeglichen"
+    },
+    {
+      "name": "material_smooth",
+      "value": "Leicht"
+    }
+  ]
+}
