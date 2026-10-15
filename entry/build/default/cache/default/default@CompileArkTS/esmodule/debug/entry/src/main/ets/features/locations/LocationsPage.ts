@@ -19,11 +19,16 @@ export class LocationsPage extends ViewV2 {
     /** true 时作为大屏侧栏（紧凑、无大标题）。 */
     @Param
     readonly compact: boolean;
+    private displayName(loc: LocationInfo): ResourceStr {
+        return loc.name.length > 0 ? loc.name : { "id": 50331655, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
+    }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 10 });
-            Column.padding(12);
+            Column.create({ space: 12 });
+            Column.padding({ top: this.compact ? 12 : 44, left: 14, right: 14, bottom: 92 });
             Column.width('100%');
+            Column.height('100%');
+            Column.alignItems(HorizontalAlign.Start);
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
@@ -51,6 +56,9 @@ export class LocationsPage extends ViewV2 {
             TextInput.onChange((v: string) => {
                 this.query = v;
             });
+            TextInput.onSubmit(() => {
+                appStore.searchLocations(this.query);
+            });
             TextInput.layoutWeight(1);
         }, TextInput);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -71,12 +79,30 @@ export class LocationsPage extends ViewV2 {
         Button.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
+            if (appStore.error.length > 0) {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create(appStore.error);
+                        Text.fontSize(12);
+                        Text.fontColor('#EF4444');
+                    }, Text);
+                    Text.pop();
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                });
+            }
+        }, If);
+        If.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
             if (appStore.searching) {
                 this.ifElseBranchUpdateFunction(0, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         Text.create({ "id": 50331674, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
                         Text.fontSize(14);
-                        Text.fontColor('#6B6B6B');
+                        Text.fontColor('#595959');
                     }, Text);
                     Text.pop();
                 });
@@ -92,14 +118,10 @@ export class LocationsPage extends ViewV2 {
             if (appStore.searchResults.length > 0) {
                 this.ifElseBranchUpdateFunction(0, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        Text.create({ "id": 50331653, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-                        Text.fontSize(14);
-                        Text.fontWeight(FontWeight.Medium);
-                        Text.fontColor('#4A4A4A');
-                    }, Text);
-                    Text.pop();
-                    this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        List.create();
+                        List.create({ space: 8 });
+                        List.width('100%');
+                        List.constraintSize({ maxHeight: 220 });
+                        List.scrollBar(BarState.Off);
                     }, List);
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         Repeat<LocationInfo>(appStore.searchResults, this).each((ri: RepeatItem<LocationInfo>) => {
@@ -111,11 +133,15 @@ export class LocationsPage extends ViewV2 {
                                     this.observeComponentCreation2(itemCreation2, ListItem);
                                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                                         Row.create();
-                                        Row.padding(12);
+                                        Row.width('100%');
+                                        Row.padding(14);
+                                        Row.backgroundColor('rgba(255,255,255,0.6)');
+                                        Row.borderRadius(14);
                                     }, Row);
                                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                                         Text.create(ri.item.name);
-                                        Text.fontSize(16);
+                                        Text.fontSize(15);
+                                        Text.fontColor('#1A1A1A');
                                         Text.layoutWeight(1);
                                     }, Text);
                                     Text.pop();
@@ -133,7 +159,7 @@ export class LocationsPage extends ViewV2 {
                                 observedDeepRender();
                             }
                         })
-                            .key((loc: LocationInfo) => loc.id).render(isInitialRender);
+                            .key((l: LocationInfo) => l.id).render(isInitialRender);
                     }, Repeat);
                     List.pop();
                 });
@@ -145,12 +171,10 @@ export class LocationsPage extends ViewV2 {
         }, If);
         If.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Divider.create();
-            Divider.margin({ top: 4, bottom: 4 });
-        }, Divider);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            List.create();
+            List.create({ space: 8 });
             List.layoutWeight(1);
+            List.width('100%');
+            List.scrollBar(BarState.Off);
         }, List);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Repeat<LocationInfo>(appStore.locations, this).each((ri: RepeatItem<LocationInfo>) => {
@@ -162,19 +186,27 @@ export class LocationsPage extends ViewV2 {
                         this.observeComponentCreation2(itemCreation2, ListItem);
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             Row.create();
-                            Row.padding(12);
+                            Row.width('100%');
+                            Row.padding(14);
+                            Row.backgroundColor(ri.item.id === appStore.currentId ? 'rgba(59,130,246,0.14)' : 'rgba(255,255,255,0.6)');
+                            Row.borderRadius(14);
+                            Row.borderWidth(ri.item.id === appStore.currentId ? 1 : 0);
+                            Row.borderColor('#3B82F6');
+                            Row.accessibilityGroup(true);
                             Row.onClick(() => {
                                 appStore.selectLocation(ri.item.id);
                             });
                         }, Row);
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
-                            Column.create();
+                            Column.create({ space: 2 });
                             Column.layoutWeight(1);
+                            Column.alignItems(HorizontalAlign.Start);
                         }, Column);
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
-                            Text.create(ri.item.name);
+                            Text.create(this.displayName(ri.item));
                             Text.fontSize(16);
                             Text.fontWeight(FontWeight.Medium);
+                            Text.fontColor('#1A1A1A');
                         }, Text);
                         Text.pop();
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -185,7 +217,6 @@ export class LocationsPage extends ViewV2 {
                                         Text.create({ "id": 50331660, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
                                         Text.fontSize(12);
                                         Text.fontColor('#3B82F6');
-                                        Text.margin({ top: 2 });
                                     }, Text);
                                     Text.pop();
                                 });
@@ -200,10 +231,10 @@ export class LocationsPage extends ViewV2 {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             Button.createWithLabel({ "id": 50331654, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
                             Button.fontSize(12);
+                            Button.visibility(ri.item.id === appStore.currentId ? Visibility.None : Visibility.Visible);
                             Button.onClick(() => {
                                 appStore.setDefaultLocation(ri.item.id);
                             });
-                            Button.visibility(ri.item.id === appStore.currentId ? Visibility.None : Visibility.Visible);
                         }, Button);
                         Button.pop();
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -221,7 +252,7 @@ export class LocationsPage extends ViewV2 {
                     observedDeepRender();
                 }
             })
-                .key((loc: LocationInfo) => loc.id).render(isInitialRender);
+                .key((l: LocationInfo) => l.id).render(isInitialRender);
         }, Repeat);
         List.pop();
         Column.pop();

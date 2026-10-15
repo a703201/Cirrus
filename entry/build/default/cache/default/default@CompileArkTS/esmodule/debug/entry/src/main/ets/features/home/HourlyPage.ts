@@ -20,14 +20,16 @@ export class HourlyPage extends ViewV2 {
     readonly unit: TemperatureUnit;
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 8 });
+            Column.create({ space: 10 });
             Column.width('100%');
             Column.alignItems(HorizontalAlign.Start);
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create({ "id": 50331662, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(18);
+            Text.fontSize(15);
             Text.fontWeight(FontWeight.Medium);
+            Text.fontColor('#3A3A3A');
+            Text.letterSpacing(0.3);
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -37,16 +39,16 @@ export class HourlyPage extends ViewV2 {
             Scroll.width('100%');
         }, Scroll);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create({ space: 8 });
-            Row.padding({ left: 4, right: 4 });
+            Row.create({ space: 10 });
+            Row.padding({ left: 2, right: 2 });
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Repeat<HourlyPoint>(this.weather?.hourly ?? [], this).each((ri: RepeatItem<HourlyPoint>) => {
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    Column.create({ space: 4 });
-                    Column.padding(10);
-                    Column.backgroundColor('rgba(255,255,255,0.5)');
-                    Column.borderRadius(12);
+                    Column.create({ space: 6 });
+                    Column.padding({ top: 12, bottom: 12, left: 14, right: 14 });
+                    Column.backgroundColor('rgba(255,255,255,0.55)');
+                    Column.borderRadius(18);
                     Column.accessibilityGroup(true);
                     Column.accessibilityText(`${DateTimeUtil.formatHour(ri.item.time)} ${UnitUtil.convertTemp(ri.item.temperature, this.unit)}度 降水概率${ri.item.precipProb}%`);
                 }, Column);
@@ -58,8 +60,9 @@ export class HourlyPage extends ViewV2 {
                 Text.pop();
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                     Text.create(`${UnitUtil.convertTemp(ri.item.temperature, this.unit)}°`);
-                    Text.fontSize(16);
+                    Text.fontSize(17);
                     Text.fontWeight(FontWeight.Medium);
+                    Text.fontColor('#1A1A1A');
                 }, Text);
                 Text.pop();
                 this.observeComponentCreation2((elmtId, isInitialRender) => {

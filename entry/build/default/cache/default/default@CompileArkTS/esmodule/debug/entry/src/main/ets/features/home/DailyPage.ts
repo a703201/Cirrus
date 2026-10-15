@@ -24,45 +24,64 @@ export class DailyPage extends ViewV2 {
     readonly lang: string;
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 8 });
+            Column.create({ space: 10 });
             Column.width('100%');
             Column.alignItems(HorizontalAlign.Start);
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create({ "id": 50331659, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(18);
+            Text.fontSize(15);
             Text.fontWeight(FontWeight.Medium);
+            Text.fontColor('#3A3A3A');
+            Text.letterSpacing(0.3);
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 6 });
+            Column.create({ space: 2 });
             Column.width('100%');
+            Column.padding({ left: 14, right: 14, top: 4, bottom: 4 });
+            Column.backgroundColor('rgba(255,255,255,0.5)');
+            Column.borderRadius(20);
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Repeat<DailyPoint>(this.weather?.daily ?? [], this).each((ri: RepeatItem<DailyPoint>) => {
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                     Row.create();
-                    Row.padding(12);
-                    Row.backgroundColor('rgba(255,255,255,0.5)');
-                    Row.borderRadius(12);
+                    Row.width('100%');
+                    Row.padding({ top: 10, bottom: 10 });
+                    Row.accessibilityGroup(true);
                 }, Row);
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                     Text.create(ri.item.date);
                     Text.fontSize(14);
-                    Text.layoutWeight(1);
+                    Text.fontColor('#3F3F3F');
+                    Text.layoutWeight(3);
                 }, Text);
                 Text.pop();
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                     Text.create(wmoDescription(ri.item.weatherCodeDay, this.lang));
                     Text.fontSize(14);
-                    Text.fontColor('#6B6B6B');
-                    Text.layoutWeight(2);
+                    Text.fontColor('#595959');
+                    Text.layoutWeight(4);
                 }, Text);
                 Text.pop();
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    Text.create(`${UnitUtil.convertTemp(ri.item.tempMin, this.unit)}° / ${UnitUtil.convertTemp(ri.item.tempMax, this.unit)}°`);
+                    Text.create(`${UnitUtil.convertTemp(ri.item.tempMin, this.unit)}°`);
+                    Text.fontSize(14);
+                    Text.fontColor('#7A7A7A');
+                }, Text);
+                Text.pop();
+                this.observeComponentCreation2((elmtId, isInitialRender) => {
+                    Text.create(' / ');
+                    Text.fontSize(14);
+                    Text.fontColor('#B0B0B0');
+                }, Text);
+                Text.pop();
+                this.observeComponentCreation2((elmtId, isInitialRender) => {
+                    Text.create(`${UnitUtil.convertTemp(ri.item.tempMax, this.unit)}°`);
                     Text.fontSize(14);
                     Text.fontWeight(FontWeight.Medium);
+                    Text.fontColor('#1A1A1A');
                 }, Text);
                 Text.pop();
                 Row.pop();

@@ -29,7 +29,7 @@ export struct SettingsPage {
       .backgroundColor('rgba(255,255,255,0.6)')
       .borderRadius(12)
       .accessibilityGroup(true)
-      .bindMenu(this.sourceMenu)
+      .bindMenu(this.sourceMenu, { placement: Placement.BottomRight })
 
       // 单位
       Row({ space: 8 }) {
@@ -42,7 +42,7 @@ export struct SettingsPage {
       .backgroundColor('rgba(255,255,255,0.6)')
       .borderRadius(12)
       .accessibilityGroup(true)
-      .bindMenu(this.unitMenu)
+      .bindMenu(this.unitMenu, { placement: Placement.BottomRight })
 
       // 主题
       Row({ space: 8 }) {
@@ -55,7 +55,7 @@ export struct SettingsPage {
       .backgroundColor('rgba(255,255,255,0.6)')
       .borderRadius(12)
       .accessibilityGroup(true)
-      .bindMenu(this.themeMenu)
+      .bindMenu(this.themeMenu, { placement: Placement.BottomRight })
 
       // 沉浸光感
       Row({ space: 8 }) {
@@ -68,7 +68,7 @@ export struct SettingsPage {
       .backgroundColor('rgba(255,255,255,0.6)')
       .borderRadius(12)
       .accessibilityGroup(true)
-      .bindMenu(this.materialMenu)
+      .bindMenu(this.materialMenu, { placement: Placement.BottomRight })
 
       // 语言
       Row({ space: 8 }) {
@@ -81,7 +81,7 @@ export struct SettingsPage {
       .backgroundColor('rgba(255,255,255,0.6)')
       .borderRadius(12)
       .accessibilityGroup(true)
-      .bindMenu(this.languageMenu)
+      .bindMenu(this.languageMenu, { placement: Placement.BottomRight })
 
       // 数据与隐私（二级页面）
       Row({ space: 8 }) {
@@ -97,7 +97,7 @@ export struct SettingsPage {
         this.pageStack.pushPath({ name: 'Privacy' });
       })
     }
-    .padding(16)
+    .padding({ top: 44, left: 16, right: 16, bottom: 92 })
     .width('100%')
     .height('100%')
     .alignItems(HorizontalAlign.Start)

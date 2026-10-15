@@ -84,6 +84,7 @@ class Index extends ViewV2 {
             HdsTabs.vertical(false);
             HdsTabs.barPosition(BarPosition.End);
             HdsTabs.barFloatingStyle({
+                barBottomMargin: 16,
                 adaptToHandedness: true,
                 systemMaterialEffect: {
                     materialType: hdsMaterial.MaterialType.ADAPTIVE,
@@ -198,13 +199,13 @@ class Index extends ViewV2 {
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             __Common__.create();
-            __Common__.width('30%');
+            __Common__.width('32%');
             __Common__.padding(8);
         }, __Common__);
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new LocationsPage(this, { compact: true }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 111, col: 7 });
+                    let componentCall = new LocationsPage(this, { compact: true }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 112, col: 7 });
                     ViewV2.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -228,7 +229,7 @@ class Index extends ViewV2 {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new HomePage(this, { scroller: this.scroller }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 112, col: 7 });
+                    let componentCall = new HomePage(this, { scroller: this.scroller }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 113, col: 7 });
                     ViewV2.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -247,13 +248,6 @@ class Index extends ViewV2 {
         __Common__.pop();
         Row.pop();
     }
-    /**
-     * 二级页面构建（navDestination 的 builder）。
-     * ⚠️ ArkTS 不允许在普通 lambda 回调里直接写 UI 组件语法（navDestination 回调是普通函数类型，
-     * 直接写 HdsNavDestination(){} 会解析失败并级联报错），故按官方模式用 @Builder 直接传入。
-     * 当前仅「数据与隐私」一个二级页面；若后续新增 push 页面，给本 builder 加 (name: string)
-     * 参数并按 name 分拣（@Builder 支持参数，官方示例同款）。
-     */
     privacyPage(parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             HdsNavDestination.create();
@@ -266,7 +260,7 @@ class Index extends ViewV2 {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PrivacyView(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 128, col: 7 });
+                    let componentCall = new PrivacyView(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 122, col: 7 });
                     ViewV2.create(componentCall);
                     let paramsLambda = () => {
                         return {};
@@ -288,7 +282,7 @@ class Index extends ViewV2 {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new TvHome(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 139, col: 7 });
+                                let componentCall = new TvHome(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 133, col: 7 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {};
@@ -306,6 +300,8 @@ class Index extends ViewV2 {
                 this.ifElseBranchUpdateFunction(1, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         HdsNavigation.create(this.pageStack);
+                        HdsNavigation.hideTitleBar(true);
+                        HdsNavigation.mode(NavigationMode.Stack);
                         HdsNavigation.navDestination({ builder: this.privacyPage.bind(this) });
                         HdsNavigation.width('100%');
                         HdsNavigation.height('100%');

@@ -13,8 +13,9 @@ export class AlertsPage extends ViewV2 {
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create({ space: 10 });
-            Column.padding(16);
+            Column.padding({ top: 44, left: 16, right: 16, bottom: 92 });
             Column.width('100%');
+            Column.height('100%');
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create({ "id": 50331691, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });

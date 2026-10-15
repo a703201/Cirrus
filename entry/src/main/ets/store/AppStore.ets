@@ -143,7 +143,14 @@ export class AppStore {
         this.error = 'location permission denied';
         return;
       }
-      const loc: LocationInfo = await locationProvider.getCurrentLocation();
+      const raw: LocationInfo = await locationProvider.getCurrentLocation();
+      const loc: LocationInfo = {
+        id: 'current',
+        name: '',
+        latitude: raw.latitude,
+        longitude: raw.longitude,
+        timezone: raw.timezone
+      };
       const existing: LocationInfo | undefined =
         this.locations.find((l: LocationInfo) => l.id === loc.id);
       if (!existing) {

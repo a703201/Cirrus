@@ -19,7 +19,7 @@ export class SettingsPage extends ViewV2 {
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create({ space: 12 });
-            Column.padding(16);
+            Column.padding({ top: 44, left: 16, right: 16, bottom: 92 });
             Column.width('100%');
             Column.height('100%');
             Column.alignItems(HorizontalAlign.Start);
@@ -44,7 +44,7 @@ export class SettingsPage extends ViewV2 {
             // 数据源
             Row.accessibilityGroup(true);
             // 数据源
-            Row.bindMenu({ builder: this.sourceMenu.bind(this) });
+            Row.bindMenu({ builder: this.sourceMenu.bind(this) }, { placement: Placement.BottomRight });
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create({ "id": 50331685, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
@@ -81,7 +81,7 @@ export class SettingsPage extends ViewV2 {
             // 单位
             Row.accessibilityGroup(true);
             // 单位
-            Row.bindMenu({ builder: this.unitMenu.bind(this) });
+            Row.bindMenu({ builder: this.unitMenu.bind(this) }, { placement: Placement.BottomRight });
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create({ "id": 50331690, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
@@ -118,7 +118,7 @@ export class SettingsPage extends ViewV2 {
             // 主题
             Row.accessibilityGroup(true);
             // 主题
-            Row.bindMenu({ builder: this.themeMenu.bind(this) });
+            Row.bindMenu({ builder: this.themeMenu.bind(this) }, { placement: Placement.BottomRight });
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create({ "id": 50331686, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
@@ -155,7 +155,7 @@ export class SettingsPage extends ViewV2 {
             // 沉浸光感
             Row.accessibilityGroup(true);
             // 沉浸光感
-            Row.bindMenu({ builder: this.materialMenu.bind(this) });
+            Row.bindMenu({ builder: this.materialMenu.bind(this) }, { placement: Placement.BottomRight });
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create({ "id": 50331683, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
@@ -192,7 +192,7 @@ export class SettingsPage extends ViewV2 {
             // 语言
             Row.accessibilityGroup(true);
             // 语言
-            Row.bindMenu({ builder: this.languageMenu.bind(this) });
+            Row.bindMenu({ builder: this.languageMenu.bind(this) }, { placement: Placement.BottomRight });
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create({ "id": 50331681, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });

@@ -51,7 +51,8 @@ export struct AlertsPage {
         .width('100%')
       }
     }
-    .padding(16)
+    .padding({ top: 44, left: 16, right: 16, bottom: 92 })
     .width('100%')
+    .height('100%')
   }
 }
