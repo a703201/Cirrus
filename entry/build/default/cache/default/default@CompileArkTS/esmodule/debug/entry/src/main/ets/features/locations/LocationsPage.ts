@@ -211,7 +211,7 @@ export class LocationsPage extends ViewV2 {
                         Text.pop();
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             If.create();
-                            if (ri.item.id === appStore.currentId) {
+                            if (ri.item.id === appStore.defaultId) {
                                 this.ifElseBranchUpdateFunction(0, () => {
                                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                                         Text.create({ "id": 50331660, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
@@ -231,20 +231,29 @@ export class LocationsPage extends ViewV2 {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             Button.createWithLabel({ "id": 50331654, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
                             Button.fontSize(12);
-                            Button.visibility(ri.item.id === appStore.currentId ? Visibility.None : Visibility.Visible);
+                            Button.backgroundColor('#3B82F6');
+                            Button.fontColor('#FFFFFF');
+                            Button.visibility(ri.item.id === appStore.defaultId ? Visibility.None : Visibility.Visible);
                             Button.onClick(() => {
                                 appStore.setDefaultLocation(ri.item.id);
                             });
                         }, Button);
                         Button.pop();
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            // 危险操作用「浅红底 + 深红字」，红字压在默认蓝底上几乎不可读。
                             Button.createWithLabel({ "id": 50331651, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+                            // 危险操作用「浅红底 + 深红字」，红字压在默认蓝底上几乎不可读。
                             Button.fontSize(12);
-                            Button.fontColor('#EF4444');
+                            // 危险操作用「浅红底 + 深红字」，红字压在默认蓝底上几乎不可读。
+                            Button.fontColor('#C5221F');
+                            // 危险操作用「浅红底 + 深红字」，红字压在默认蓝底上几乎不可读。
+                            Button.backgroundColor('rgba(239,68,68,0.12)');
+                            // 危险操作用「浅红底 + 深红字」，红字压在默认蓝底上几乎不可读。
                             Button.onClick(() => {
                                 appStore.removeLocation(ri.item.id);
                             });
                         }, Button);
+                        // 危险操作用「浅红底 + 深红字」，红字压在默认蓝底上几乎不可读。
                         Button.pop();
                         Row.pop();
                         ListItem.pop();

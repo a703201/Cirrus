@@ -8,6 +8,7 @@ import { themeModel } from "@bundle:com.Lumio.Cirrus/entry/ets/store/ThemeModel"
 import { HourlyPage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/home/HourlyPage";
 import { DailyPage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/home/DailyPage";
 import { DetailsPage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/home/DetailsPage";
+import { MinutelyPage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/home/MinutelyPage";
 export class HomePage extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
         super(parent, elmtId, extraInfo);
@@ -114,7 +115,7 @@ export class HomePage extends ViewV2 {
                                     high: appStore.weather.daily.length > 0 ? appStore.weather.daily[0].tempMax : -999,
                                     low: appStore.weather.daily.length > 0 ? appStore.weather.daily[0].tempMin : -999,
                                     apparent: appStore.weather.current.apparent
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 40, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 41, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -157,11 +158,35 @@ export class HomePage extends ViewV2 {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
+                                let componentCall = new MinutelyPage(this, {
+                                    minutely: appStore.weather.minutely,
+                                    summary: appStore.weather.minutelySummary ?? ''
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 56, col: 13 });
+                                ViewV2.create(componentCall);
+                                let paramsLambda = () => {
+                                    return {
+                                        minutely: appStore.weather.minutely,
+                                        summary: appStore.weather.minutelySummary ?? ''
+                                    };
+                                };
+                                componentCall.paramsGenerator_ = paramsLambda;
+                            }
+                            else {
+                                this.updateStateVarsOfChildByElmtId(elmtId, {
+                                    minutely: appStore.weather.minutely,
+                                    summary: appStore.weather.minutelySummary ?? ''
+                                });
+                            }
+                        }, { name: "MinutelyPage" });
+                    }
+                    {
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            if (isInitialRender) {
                                 let componentCall = new DetailsPage(this, {
                                     current: appStore.weather.current,
                                     airQuality: appStore.weather.airQuality,
                                     unit: appStore.settings.temperatureUnit
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 55, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 60, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -187,7 +212,7 @@ export class HomePage extends ViewV2 {
                                 let componentCall = new HourlyPage(this, {
                                     weather: appStore.weather,
                                     unit: appStore.settings.temperatureUnit
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 60, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 65, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -212,7 +237,7 @@ export class HomePage extends ViewV2 {
                                     weather: appStore.weather,
                                     unit: appStore.settings.temperatureUnit,
                                     lang: appStore.resolveLang()
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 64, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 69, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {

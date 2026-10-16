@@ -49,6 +49,66 @@
       "value": "数据源"
     },
     {
+      "name": "settings_qweather_key",
+      "value": "和风天气 API Key"
+    },
+    {
+      "name": "qweather_key_hint",
+      "value": "粘贴你的和风天气 API Key"
+    },
+    {
+      "name": "action_save",
+      "value": "保存"
+    },
+    {
+      "name": "action_clear",
+      "value": "清除"
+    },
+    {
+      "name": "qweather_key_saved",
+      "value": "Key 校验通过并已保存，可在「数据源」中选择和风天气"
+    },
+    {
+      "name": "qweather_key_invalid",
+      "value": "校验未通过，请检查网络与 Key 是否正确"
+    },
+    {
+      "name": "qweather_key_cleared",
+      "value": "已清除本机保存的 API Key"
+    },
+    {
+      "name": "action_edit",
+      "value": "编辑"
+    },
+    {
+      "name": "action_cancel",
+      "value": "取消"
+    },
+    {
+      "name": "qweather_key_configured",
+      "value": "已配置"
+    },
+    {
+      "name": "qweather_source_unconfigured",
+      "value": "和风天气（未配置）"
+    },
+    {
+      "name": "qweather_key_dialog_title",
+      "value": "配置和风天气 API Key"
+    },
+    {
+      "name": "qweather_key_dialog_desc",
+      "value": "从和风天气开放平台获取你自己的 Key；仅保存在本机，不跨设备同步、不上传。"
+    },
+    {
+      "name": "qweather_key_empty",
+      "value": "请输入 API Key"
+    },
+    {
+      "name": "language_restart_hint",
+      "value": "语言切换将在重启应用后生效"
+    },
+    {
       "name": "settings_unit",
       "value": "单位"
     },
@@ -162,7 +222,7 @@
     },
     {
       "name": "privacy_third_qweather_body",
-      "value": "需 API Key，密钥仅以加密形式保存在本机；默认关闭，由你在设置中主动开启，可随时切回默认源。"
+      "value": "需自备 API Key，仅保存在本机应用私有目录：不跨设备同步、不上传。默认关闭，可随时切回默认源。"
     },
     {
       "name": "privacy_policy_collect_title",
@@ -303,6 +363,14 @@
     {
       "name": "label_air_quality",
       "value": "空气质量"
+    },
+    {
+      "name": "label_minutely",
+      "value": "分钟级降水"
+    },
+    {
+      "name": "minutely_no_rain",
+      "value": "未来两小时无降水"
     },
     {
       "name": "msg_loading",

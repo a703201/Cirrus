@@ -49,6 +49,66 @@
       "value": "Data source"
     },
     {
+      "name": "settings_qweather_key",
+      "value": "QWeather API Key"
+    },
+    {
+      "name": "qweather_key_hint",
+      "value": "Paste your QWeather API Key"
+    },
+    {
+      "name": "action_save",
+      "value": "Save"
+    },
+    {
+      "name": "action_clear",
+      "value": "Clear"
+    },
+    {
+      "name": "qweather_key_saved",
+      "value": "Key verified and saved. Select QWeather under Data source."
+    },
+    {
+      "name": "qweather_key_invalid",
+      "value": "Verification failed. Check your network and Key."
+    },
+    {
+      "name": "qweather_key_cleared",
+      "value": "API Key cleared from this device"
+    },
+    {
+      "name": "action_edit",
+      "value": "Edit"
+    },
+    {
+      "name": "action_cancel",
+      "value": "Cancel"
+    },
+    {
+      "name": "qweather_key_configured",
+      "value": "Configured"
+    },
+    {
+      "name": "qweather_source_unconfigured",
+      "value": "QWeather (not configured)"
+    },
+    {
+      "name": "qweather_key_dialog_title",
+      "value": "Set QWeather API Key"
+    },
+    {
+      "name": "qweather_key_dialog_desc",
+      "value": "Get your own key from the QWeather developer platform. It is stored only on this device — never synced to your other devices and never uploaded."
+    },
+    {
+      "name": "qweather_key_empty",
+      "value": "Please enter an API Key"
+    },
+    {
+      "name": "language_restart_hint",
+      "value": "Language change takes effect after restarting the app"
+    },
+    {
       "name": "settings_unit",
       "value": "Units"
     },
@@ -162,7 +222,7 @@
     },
     {
       "name": "privacy_third_qweather_body",
-      "value": "Requires an API Key stored only on this device in encrypted form. Off by default; enable it yourself in Settings and switch back anytime."
+      "value": "Requires your own API Key, kept only in this app's private storage on this device — never synced to your other devices and never uploaded. Off by default; switch back anytime."
     },
     {
       "name": "privacy_policy_collect_title",
@@ -303,6 +363,14 @@
     {
       "name": "label_air_quality",
       "value": "Air quality"
+    },
+    {
+      "name": "label_minutely",
+      "value": "Next 2 hours"
+    },
+    {
+      "name": "minutely_no_rain",
+      "value": "No precipitation in the next 2 hours"
     },
     {
       "name": "msg_loading",

@@ -4,6 +4,7 @@ import { themeModel } from '../../store/ThemeModel';
 import { HourlyPage } from './HourlyPage';
 import { DailyPage } from './DailyPage';
 import { DetailsPage } from './DetailsPage';
+import { MinutelyPage } from './MinutelyPage';
 
 @ComponentV2
 export struct HomePage {
@@ -51,6 +52,10 @@ export struct HomePage {
               high: appStore.weather.daily.length > 0 ? appStore.weather.daily[0].tempMax : -999,
               low: appStore.weather.daily.length > 0 ? appStore.weather.daily[0].tempMin : -999,
               apparent: appStore.weather.current.apparent
+            })
+            MinutelyPage({
+              minutely: appStore.weather.minutely,
+              summary: appStore.weather.minutelySummary ?? ''
             })
             DetailsPage({
               current: appStore.weather.current,

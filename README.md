@@ -10,13 +10,13 @@
 | 模块 | 类型 | 说明 |
 |------|------|------|
 | `common` | HAR | 归一模型、WMO 代码多语映射、日志/时间/单位工具、可复用玻璃卡片组件 |
-| `data` | HAR | 多源可插拔（`WeatherSource`）、Open-Meteo 实现、和风源（合规门禁后置）、仓库、缓存、定位、后台调度 |
+| `data` | HAR | 多源可插拔（`WeatherSource`）、Open-Meteo 实现、和风源（用户自带 Key，配 Key 后可选）、仓库、缓存、定位、后台调度 |
 | `entry` | HAP | 手机/平板/折叠/PC/TV 入口：EntryAbility、响应式主页（断点主从/Tabs）、各功能页、天气卡片 FormAbility |
 | `watch` | HAP | 手表轻量入口：WatchAbility + 极简主页 |
 
 ## 已落地的架构要点（对齐 docs/ 规划）
 
-- **多源可插拔**：`data/sources/WeatherSource.ts` 定义契约；`OpenMeteoSource` 默认免密钥；`QWeatherSource` 已实现但**默认不注册**（见 `sources/registry.ts`），须先过 `docs/09-隐私与权限合规.md §3.1` 合规门禁。
+- **多源可插拔**：`data/sources/WeatherSource.ts` 定义契约；`OpenMeteoSource` 默认免密钥；`QWeatherSource` 采用**用户自带 Key**——设置页填入自己的和风 Key 并经接口校验通过后，该源才出现在「数据源」列表（`sources/registry.ts` 运行时按 `isAvailable()` 过滤）；Key 仅存本机且不跨设备同步，合规边界见 `docs/09-隐私与权限合规.md §3`。
 - **归一模型**：`common/models/WeatherData.ts` 是唯一 UI 消费对象；各源实现 `toNormalized`。
 - **WMO 全量映射 + 7 语种**：`common/models/WmoCode.ts`（28 条代码 × 7 语）。和风 `icon→WMO` 对照见 `sources/QWeatherCodes.ts`（待补全）。
 - **多设备**：`entry/pages/Index.ets` 按 `(width >= 840vp)` 断点在 Tabs（手机）与主从（大屏）间切换；手表独立模块。

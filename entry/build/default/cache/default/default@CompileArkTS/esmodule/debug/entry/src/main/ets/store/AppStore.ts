@@ -2,9 +2,9 @@ import abilityAccessCtrl from "@ohos:abilityAccessCtrl";
 import type common from "@ohos:app.ability.common";
 import type { Permissions } from "@ohos:abilityAccessCtrl";
 import i18n from "@ohos:i18n";
-import { DEFAULT_SETTINGS, Log, applyThemeMode } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import { DEFAULT_SETTINGS, Log, applyThemeMode, applyAppLanguage } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import type { AppSettings, LocationInfo, WeatherData } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
-import { WeatherRepository, settingsStore, rdbStore, locationProvider, distributedStore } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
+import { WeatherRepository, settingsStore, rdbStore, locationProvider, distributedStore, QWeatherConfig } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
 import { themeModel } from "@bundle:com.Lumio.Cirrus/entry/ets/store/ThemeModel";
 import { NotificationUtil } from "@bundle:com.Lumio.Cirrus/entry/ets/notify/NotificationUtil";
 const LOCATION_PERMISSIONS: Permissions[] = ['ohos.permission.APPROXIMATELY_LOCATION', 'ohos.permission.LOCATION'];
@@ -37,6 +37,10 @@ export class AppStore {
     locations: LocationInfo[] = [];
     @Trace
     currentId: string = '';
+    /** 默认位置（启动时自动选中的那个）。与 currentId 分开：currentId 是"当前正在查看"，
+     * 点别的位置会变；defaultId 才是持久化的"默认"，由「设为默认」改变且跨启动保留。 */
+    @Trace
+    defaultId: string = '';
     @Trace
     settings: AppSettings = DEFAULT_SETTINGS;
     @Trace
@@ -56,6 +60,7 @@ export class AppStore {
             Log.e(`store init failed: ${e}`);
         }
         this.settings = await settingsStore.load();
+        QWeatherConfig.setApiKey(this.settings.qweatherApiKey);
         themeModel.themeMode = this.settings.theme;
         applyThemeMode(this.settings.theme, this.context);
         await NotificationUtil.ensureEnabled(context);
@@ -74,7 +79,8 @@ export class AppStore {
             await rdbStore.setDefaultLocation(SEED_LOCATION.id);
             await this.reloadLocations();
         }
-        this.currentId = await this.resolveDefaultId();
+        this.defaultId = await this.resolveDefaultId();
+        this.currentId = this.defaultId;
         this.initialized = true;
         await this.refresh();
     }
@@ -96,8 +102,9 @@ export class AppStore {
     }
     resolveLang(): string {
         if (this.settings.language === 'system') {
-            const locale: string = i18n.System.getSystemLocaleInstance().toString();
-            return locale.split('-')[0];
+            // 返回完整标签（如 'zh-CN'）：wmoDescription 按短码/完整标签均可匹配，
+            // 但 geocoding 的 language 参数用短码，故这里保持完整形态由各消费方自行 split。
+            return i18n.System.getSystemLocaleInstance().toString();
         }
         return this.settings.language;
     }
@@ -195,6 +202,13 @@ export class AppStore {
         await rdbStore.removeLocation(id);
         await this.reloadLocations();
         await this.syncLocations();
+        if (id === this.defaultId) {
+            // 删掉的正是默认位置：把默认顺延到列表首位，避免 defaultId 悬空指向已删项。
+            this.defaultId = this.locations.length > 0 ? this.locations[0].id : '';
+            if (this.defaultId.length > 0) {
+                await rdbStore.setDefaultLocation(this.defaultId);
+            }
+        }
         if (id === this.currentId || this.currentLocation() === undefined) {
             this.currentId = this.locations.length > 0 ? this.locations[0].id : '';
             await this.refresh();
@@ -202,8 +216,16 @@ export class AppStore {
     }
     async setDefaultLocation(id: string): Promise<void> {
         await rdbStore.setDefaultLocation(id);
+        this.defaultId = id;
         await this.reloadLocations();
         await this.syncLocations();
+        // 设为默认即切到该位置：否则界面毫无变化，用户会以为"点击无效"。
+        if (this.currentId !== id) {
+            await this.selectLocation(id);
+        }
+        else {
+            await this.refresh();
+        }
     }
     async updateSettings(patch: Partial<AppSettings>): Promise<void> {
         const next: AppSettings = {
@@ -211,15 +233,27 @@ export class AppStore {
             temperatureUnit: patch.temperatureUnit ?? this.settings.temperatureUnit,
             theme: patch.theme ?? this.settings.theme,
             language: patch.language ?? this.settings.language,
-            materialLevel: patch.materialLevel ?? this.settings.materialLevel
+            materialLevel: patch.materialLevel ?? this.settings.materialLevel,
+            qweatherApiKey: patch.qweatherApiKey ?? this.settings.qweatherApiKey
         } as AppSettings;
+        // 未配置和风 Key 时该源不可用：自动回落到默认源。
+        if (next.sourceId === 'qweather' && next.qweatherApiKey.trim().length === 0) {
+            next.sourceId = 'open-meteo';
+        }
         const sourceChanged: boolean = next.sourceId !== this.settings.sourceId;
+        const keyChanged: boolean = next.qweatherApiKey !== this.settings.qweatherApiKey;
+        const languageChanged: boolean = next.language !== this.settings.language;
         this.settings = next;
+        QWeatherConfig.setApiKey(next.qweatherApiKey);
         themeModel.themeMode = next.theme;
         applyThemeMode(next.theme, this.context);
+        // 资源语言按首选语言在**下次冷启动**加载（i18n 机制），此处只登记偏好。
+        if (languageChanged) {
+            applyAppLanguage(next.language);
+        }
         await settingsStore.save(next);
         await distributedStore.putSettings(next);
-        if (sourceChanged) {
+        if (sourceChanged || keyChanged) {
             this.weather = undefined;
             await this.refresh();
         }

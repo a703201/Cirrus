@@ -1,14 +1,36 @@
 if (!("finalizeConstruction" in ViewPU.prototype)) {
     Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
 }
+interface QWeatherKeyDialog_Params {
+    controller?: CustomDialogController;
+    input?: string;
+    verifying?: boolean;
+}
+import promptAction from "@ohos:promptAction";
 import { TemperatureUnit, ThemeMode, MaterialTier } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
-import { listSources } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
+import { listAllSources, QWeatherSource } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
 import type { WeatherSource } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
 import { appStore } from "@bundle:com.Lumio.Cirrus/entry/ets/store/AppStore";
 export class SettingsPage extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
         super(parent, elmtId, extraInfo);
         this.initParam("pageStack", (params && "pageStack" in params) ? params.pageStack : new NavPathStack());
+        this.keyDialog = new CustomDialogController({
+            // ⚠️ builder 必须是**调用形式** `Struct({})`（SDK 官方写法）。传裸 struct 引用会让框架
+            // 在 open() 时对它 `new`，而 @CustomDialog struct 不能被 new → 运行时报
+            // "TypeError: class constructor cannot call"（17:35 崩溃根因）。
+            builder: () => {
+                let jsDialog = new QWeatherKeyDialog(this, {}, undefined, -1, () => { }, { page: "entry/src/main/ets/features/settings/SettingsPage.ets", line: 24, col: 14 });
+                jsDialog.setController(this.keyDialog);
+                ViewPU.create(jsDialog);
+                let paramsLambda = () => {
+                    return {};
+                };
+                jsDialog.paramsGenerator_ = paramsLambda;
+            },
+            alignment: DialogAlignment.Center,
+            autoCancel: true
+        }, this);
         this.finalizeConstruction();
     }
     public resetStateVarsOnReuse(params: Object): void {
@@ -16,6 +38,16 @@ export class SettingsPage extends ViewV2 {
     }
     @Param
     readonly pageStack: NavPathStack;
+    /** 和风 API Key 配置弹窗控制器（普通成员，不加 @State）。 */
+    private keyDialog: CustomDialogController;
+    private openKeyDialog(): void {
+        this.keyDialog.open();
+    }
+    /** 语言切换需冷启动才生效（i18n 资源加载机制），给用户明确提示。 */
+    private async setLanguage(lang: string): Promise<void> {
+        await appStore.updateSettings({ language: lang });
+        promptAction.showToast({ message: { "id": 50331788, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+    }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create({ space: 12 });
@@ -67,6 +99,51 @@ export class SettingsPage extends ViewV2 {
         Text.pop();
         // 数据源
         Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            // 和风天气 API Key：仅在数据源切到和风时出现；右侧「编辑」唤起配置弹窗。
+            if (appStore.settings.sourceId === 'qweather') {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Row.create({ space: 8 });
+                        Row.width('100%');
+                        Row.padding(14);
+                        Row.backgroundColor('rgba(255,255,255,0.6)');
+                        Row.borderRadius(12);
+                        Row.accessibilityGroup(true);
+                    }, Row);
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create({ "id": 50331785, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+                        Text.fontSize(16);
+                        Text.layoutWeight(1);
+                    }, Text);
+                    Text.pop();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create({ "id": 50331789, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+                        Text.fontSize(14);
+                        Text.fontColor('#666666');
+                    }, Text);
+                    Text.pop();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create({ "id": 50331787, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+                        Text.fontSize(14);
+                        Text.fontColor('#3B82F6');
+                        Text.padding({ left: 10, right: 10, top: 4, bottom: 4 });
+                        Text.onClick(() => {
+                            this.openKeyDialog();
+                        });
+                    }, Text);
+                    Text.pop();
+                    Row.pop();
+                });
+            }
+            // 单位
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                });
+            }
+        }, If);
+        If.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             // 单位
             Row.create({ space: 8 });
@@ -255,22 +332,35 @@ export class SettingsPage extends ViewV2 {
             Menu.create();
         }, Menu);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            // 菜单弹窗上下文用 ForEach（Repeat 面向主列表树，弹窗内不保证渲染）。
+            // 列出全部已注册源：未配置 Key 的和风显示为「未配置」，点击直接唤起配置弹窗
+            //（若过滤掉，用户将没有任何入口去填 Key）。
+            // content 里的 $r() 必须**就地内联**：经方法间接返回的 Resource 在弹窗的独立
+            // 渲染节点上解析不到，框架会报 "MenuItem content or label is empty" 且菜单项无字。
             ForEach.create();
             const forEachItemGenFunction = _item => {
                 const src = _item;
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
-                    MenuItem.create({ content: src.displayName });
+                    MenuItem.create({
+                        content: src.needApiKey && !src.isAvailable()
+                            ? { "id": 50331793, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } : src.displayName
+                    });
                     MenuItem.selected(src.id === appStore.settings.sourceId);
                     MenuItem.onClick(() => {
+                        if (!src.isAvailable()) {
+                            this.openKeyDialog();
+                            return;
+                        }
                         appStore.updateSettings({ sourceId: src.id });
                     });
                 }, MenuItem);
                 MenuItem.pop();
             };
-            this.forEachUpdateFunction(elmtId, listSources(), forEachItemGenFunction, (src: WeatherSource) => src.id, false, false);
+            this.forEachUpdateFunction(elmtId, listAllSources(), forEachItemGenFunction, (src: WeatherSource) => src.id, false, false);
         }, ForEach);
-        // 菜单弹窗上下文用 ForEach（Repeat 面向主列表树，弹窗内不保证渲染）。
+        // 列出全部已注册源：未配置 Key 的和风显示为「未配置」，点击直接唤起配置弹窗
+        //（若过滤掉，用户将没有任何入口去填 Key）。
+        // content 里的 $r() 必须**就地内联**：经方法间接返回的 Resource 在弹窗的独立
+        // 渲染节点上解析不到，框架会报 "MenuItem content or label is empty" 且菜单项无字。
         ForEach.pop();
         Menu.pop();
     }
@@ -372,7 +462,7 @@ export class SettingsPage extends ViewV2 {
             MenuItem.create({ content: { "id": 50331682, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
             MenuItem.selected(appStore.settings.language === 'system');
             MenuItem.onClick(() => {
-                appStore.updateSettings({ language: 'system' });
+                this.setLanguage('system');
             });
         }, MenuItem);
         MenuItem.pop();
@@ -380,7 +470,7 @@ export class SettingsPage extends ViewV2 {
             MenuItem.create({ content: 'English' });
             MenuItem.selected(appStore.settings.language === 'en');
             MenuItem.onClick(() => {
-                appStore.updateSettings({ language: 'en' });
+                this.setLanguage('en');
             });
         }, MenuItem);
         MenuItem.pop();
@@ -388,14 +478,14 @@ export class SettingsPage extends ViewV2 {
             MenuItem.create({ content: '中文' });
             MenuItem.selected(appStore.settings.language === 'zh-CN');
             MenuItem.onClick(() => {
-                appStore.updateSettings({ language: 'zh-CN' });
+                this.setLanguage('zh-CN');
             });
         }, MenuItem);
         MenuItem.pop();
         Menu.pop();
     }
     private sourceLabel(): string {
-        const list: WeatherSource[] = listSources();
+        const list: WeatherSource[] = listAllSources();
         const found: WeatherSource | undefined = list.find((s: WeatherSource) => s.id === appStore.settings.sourceId);
         return found ? found.displayName : '';
     }
@@ -440,6 +530,166 @@ export class SettingsPage extends ViewV2 {
         if ("pageStack" in params) {
             this.updateParam("pageStack", params.pageStack);
         }
+    }
+    rerender() {
+        this.updateDirtyElements();
+    }
+}
+class QWeatherKeyDialog extends ViewPU {
+    constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
+        super(parent, __localStorage, elmtId, extraInfo);
+        if (typeof paramsLambda === "function") {
+            this.paramsGenerator_ = paramsLambda;
+        }
+        this.controller = undefined;
+        this.__input = new ObservedPropertySimplePU('', this, "input");
+        this.__verifying = new ObservedPropertySimplePU(false, this, "verifying");
+        this.setInitiallyProvidedValue(params);
+        this.finalizeConstruction();
+    }
+    setInitiallyProvidedValue(params: QWeatherKeyDialog_Params) {
+        if (params.controller !== undefined) {
+            this.controller = params.controller;
+        }
+        if (params.input !== undefined) {
+            this.input = params.input;
+        }
+        if (params.verifying !== undefined) {
+            this.verifying = params.verifying;
+        }
+    }
+    updateStateVars(params: QWeatherKeyDialog_Params) {
+    }
+    purgeVariableDependenciesOnElmtId(rmElmtId) {
+        this.__input.purgeDependencyOnElmtId(rmElmtId);
+        this.__verifying.purgeDependencyOnElmtId(rmElmtId);
+    }
+    aboutToBeDeleted() {
+        this.__input.aboutToBeDeleted();
+        this.__verifying.aboutToBeDeleted();
+        SubscriberManager.Get().delete(this.id__());
+        this.aboutToBeDeletedInternal();
+    }
+    private controller?: CustomDialogController;
+    setController(ctr: CustomDialogController) {
+        this.controller = ctr;
+    }
+    private __input: ObservedPropertySimplePU<string>;
+    get input() {
+        return this.__input.get();
+    }
+    set input(newValue: string) {
+        this.__input.set(newValue);
+    }
+    private __verifying: ObservedPropertySimplePU<boolean>;
+    get verifying() {
+        return this.__verifying.get();
+    }
+    set verifying(newValue: boolean) {
+        this.__verifying.set(newValue);
+    }
+    private close(): void {
+        if (this.controller) {
+            this.controller.close();
+        }
+    }
+    /** 保存：先打一次官方轻量接口校验，**仅校验通过才落盘**（无效或断网均不保存）。 */
+    private async save(): Promise<void> {
+        const key: string = this.input.trim();
+        if (key.length === 0) {
+            promptAction.showToast({ message: { "id": 50331792, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+            return;
+        }
+        this.verifying = true;
+        const ok: boolean = await QWeatherSource.verify(key);
+        this.verifying = false;
+        if (!ok) {
+            promptAction.showToast({ message: { "id": 50331783, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+            return;
+        }
+        await appStore.updateSettings({ qweatherApiKey: key });
+        promptAction.showToast({ message: { "id": 50331784, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+        this.close();
+    }
+    /** 清除本机 Key：和风源随即不可用，若正在使用会自动回落默认源。 */
+    private async clear(): Promise<void> {
+        await appStore.updateSettings({ qweatherApiKey: '' });
+        promptAction.showToast({ message: { "id": 50331781, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
+        this.close();
+    }
+    initialRender() {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create({ space: 12 });
+            Column.padding(20);
+            Column.width('100%');
+            Column.alignItems(HorizontalAlign.Start);
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331791, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(18);
+            Text.fontWeight(FontWeight.Medium);
+            Text.width('100%');
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331790, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(13);
+            Text.fontColor('#595959');
+            Text.lineHeight(19);
+            Text.width('100%');
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            TextInput.create({ placeholder: { "id": 50331782, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, text: this.input });
+            TextInput.type(InputType.Password);
+            TextInput.onChange((v: string) => {
+                this.input = v;
+            });
+            TextInput.width('100%');
+        }, TextInput);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create({ space: 8 });
+            Row.width('100%');
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            if (appStore.settings.qweatherApiKey.length > 0) {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Button.createWithLabel({ "id": 50331777, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+                        Button.layoutWeight(1);
+                        Button.onClick(() => {
+                            this.clear();
+                        });
+                    }, Button);
+                    Button.pop();
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                });
+            }
+        }, If);
+        If.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Button.createWithLabel({ "id": 50331786, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Button.layoutWeight(1);
+            Button.onClick(() => {
+                this.close();
+            });
+        }, Button);
+        Button.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Button.createWithLabel({ "id": 50331778, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Button.layoutWeight(1);
+            Button.enabled(!this.verifying);
+            Button.onClick(() => {
+                this.save();
+            });
+        }, Button);
+        Button.pop();
+        Row.pop();
+        Column.pop();
     }
     rerender() {
         this.updateDirtyElements();

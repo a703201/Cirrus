@@ -30,6 +30,8 @@ export interface AppSettings {
   language: string;
   /** 沉浸光感材质档位。 */
   materialLevel: MaterialTier;
+  /** 和风天气 API Key：由用户自填，仅本机持久化（个人开发者场景）。 */
+  qweatherApiKey: string;
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
@@ -37,5 +39,6 @@ export const DEFAULT_SETTINGS: AppSettings = {
   temperatureUnit: TemperatureUnit.CELSIUS,
   theme: ThemeMode.AUTO,
   language: 'system',
-  materialLevel: MaterialTier.AUTO
+  materialLevel: MaterialTier.AUTO,
+  qweatherApiKey: ''
 };

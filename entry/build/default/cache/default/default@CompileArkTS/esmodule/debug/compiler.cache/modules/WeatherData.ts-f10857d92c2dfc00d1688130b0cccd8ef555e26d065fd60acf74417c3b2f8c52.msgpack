@@ -1,4 +1,4 @@
-Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙQE:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WeatherData.tsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¯hostModulesInfo¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0Ù.E:\Codes\Project\Transplant\weather-app\commonÃ‘ÔrD’²hostDependencyName®hostModuleNameµ../models/WeatherData¦commonÚX/**
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙQE:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WeatherData.tsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0‘ÔrD’²hostDependencyName®hostModuleNameµ../models/WeatherData¦commonÙ.E:\Codes\Project\Transplant\weather-app\commonÃÚ»/**
  * Normalized weather data model (UI-consumed).
  * Mirrors æ¥å£æ–‡æ¡£ Â§2. Every weather source maps its raw response into these types.
  */
@@ -47,6 +47,12 @@ export interface DailyPoint {
   uvIndexMax: number;
 }
 
+/** åˆ†é’Ÿçº§é™æ°´ç‚¹ï¼ˆP2-5ï¼‰ï¼šæœªæ¥ 2 å°æ—¶çš„çŸ­æ—¶é™æ°´å¼ºåº¦ï¼ˆmmï¼‰ã€‚ */
+export interface MinutelyPoint {
+  time: number;
+  precip: number;
+}
+
 export interface AirQuality {
   aqi: number;
   pm25: number;
@@ -68,7 +74,10 @@ export interface WeatherData {
   daily: DailyPoint[];
   airQuality?: AirQuality;
   alerts?: WeatherAlert[];
+  /** åˆ†é’Ÿçº§é™æ°´ï¼ˆæºæ”¯æŒæ—¶æä¾›ï¼‰ã€‚ */
+  minutely?: MinutelyPoint[];
+  /** æºæä¾›çš„åˆ†é’Ÿçº§é™æ°´è‡ªç„¶è¯­è¨€æ‘˜è¦ï¼ˆå¦‚å’Œé£ minutely.summaryï¼‰ã€‚ */
+  minutelySummary?: string;
   source: string;
   fetchedAt: number;
-}
-ÀAÂÔrE”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache
+}ÀAÂÔrE”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache

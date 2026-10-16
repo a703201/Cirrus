@@ -250,28 +250,29 @@ class Index extends ViewV2 {
     }
     privacyPage(parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            HdsNavDestination.create();
+            HdsNavDestination.create(() => {
+                {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        if (isInitialRender) {
+                            let componentCall = new PrivacyView(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 122, col: 7 });
+                            ViewV2.create(componentCall);
+                            let paramsLambda = () => {
+                                return {};
+                            };
+                            componentCall.paramsGenerator_ = paramsLambda;
+                        }
+                        else {
+                            this.updateStateVarsOfChildByElmtId(elmtId, {});
+                        }
+                    }, { name: "PrivacyView" });
+                }
+            }, { moduleName: "entry", pagePath: "entry/src/main/ets/pages/Index" });
             HdsNavDestination.titleBar({
                 content: {
                     title: { mainTitle: { "id": 50331776, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } }
                 }
             });
         }, HdsNavDestination);
-        {
-            this.observeComponentCreation2((elmtId, isInitialRender) => {
-                if (isInitialRender) {
-                    let componentCall = new PrivacyView(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 122, col: 7 });
-                    ViewV2.create(componentCall);
-                    let paramsLambda = () => {
-                        return {};
-                    };
-                    componentCall.paramsGenerator_ = paramsLambda;
-                }
-                else {
-                    this.updateStateVarsOfChildByElmtId(elmtId, {});
-                }
-            }, { name: "PrivacyView" });
-        }
         HdsNavDestination.pop();
     }
     initialRender() {
@@ -299,7 +300,7 @@ class Index extends ViewV2 {
             else {
                 this.ifElseBranchUpdateFunction(1, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        HdsNavigation.create(this.pageStack);
+                        HdsNavigation.create(this.pageStack, { moduleName: "entry", pagePath: "entry/src/main/ets/pages/Index", isUserCreateStack: true });
                         HdsNavigation.hideTitleBar(true);
                         HdsNavigation.mode(NavigationMode.Stack);
                         HdsNavigation.navDestination({ builder: this.privacyPage.bind(this) });

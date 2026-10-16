@@ -10,6 +10,7 @@ const BUNDLE_NAME: string = 'com.Lumio.Cirrus';
  * 跨设备同步（P1-9, docs/06 §5）——基于 distributedKVStore（@kit.ArkData）。
  *
  * - 同步「位置列表」与「设置」两类轻量数据；组网不可用时**静默降级**（不影响本地流程）。
+ * - **和风 API Key 不参与同步**（见 putSettings），仅存本机 Preferences。
  * - 应用接续（continuation）评估见 docs/12 §3 / docs/06 §5：需 continuationEnabled 与
  *   IAbilityContinuation，列为后续可选增强。
  */
@@ -71,7 +72,17 @@ export class DistributedStore {
             return;
         }
         try {
-            await this.kv.put(KEY_SETTINGS, JSON.stringify(settings));
+            // 隐私红线（docs/09 §3）：和风 API Key **仅存本机**，绝不进分布式 KV。
+            // 同步载荷显式重建并把 qweatherApiKey 置空，避免整对象序列化把 Key 带走。
+            const synced: AppSettings = {
+                sourceId: settings.sourceId,
+                temperatureUnit: settings.temperatureUnit,
+                theme: settings.theme,
+                language: settings.language,
+                materialLevel: settings.materialLevel,
+                qweatherApiKey: ''
+            };
+            await this.kv.put(KEY_SETTINGS, JSON.stringify(synced));
         }
         catch (e) {
             Log.w(`distributed putSettings failed: ${e}`);

@@ -4,6 +4,7 @@ export * from "@bundle:com.Lumio.Cirrus/entry@common/ets/models/Settings";
 export * from "@bundle:com.Lumio.Cirrus/entry@common/ets/utils/Log";
 export * from "@bundle:com.Lumio.Cirrus/entry@common/ets/utils/DateTimeUtil";
 export * from "@bundle:com.Lumio.Cirrus/entry@common/ets/utils/UnitUtil";
+export * from "@bundle:com.Lumio.Cirrus/entry@common/ets/utils/LangUtil";
 export * from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/ThemeUtil";
 export { WeatherCard } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/WeatherCard";
 export { MaterialUtil } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/MaterialUtil";

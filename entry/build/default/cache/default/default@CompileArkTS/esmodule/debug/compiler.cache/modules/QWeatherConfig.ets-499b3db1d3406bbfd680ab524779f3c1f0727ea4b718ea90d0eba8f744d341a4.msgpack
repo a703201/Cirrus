@@ -1,2 +1,21 @@
-Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙTE:\Codes\Project\Transplant\weather-app\data\src\main\ets\sources\QWeatherConfig.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¯hostModulesInfo¤dataÃÂÙ,E:\Codes\Project\Transplant\weather-app\dataÙ'E:\Codes\Project\Transplant\weather-app¤data¥1.0.0ÔrC’§pkgNameªpkgVersion¤data¥1.0.0Ù,E:\Codes\Project\Transplant\weather-app\dataÃ’ÔrD’²hostDependencyName®hostModuleName¹../sources/QWeatherConfig¤dataD°./QWeatherConfig¤dataÙŒ/** å’Œé£å¤©æ°” API Key â€”â€” åˆè§„é—¨ç¦é€šè¿‡ååœ¨æ­¤å¡«å……ï¼›ä¸ºç©ºåˆ™æºä¸å¯ç”¨ã€‚ */
-export const QWEATHER_API_KEY: string = '';ÀAÂÔrE”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙTE:\Codes\Project\Transplant\weather-app\data\src\main\ets\sources\QWeatherConfig.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¤dataÃÂÙ,E:\Codes\Project\Transplant\weather-app\dataÙ'E:\Codes\Project\Transplant\weather-app¤data¥1.0.0ÔrC’§pkgNameªpkgVersion¤data¥1.0.0’ÔrD’²hostDependencyName®hostModuleName¹../sources/QWeatherConfig¤dataD°./QWeatherConfig¤dataÙ,E:\Codes\Project\Transplant\weather-app\dataÃÚ[/**
+ * å’Œé£å¤©æ°”ï¼ˆQWeatherï¼‰API Key è¿è¡Œæ—¶æŒæœ‰è€…ã€‚
+ *
+ * ä¸ªäººå¼€å‘è€…åœºæ™¯ï¼šKey ç”±**ç”¨æˆ·åœ¨è®¾ç½®é¡µè‡ªè¡Œå¡«å…¥**ï¼Œä»…æœ¬æœºæŒä¹…åŒ–ï¼ˆPreferencesï¼‰ï¼Œ
+ * ä¸å…¥åº“ã€ä¸ä¸Šä¼ ã€‚AppStore åœ¨å¯åŠ¨ä¸è®¾ç½®å˜æ›´æ—¶å†™å…¥ï¼›QWeatherSource è¯»å–ã€‚
+ */
+export class QWeatherConfig {
+  private static apiKey: string = '';
+
+  static setApiKey(key: string): void {
+    QWeatherConfig.apiKey = key.trim();
+  }
+
+  static getApiKey(): string {
+    return QWeatherConfig.apiKey;
+  }
+
+  static hasApiKey(): boolean {
+    return QWeatherConfig.apiKey.length > 0;
+  }
+}ÀAÂÔrE”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache

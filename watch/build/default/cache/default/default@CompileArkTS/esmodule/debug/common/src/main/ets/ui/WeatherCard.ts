@@ -16,6 +16,9 @@ export class WeatherCard extends ViewV2 {
         this.initParam("weatherCode", (params && "weatherCode" in params) ? params.weatherCode : 0);
         this.initParam("isDay", (params && "isDay" in params) ? params.isDay : true);
         this.initParam("materialTier", (params && "materialTier" in params) ? params.materialTier : MaterialTier.AUTO);
+        this.initParam("high", (params && "high" in params) ? params.high : -999);
+        this.initParam("low", (params && "low" in params) ? params.low : -999);
+        this.initParam("apparent", (params && "apparent" in params) ? params.apparent : -999);
         this.finalizeConstruction();
     }
     public resetStateVarsOnReuse(params: Object): void {
@@ -27,6 +30,9 @@ export class WeatherCard extends ViewV2 {
         this.resetParam("weatherCode", (params && "weatherCode" in params) ? params.weatherCode : 0);
         this.resetParam("isDay", (params && "isDay" in params) ? params.isDay : true);
         this.resetParam("materialTier", (params && "materialTier" in params) ? params.materialTier : MaterialTier.AUTO);
+        this.resetParam("high", (params && "high" in params) ? params.high : -999);
+        this.resetParam("low", (params && "low" in params) ? params.low : -999);
+        this.resetParam("apparent", (params && "apparent" in params) ? params.apparent : -999);
     }
     @Param
     readonly temperature: number;
@@ -44,15 +50,21 @@ export class WeatherCard extends ViewV2 {
     readonly isDay: boolean;
     @Param
     readonly materialTier: MaterialTier;
+    @Param
+    readonly high: number;
+    @Param
+    readonly low: number;
+    @Param
+    readonly apparent: number;
+    private convert(v: number): number {
+        return this.unit === TemperatureUnit.FAHRENHEIT ? Math.round(v * 9 / 5 + 32) : Math.round(v);
+    }
     private tempText(): string {
-        const c: number = this.unit === TemperatureUnit.FAHRENHEIT
-            ? Math.round(this.temperature * 9 / 5 + 32)
-            : Math.round(this.temperature);
-        return `${c}°`;
+        return `${this.convert(this.temperature)}°`;
     }
     /**
      * 天气图标资源：文件名 = `wx_<base>_<day|night>`，与 `wmoIconKey()` 输出一致，
-     * 资源置于 common 模块 media（来自 erikflowers/weather-icons，MIT，见 README）。
+     * 资源置于 common 模块 media（erikflowers/weather-icons，MIT，见 README）。
      */
     private iconResource(): Resource {
         const key: string = wmoIconKey(this.weatherCode, this.isDay);
@@ -62,31 +74,33 @@ export class WeatherCard extends ViewV2 {
     }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create();
+            Column.create({ space: 2 });
             Column.width('100%');
-            Column.padding(20);
-            Column.backgroundColor('rgba(255,255,255,0.35)');
+            Column.padding({ top: 26, bottom: 26, left: 20, right: 20 });
+            Column.backgroundColor('rgba(255,255,255,0.38)');
             Column.backgroundBlurStyle(MaterialUtil.cardBlurStyle(this.materialTier));
-            Column.borderRadius(24);
+            Column.borderRadius(28);
             Column.accessibilityGroup(true);
             Column.accessibilityText(`${this.tempText()} ${this.condition}`);
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create(this.locationName);
-            Text.fontSize(18);
+            Text.fontSize(17);
             Text.fontWeight(FontWeight.Medium);
             Text.fontColor('#1A1A1A');
+            Text.maxLines(1);
+            Text.textOverflow({ overflow: TextOverflow.Ellipsis });
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create({ space: 8 });
+            Row.create({ space: 12 });
             Row.alignItems(VerticalAlign.Center);
-            Row.margin({ top: 6, bottom: 4 });
+            Row.margin({ top: 2 });
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Image.create(this.iconResource());
-            Image.width(44);
-            Image.height(44);
+            Image.width(52);
+            Image.height(52);
             Image.fillColor(this.isDay ? '#3B82F6' : '#7EA6F0');
         }, Image);
         {
@@ -94,15 +108,15 @@ export class WeatherCard extends ViewV2 {
                 if (isInitialRender) {
                     let componentCall = new GradientText(this, {
                         text: this.tempText(),
-                        fontSize: 72,
+                        fontSize: 88,
                         fontWeight: FontWeight.Lighter,
                         colors: this.isDay ? ['#1A1A1A', '#3B82F6'] : ['#F2F2F2', '#7EA6F0']
-                    }, undefined, elmtId, () => { }, { page: "common/src/main/ets/ui/WeatherCard.ets", line: 51, col: 9 });
+                    }, undefined, elmtId, () => { }, { page: "common/src/main/ets/ui/WeatherCard.ets", line: 57, col: 9 });
                     ViewV2.create(componentCall);
                     let paramsLambda = () => {
                         return {
                             text: this.tempText(),
-                            fontSize: 72,
+                            fontSize: 88,
                             fontWeight: FontWeight.Lighter,
                             colors: this.isDay ? ['#1A1A1A', '#3B82F6'] : ['#F2F2F2', '#7EA6F0']
                         };
@@ -112,7 +126,7 @@ export class WeatherCard extends ViewV2 {
                 else {
                     this.updateStateVarsOfChildByElmtId(elmtId, {
                         text: this.tempText(),
-                        fontSize: 72,
+                        fontSize: 88,
                         fontWeight: FontWeight.Lighter,
                         colors: this.isDay ? ['#1A1A1A', '#3B82F6'] : ['#F2F2F2', '#7EA6F0']
                     });
@@ -122,10 +136,58 @@ export class WeatherCard extends ViewV2 {
         Row.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create(this.condition);
-            Text.fontSize(16);
-            Text.fontColor('#4A4A4A');
+            Text.fontSize(17);
+            Text.fontColor('#3F3F3F');
+            Text.letterSpacing(0.3);
         }, Text);
         Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            if (this.high > -900 && this.low > -900) {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Row.create({ space: 12 });
+                        Row.margin({ top: 8 });
+                    }, Row);
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create(`↑ ${this.convert(this.high)}°`);
+                        Text.fontSize(14);
+                        Text.fontColor('#3F3F3F');
+                    }, Text);
+                    Text.pop();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create(`↓ ${this.convert(this.low)}°`);
+                        Text.fontSize(14);
+                        Text.fontColor('#3F3F3F');
+                    }, Text);
+                    Text.pop();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        If.create();
+                        if (this.apparent > -900) {
+                            this.ifElseBranchUpdateFunction(0, () => {
+                                this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                    Text.create(`｜ ${this.convert(this.apparent)}°`);
+                                    Text.fontSize(14);
+                                    Text.fontColor('#595959');
+                                }, Text);
+                                Text.pop();
+                            });
+                        }
+                        else {
+                            this.ifElseBranchUpdateFunction(1, () => {
+                            });
+                        }
+                    }, If);
+                    If.pop();
+                    Row.pop();
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                });
+            }
+        }, If);
+        If.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
             if (this.updatedAt.length > 0) {
@@ -174,6 +236,15 @@ export class WeatherCard extends ViewV2 {
         }
         if ("materialTier" in params) {
             this.updateParam("materialTier", params.materialTier);
+        }
+        if ("high" in params) {
+            this.updateParam("high", params.high);
+        }
+        if ("low" in params) {
+            this.updateParam("low", params.low);
+        }
+        if ("apparent" in params) {
+            this.updateParam("apparent", params.apparent);
         }
     }
     rerender() {

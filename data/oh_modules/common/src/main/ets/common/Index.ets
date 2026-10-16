@@ -5,6 +5,7 @@ export * from '../models/Settings';
 export * from '../utils/Log';
 export * from '../utils/DateTimeUtil';
 export * from '../utils/UnitUtil';
+export * from '../utils/LangUtil';
 export * from '../ui/ThemeUtil';
 export { WeatherCard } from '../ui/WeatherCard';
 export { MaterialUtil } from '../ui/MaterialUtil';

@@ -49,6 +49,66 @@
       "value": "データソース"
     },
     {
+      "name": "settings_qweather_key",
+      "value": "QWeather APIキー"
+    },
+    {
+      "name": "qweather_key_hint",
+      "value": "QWeather APIキーを貼り付け"
+    },
+    {
+      "name": "action_save",
+      "value": "保存"
+    },
+    {
+      "name": "action_clear",
+      "value": "クリア"
+    },
+    {
+      "name": "qweather_key_saved",
+      "value": "キーを検証して保存しました。「データソース」で QWeather を選択できます"
+    },
+    {
+      "name": "qweather_key_invalid",
+      "value": "検証に失敗しました。ネットワークとキーを確認してください"
+    },
+    {
+      "name": "qweather_key_cleared",
+      "value": "端末内に保存された API キーを削除しました"
+    },
+    {
+      "name": "action_edit",
+      "value": "編集"
+    },
+    {
+      "name": "action_cancel",
+      "value": "キャンセル"
+    },
+    {
+      "name": "qweather_key_configured",
+      "value": "設定済み"
+    },
+    {
+      "name": "qweather_source_unconfigured",
+      "value": "QWeather（未設定）"
+    },
+    {
+      "name": "qweather_key_dialog_title",
+      "value": "QWeather API キーを設定"
+    },
+    {
+      "name": "qweather_key_dialog_desc",
+      "value": "QWeather の開発プラットフォームでキーを取得してください。端末内にのみ保存され、他の端末への同期も送信もされません。"
+    },
+    {
+      "name": "qweather_key_empty",
+      "value": "API キーを入力してください"
+    },
+    {
+      "name": "language_restart_hint",
+      "value": "言語の切り替えはアプリの再起動後に反映されます"
+    },
+    {
       "name": "settings_unit",
       "value": "単位"
     },
@@ -162,7 +222,7 @@
     },
     {
       "name": "privacy_third_qweather_body",
-      "value": "API キーが必要で、キーは暗号化されて端末内にのみ保存されます。デフォルトはオフで、設定から自分で有効化でき、いつでもデフォルトに戻せます。"
+      "value": "ご自身の API キーが必要です。端末内のアプリ専用ストレージに保存され、他の端末への同期も送信も行われません。デフォルトはオフで、いつでも戻せます。"
     },
     {
       "name": "privacy_policy_collect_title",
@@ -303,6 +363,14 @@
     {
       "name": "label_air_quality",
       "value": "大気質"
+    },
+    {
+      "name": "label_minutely",
+      "value": "2時間降水"
+    },
+    {
+      "name": "minutely_no_rain",
+      "value": "今後2時間は降水なし"
     },
     {
       "name": "msg_loading",

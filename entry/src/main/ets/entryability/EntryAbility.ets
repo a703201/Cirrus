@@ -1,7 +1,8 @@
 import { UIAbility, AbilityConstant, Want, Configuration, ConfigurationConstant } from '@kit.AbilityKit';
 import { window } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { Log } from 'common';
+import { Log, AppSettings, applyAppLanguage } from 'common';
+import { settingsStore } from 'data';
 import { appStore } from '../store/AppStore';
 import { themeModel } from '../store/ThemeModel';
 import { PushService } from '../push/PushService';
@@ -34,11 +35,26 @@ export default class EntryAbility extends UIAbility {
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
     this.enableImmersive(windowStage);
-    windowStage.loadContent('pages/Index', (err: BusinessError) => {
-      if (err.code !== 0) {
-        Log.e(`loadContent failed: ${err.code} ${err.message}`);
-      }
+    // i18n 机制：资源按应用首选语言在**启动加载资源时**生效，故必须先应用语言再 loadContent，
+    // 否则用户切到英语后即便冷启动，页面文案仍会走系统语言。
+    this.prepareLanguage().then(() => {
+      windowStage.loadContent('pages/Index', (err: BusinessError) => {
+        if (err.code !== 0) {
+          Log.e(`loadContent failed: ${err.code} ${err.message}`);
+        }
+      });
     });
+  }
+
+  /** 读取已持久化的语言偏好并登记为应用首选语言（失败静默降级为系统语言）。 */
+  private async prepareLanguage(): Promise<void> {
+    try {
+      await settingsStore.init(this.context);
+      const s: AppSettings = await settingsStore.load();
+      applyAppLanguage(s.language);
+    } catch (e) {
+      Log.w(`prepareLanguage failed: ${e}`);
+    }
   }
 
   /**

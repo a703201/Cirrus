@@ -42,6 +42,11 @@ export interface DailyPoint {
     sunset: number;
     uvIndexMax: number;
 }
+/** 分钟级降水点（P2-5）：未来 2 小时的短时降水强度（mm）。 */
+export interface MinutelyPoint {
+    time: number;
+    precip: number;
+}
 export interface AirQuality {
     aqi: number;
     pm25: number;
@@ -61,6 +66,10 @@ export interface WeatherData {
     daily: DailyPoint[];
     airQuality?: AirQuality;
     alerts?: WeatherAlert[];
+    /** 分钟级降水（源支持时提供）。 */
+    minutely?: MinutelyPoint[];
+    /** 源提供的分钟级降水自然语言摘要（如和风 minutely.summary）。 */
+    minutelySummary?: string;
     source: string;
     fetchedAt: number;
 }

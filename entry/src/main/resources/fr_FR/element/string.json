@@ -49,6 +49,66 @@
       "value": "Source de données"
     },
     {
+      "name": "settings_qweather_key",
+      "value": "Clé API QWeather"
+    },
+    {
+      "name": "qweather_key_hint",
+      "value": "Collez votre clé API QWeather"
+    },
+    {
+      "name": "action_save",
+      "value": "Enregistrer"
+    },
+    {
+      "name": "action_clear",
+      "value": "Effacer"
+    },
+    {
+      "name": "qweather_key_saved",
+      "value": "Clé vérifiée et enregistrée. Choisissez QWeather dans Source de données."
+    },
+    {
+      "name": "qweather_key_invalid",
+      "value": "Échec de la vérification. Vérifiez le réseau et la clé."
+    },
+    {
+      "name": "qweather_key_cleared",
+      "value": "Clé API supprimée de cet appareil"
+    },
+    {
+      "name": "action_edit",
+      "value": "Modifier"
+    },
+    {
+      "name": "action_cancel",
+      "value": "Annuler"
+    },
+    {
+      "name": "qweather_key_configured",
+      "value": "Configurée"
+    },
+    {
+      "name": "qweather_source_unconfigured",
+      "value": "QWeather (non configurée)"
+    },
+    {
+      "name": "qweather_key_dialog_title",
+      "value": "Configurer la clé API QWeather"
+    },
+    {
+      "name": "qweather_key_dialog_desc",
+      "value": "Obtenez votre clé sur la plateforme développeur QWeather. Elle reste sur cet appareil : jamais synchronisée ni transmise."
+    },
+    {
+      "name": "qweather_key_empty",
+      "value": "Veuillez saisir une clé API"
+    },
+    {
+      "name": "language_restart_hint",
+      "value": "Le changement de langue prend effet après le redémarrage de l'application"
+    },
+    {
       "name": "settings_unit",
       "value": "Unités"
     },
@@ -162,7 +222,7 @@
     },
     {
       "name": "privacy_third_qweather_body",
-      "value": "Nécessite une clé API stockée uniquement sur cet appareil, chiffrée. Désactivée par défaut ; à activer vous-même dans les réglages, avec retour possible à tout moment."
+      "value": "Nécessite votre propre clé API, conservée uniquement dans le stockage privé de l'application sur cet appareil : jamais synchronisée ni transmise. Désactivée par défaut ; retour possible à tout moment."
     },
     {
       "name": "privacy_policy_collect_title",
@@ -303,6 +363,14 @@
     {
       "name": "label_air_quality",
       "value": "Qualité de l'air"
+    },
+    {
+      "name": "label_minutely",
+      "value": "2 prochaines heures"
+    },
+    {
+      "name": "minutely_no_rain",
+      "value": "Aucune précipitation dans les 2 prochaines heures"
     },
     {
       "name": "msg_loading",

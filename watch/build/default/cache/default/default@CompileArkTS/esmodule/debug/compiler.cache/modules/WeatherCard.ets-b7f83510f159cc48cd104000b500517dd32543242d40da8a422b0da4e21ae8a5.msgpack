@@ -1,15 +1,13 @@
-Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙNE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\WeatherCard.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0‘ÔrD’²hostDependencyName®hostModuleName±../ui/WeatherCard¦commonÙ.E:\Codes\Project\Transplant\weather-app\commonÃÚ
-Çimport { TemperatureUnit, MaterialTier } from '../models/Settings';
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙNE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\WeatherCard.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0‘ÔrD’²hostDependencyName®hostModuleName±../ui/WeatherCard¦commonÙ.E:\Codes\Project\Transplant\weather-app\commonÃÚimport { TemperatureUnit, MaterialTier } from '../models/Settings';
 import { MaterialUtil } from './MaterialUtil';
 import { GradientText } from './GradientText';
 import { wmoIconKey } from '../models/WmoCode';
 
 /**
- * Reusable current-weather card (state management V2).
- * å·äº‘Â·æ°”è±¡æ‹ŸçœŸï¼ˆdocs/13 Â§7ï¼‰ï¼šå†…å®¹å¡é‡‡ç”¨ç¨³å®šç»ç’ƒï¼ˆ`backgroundBlurStyle`ï¼‰â€”â€”å› å®˜æ–¹çº¦æŸ
- * ImmersiveMaterial å¯¹å†…å®¹åŒºä¸ç”Ÿæ•ˆï¼›æ²‰æµ¸å…‰æ„Ÿèšç„¦äºæ ‡é¢˜æ /åº•éƒ¨å¯¼èˆª/å¼¹çª—ã€‚
- * æ¸©åº¦ä½¿ç”¨æ•°å­—ç¿»ç‰Œ + æ¸å˜å­—ï¼ˆP1-4ï¼‰ï¼›å¤©æ°”å›¾æ ‡ä½¿ç”¨ erikflowers/weather-iconsï¼ˆMITï¼Œ
- * è§ READMEï¼‰ï¼Œèµ„æºç½®äº common æ¨¡å— mediaï¼Œæ–‡ä»¶åä¸ `wmoIconKey()` è¾“å‡ºä¸€ä¸€å¯¹åº”ã€‚
+ * Hero å¤©æ°”å¡ï¼ˆå·äº‘Â·æ°”è±¡æ‹ŸçœŸï¼Œdocs/13 Â§7ï¼‰.
+ * - å†…å®¹å¡é‡‡ç”¨ç¨³å®šç»ç’ƒï¼ˆImmersiveMaterial å¯¹å†…å®¹åŒºä¸ç”Ÿæ•ˆï¼‰ã€‚
+ * - æ¸©åº¦ï¼šæ•°å­—ç¿»ç‰Œ + æ¸å˜å­—ï¼›å¤©æ°”å›¾æ ‡ï¼šweather-icons å­—ä½“å›¾ï¼ˆcommon mediaï¼‰ã€‚
+ * - ç‰ˆå¼ï¼šåœ°ç‚¹ â†’ å¤§æ¸©åº¦+å›¾æ ‡ â†’ ç°è±¡ â†’ é«˜ä½æ¸©/ä½“æ„Ÿ â†’ æ›´æ–°æ—¶é—´ï¼ˆæ¸…æ™°è§†è§‰å±‚çº§ï¼‰ã€‚
  */
 @ComponentV2
 export struct WeatherCard {
@@ -21,17 +19,21 @@ export struct WeatherCard {
   @Param weatherCode: number = 0;
   @Param isDay: boolean = true;
   @Param materialTier: MaterialTier = MaterialTier.AUTO;
+  @Param high: number = -999;
+  @Param low: number = -999;
+  @Param apparent: number = -999;
+
+  private convert(v: number): number {
+    return this.unit === TemperatureUnit.FAHRENHEIT ? Math.round(v * 9 / 5 + 32) : Math.round(v);
+  }
 
   private tempText(): string {
-    const c: number = this.unit === TemperatureUnit.FAHRENHEIT
-      ? Math.round(this.temperature * 9 / 5 + 32)
-      : Math.round(this.temperature);
-    return `${c}Â°`;
+    return `${this.convert(this.temperature)}Â°`;
   }
 
   /**
    * å¤©æ°”å›¾æ ‡èµ„æºï¼šæ–‡ä»¶å = `wx_<base>_<day|night>`ï¼Œä¸ `wmoIconKey()` è¾“å‡ºä¸€è‡´ï¼Œ
-   * èµ„æºç½®äº common æ¨¡å— mediaï¼ˆæ¥è‡ª erikflowers/weather-iconsï¼ŒMITï¼Œè§ READMEï¼‰ã€‚
+   * èµ„æºç½®äº common æ¨¡å— mediaï¼ˆerikflowers/weather-iconsï¼ŒMITï¼Œè§ READMEï¼‰ã€‚
    */
   private iconResource(): Resource {
     const key: string = wmoIconKey(this.weatherCode, this.isDay);
@@ -39,28 +41,45 @@ export struct WeatherCard {
   }
 
   build() {
-    Column() {
+    Column({ space: 2 }) {
       Text(this.locationName)
-        .fontSize(18)
+        .fontSize(17)
         .fontWeight(FontWeight.Medium)
         .fontColor('#1A1A1A')
-      Row({ space: 8 }) {
+        .maxLines(1)
+        .textOverflow({ overflow: TextOverflow.Ellipsis })
+
+      Row({ space: 12 }) {
         Image(this.iconResource())
-          .width(44)
-          .height(44)
+          .width(52)
+          .height(52)
           .fillColor(this.isDay ? '#3B82F6' : '#7EA6F0')
         GradientText({
           text: this.tempText(),
-          fontSize: 72,
+          fontSize: 88,
           fontWeight: FontWeight.Lighter,
           colors: this.isDay ? ['#1A1A1A', '#3B82F6'] : ['#F2F2F2', '#7EA6F0']
         })
       }
       .alignItems(VerticalAlign.Center)
-      .margin({ top: 6, bottom: 4 })
+      .margin({ top: 2 })
+
       Text(this.condition)
-        .fontSize(16)
-        .fontColor('#4A4A4A')
+        .fontSize(17)
+        .fontColor('#3F3F3F')
+        .letterSpacing(0.3)
+
+      if (this.high > -900 && this.low > -900) {
+        Row({ space: 12 }) {
+          Text(`â†‘ ${this.convert(this.high)}Â°`).fontSize(14).fontColor('#3F3F3F')
+          Text(`â†“ ${this.convert(this.low)}Â°`).fontSize(14).fontColor('#3F3F3F')
+          if (this.apparent > -900) {
+            Text(`ï½œ ${this.convert(this.apparent)}Â°`).fontSize(14).fontColor('#595959')
+          }
+        }
+        .margin({ top: 8 })
+      }
+
       if (this.updatedAt.length > 0) {
         Text(this.updatedAt)
           .fontSize(12)
@@ -69,12 +88,12 @@ export struct WeatherCard {
       }
     }
     .width('100%')
-    .padding(20)
-    .backgroundColor('rgba(255,255,255,0.35)')
+    .padding({ top: 26, bottom: 26, left: 20, right: 20 })
+    .backgroundColor('rgba(255,255,255,0.38)')
     .backgroundBlurStyle(MaterialUtil.cardBlurStyle(this.materialTier))
-    .borderRadius(24)
+    .borderRadius(28)
     .accessibilityGroup(true)
     .accessibilityText(`${this.tempText()} ${this.condition}`)
   }
 }
-ÀÔrE”²../models/Settings®./MaterialUtil±../models/WmoCode®./GradientTextÔrF–ªassertions¨external¢id¤metaªresolvedByµsyntheticNamedExportsAÂÙNE:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\Settings.tsAªoh-resolveÂFAÂÙOE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\MaterialUtil.etsAªoh-resolveÂFAÂÙME:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WmoCode.tsAªoh-resolveÂFAÂÙOE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\GradientText.etsAªoh-resolveÂÂÔrG”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache”ÔrH•¤type¥start£endªspecifiers¦source±ImportDeclarationÍÂÍ’ÔrI•¤type¥start£end¨imported¥local¯ImportSpecifierÍËÍÚÔrJ”¤type¥start£end¤nameªIdentifierÍËÍÚ¯TemperatureUnitJªIdentifierÍËÍÚ¯TemperatureUnitI¯ImportSpecifierÍÜÍèJªIdentifierÍÜÍè¬MaterialTierJªIdentifierÍÜÍè¬MaterialTierÔrK•¤type¥start£end¥value£raw§LiteralÍğÍ²../models/Settings´'../models/Settings'H±ImportDeclarationÍÍ5‘I¯ImportSpecifierÍÍJªIdentifierÍÍ¬MaterialUtilJªIdentifierÍÍ¬MaterialUtilK§LiteralÍ$Í4®./MaterialUtil°'./MaterialUtil'H±ImportDeclarationÍ7Íe‘I¯ImportSpecifierÍ@ÍLJªIdentifierÍ@ÍL¬GradientTextJªIdentifierÍ@ÍL¬GradientTextK§LiteralÍTÍd®./GradientText°'./GradientText'H±ImportDeclarationÍgÍ–‘I¯ImportSpecifierÍpÍzJªIdentifierÍpÍzªwmoIconKeyJªIdentifierÍpÍzªwmoIconKeyK§LiteralÍ‚Í•±../models/WmoCode³'../models/WmoCode'
+ÀÔrE”®./MaterialUtil²../models/Settings±../models/WmoCode®./GradientTextÔrF–ªassertions¨external¢id¤metaªresolvedByµsyntheticNamedExportsAÂÙOE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\MaterialUtil.etsAªoh-resolveÂFAÂÙNE:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\Settings.tsAªoh-resolveÂFAÂÙME:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WmoCode.tsAªoh-resolveÂFAÂÙOE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\GradientText.etsAªoh-resolveÂÂÔrG”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache”ÔrH•¤type¥start£endªspecifiers¦source±ImportDeclarationÍÂÍ’ÔrI•¤type¥start£end¨imported¥local¯ImportSpecifierÍËÍÚÔrJ”¤type¥start£end¤nameªIdentifierÍËÍÚ¯TemperatureUnitJªIdentifierÍËÍÚ¯TemperatureUnitI¯ImportSpecifierÍÜÍèJªIdentifierÍÜÍè¬MaterialTierJªIdentifierÍÜÍè¬MaterialTierÔrK•¤type¥start£end¥value£raw§LiteralÍğÍ²../models/Settings´'../models/Settings'H±ImportDeclarationÍÍ5‘I¯ImportSpecifierÍÍJªIdentifierÍÍ¬MaterialUtilJªIdentifierÍÍ¬MaterialUtilK§LiteralÍ$Í4®./MaterialUtil°'./MaterialUtil'H±ImportDeclarationÍ7Íe‘I¯ImportSpecifierÍ@ÍLJªIdentifierÍ@ÍL¬GradientTextJªIdentifierÍ@ÍL¬GradientTextK§LiteralÍTÍd®./GradientText°'./GradientText'H±ImportDeclarationÍgÍ–‘I¯ImportSpecifierÍpÍzJªIdentifierÍpÍzªwmoIconKeyJªIdentifierÍpÍzªwmoIconKeyK§LiteralÍ‚Í•±../models/WmoCode³'../models/WmoCode'

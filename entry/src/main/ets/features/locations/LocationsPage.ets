@@ -81,7 +81,7 @@ export struct LocationsPage {
                     .fontSize(16)
                     .fontWeight(FontWeight.Medium)
                     .fontColor('#1A1A1A')
-                  if (ri.item.id === appStore.currentId) {
+                  if (ri.item.id === appStore.defaultId) {
                     Text($r('app.string.label_default')).fontSize(12).fontColor('#3B82F6')
                   }
                 }
@@ -90,13 +90,17 @@ export struct LocationsPage {
 
                 Button($r('app.string.action_set_default'))
                   .fontSize(12)
-                  .visibility(ri.item.id === appStore.currentId ? Visibility.None : Visibility.Visible)
+                  .backgroundColor('#3B82F6')
+                  .fontColor('#FFFFFF')
+                  .visibility(ri.item.id === appStore.defaultId ? Visibility.None : Visibility.Visible)
                   .onClick(() => {
                     appStore.setDefaultLocation(ri.item.id);
                   })
+                // 危险操作用「浅红底 + 深红字」，红字压在默认蓝底上几乎不可读。
                 Button($r('app.string.action_delete'))
                   .fontSize(12)
-                  .fontColor('#EF4444')
+                  .fontColor('#C5221F')
+                  .backgroundColor('rgba(239,68,68,0.12)')
                   .onClick(() => {
                     appStore.removeLocation(ri.item.id);
                   })

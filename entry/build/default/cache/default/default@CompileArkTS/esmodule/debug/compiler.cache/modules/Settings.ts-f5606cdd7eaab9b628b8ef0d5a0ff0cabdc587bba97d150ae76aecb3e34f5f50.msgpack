@@ -1,4 +1,4 @@
-Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙNE:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\Settings.tsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¯hostModulesInfo¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0Ù.E:\Codes\Project\Transplant\weather-app\commonÃ‘ÔrD’²hostDependencyName®hostModuleName²../models/Settings¦commonÚ0/**
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙNE:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\Settings.tsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0‘ÔrD’²hostDependencyName®hostModuleName²../models/Settings¦commonÙ.E:\Codes\Project\Transplant\weather-app\commonÃÚÆ/**
  * App-level settings model (persisted via SettingsStore / Preferences).
  * Kept source-agnostic; UI reads these to drive units / theme / source / language / material tier.
  */
@@ -30,6 +30,8 @@ export interface AppSettings {
   language: string;
   /** æ²‰æµ¸å…‰æ„Ÿæè´¨æ¡£ä½ã€‚ */
   materialLevel: MaterialTier;
+  /** å’Œé£å¤©æ°” API Keyï¼šç”±ç”¨æˆ·è‡ªå¡«ï¼Œä»…æœ¬æœºæŒä¹…åŒ–ï¼ˆä¸ªäººå¼€å‘è€…åœºæ™¯ï¼‰ã€‚ */
+  qweatherApiKey: string;
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
@@ -37,5 +39,6 @@ export const DEFAULT_SETTINGS: AppSettings = {
   temperatureUnit: TemperatureUnit.CELSIUS,
   theme: ThemeMode.AUTO,
   language: 'system',
-  materialLevel: MaterialTier.AUTO
+  materialLevel: MaterialTier.AUTO,
+  qweatherApiKey: ''
 };ÀAÂÔrE”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache

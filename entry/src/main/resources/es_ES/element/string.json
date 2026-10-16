@@ -49,6 +49,66 @@
       "value": "Fuente de datos"
     },
     {
+      "name": "settings_qweather_key",
+      "value": "Clave API de QWeather"
+    },
+    {
+      "name": "qweather_key_hint",
+      "value": "Pega tu clave API de QWeather"
+    },
+    {
+      "name": "action_save",
+      "value": "Guardar"
+    },
+    {
+      "name": "action_clear",
+      "value": "Borrar"
+    },
+    {
+      "name": "qweather_key_saved",
+      "value": "Clave verificada y guardada. Elige QWeather en Fuente de datos."
+    },
+    {
+      "name": "qweather_key_invalid",
+      "value": "La verificación falló. Revisa tu red y la clave."
+    },
+    {
+      "name": "qweather_key_cleared",
+      "value": "Clave API borrada de este dispositivo"
+    },
+    {
+      "name": "action_edit",
+      "value": "Editar"
+    },
+    {
+      "name": "action_cancel",
+      "value": "Cancelar"
+    },
+    {
+      "name": "qweather_key_configured",
+      "value": "Configurada"
+    },
+    {
+      "name": "qweather_source_unconfigured",
+      "value": "QWeather (sin configurar)"
+    },
+    {
+      "name": "qweather_key_dialog_title",
+      "value": "Configurar la clave API de QWeather"
+    },
+    {
+      "name": "qweather_key_dialog_desc",
+      "value": "Obtén tu clave en la plataforma de desarrolladores de QWeather. Se guarda solo en este dispositivo: nunca se sincroniza ni se envía."
+    },
+    {
+      "name": "qweather_key_empty",
+      "value": "Introduce una clave API"
+    },
+    {
+      "name": "language_restart_hint",
+      "value": "El cambio de idioma se aplica tras reiniciar la aplicación"
+    },
+    {
       "name": "settings_unit",
       "value": "Unidades"
     },
@@ -162,7 +222,7 @@
     },
     {
       "name": "privacy_third_qweather_body",
-      "value": "Requiere una clave API guardada cifrada solo en este dispositivo. Desactivada por defecto; actívala tú mismo en Ajustes y vuelve a la predeterminada cuando quieras."
+      "value": "Requiere tu propia clave API, guardada solo en el almacenamiento privado de la app en este dispositivo: nunca se sincroniza ni se envía. Desactivada por defecto; vuelve a la predeterminada cuando quieras."
     },
     {
       "name": "privacy_policy_collect_title",
@@ -303,6 +363,14 @@
     {
       "name": "label_air_quality",
       "value": "Calidad del aire"
+    },
+    {
+      "name": "label_minutely",
+      "value": "Próximas 2 horas"
+    },
+    {
+      "name": "minutely_no_rain",
+      "value": "Sin precipitación en las próximas 2 horas"
     },
     {
       "name": "msg_loading",

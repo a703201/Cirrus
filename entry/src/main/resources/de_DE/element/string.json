@@ -49,6 +49,66 @@
       "value": "Datenquelle"
     },
     {
+      "name": "settings_qweather_key",
+      "value": "QWeather API-Schlüssel"
+    },
+    {
+      "name": "qweather_key_hint",
+      "value": "QWeather API-Schlüssel einfügen"
+    },
+    {
+      "name": "action_save",
+      "value": "Speichern"
+    },
+    {
+      "name": "action_clear",
+      "value": "Löschen"
+    },
+    {
+      "name": "qweather_key_saved",
+      "value": "Schlüssel geprüft und gespeichert. Wähle QWeather unter Datenquelle."
+    },
+    {
+      "name": "qweather_key_invalid",
+      "value": "Prüfung fehlgeschlagen. Bitte Netzwerk und Schlüssel prüfen."
+    },
+    {
+      "name": "qweather_key_cleared",
+      "value": "API-Schlüssel vom Gerät entfernt"
+    },
+    {
+      "name": "action_edit",
+      "value": "Bearbeiten"
+    },
+    {
+      "name": "action_cancel",
+      "value": "Abbrechen"
+    },
+    {
+      "name": "qweather_key_configured",
+      "value": "Konfiguriert"
+    },
+    {
+      "name": "qweather_source_unconfigured",
+      "value": "QWeather (nicht konfiguriert)"
+    },
+    {
+      "name": "qweather_key_dialog_title",
+      "value": "QWeather API-Schlüssel einrichten"
+    },
+    {
+      "name": "qweather_key_dialog_desc",
+      "value": "Hol dir deinen Schlüssel auf der QWeather-Entwicklerplattform. Er bleibt nur auf diesem Gerät – nie synchronisiert, nie hochgeladen."
+    },
+    {
+      "name": "qweather_key_empty",
+      "value": "Bitte einen API-Schlüssel eingeben"
+    },
+    {
+      "name": "language_restart_hint",
+      "value": "Die Sprachänderung wird nach einem Neustart der App wirksam"
+    },
+    {
       "name": "settings_unit",
       "value": "Einheiten"
     },
@@ -162,7 +222,7 @@
     },
     {
       "name": "privacy_third_qweather_body",
-      "value": "Erfordert einen API-Schlüssel, der verschlüsselt nur auf diesem Gerät gespeichert wird. Standardmäßig aus; in den Einstellungen selbst aktivierbar, jederzeit umschaltbar."
+      "value": "Erfordert Ihren eigenen API-Schlüssel, der ausschließlich im app-privaten Speicher dieses Geräts liegt – nie synchronisiert, nie hochgeladen. Standardmäßig aus; jederzeit umschaltbar."
     },
     {
       "name": "privacy_policy_collect_title",
@@ -303,6 +363,14 @@
     {
       "name": "label_air_quality",
       "value": "Luftqualität"
+    },
+    {
+      "name": "label_minutely",
+      "value": "Nächste 2 Stunden"
+    },
+    {
+      "name": "minutely_no_rain",
+      "value": "Kein Niederschlag in den nächsten 2 Stunden"
     },
     {
       "name": "msg_loading",

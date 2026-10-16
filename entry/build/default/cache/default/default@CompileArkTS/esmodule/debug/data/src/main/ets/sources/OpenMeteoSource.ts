@@ -1,6 +1,6 @@
 import http from "@ohos:net.http";
 import { Log, UnitUtil } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
-import type { LocationInfo, WeatherData, HourlyPoint, DailyPoint, AirQuality } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import type { LocationInfo, WeatherData, HourlyPoint, DailyPoint, MinutelyPoint, AirQuality } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import type { WeatherSource } from './WeatherSource';
 const BASE_URL: string = 'https://api.open-meteo.com/v1/forecast';
 const GEO_URL: string = 'https://geocoding-api.open-meteo.com/v1/search';
@@ -36,11 +36,16 @@ interface OmDaily {
     sunset: string[];
     uv_index_max: number[];
 }
+interface OmMinutely15 {
+    time: string[];
+    precipitation: number[];
+}
 interface OmResponse {
     timezone: string;
     current: OmCurrent;
     hourly: OmHourly;
     daily: OmDaily;
+    minutely_15?: OmMinutely15;
 }
 interface OmGeoResult {
     id: number;
@@ -65,7 +70,14 @@ export class OpenMeteoSource implements WeatherSource {
     readonly displayName: string = 'Open-Meteo';
     readonly needApiKey: boolean = false;
     readonly enabledByDefault: boolean = true;
+    isAvailable(): boolean {
+        return true;
+    }
     async getCurrentAndForecast(loc: LocationInfo, lang: string): Promise<WeatherData> {
+        // 坐标防御：NaN / 非有限值会让 Open-Meteo 直接返回 HTTP 400（已实测），先拦在本地。
+        if (!Number.isFinite(loc.latitude) || !Number.isFinite(loc.longitude)) {
+            throw new Error(`invalid coordinates: ${loc.latitude},${loc.longitude}`);
+        }
         const url: string = this.buildForecastUrl(loc);
         const raw: string = await this.request(url);
         const data: WeatherData = this.toNormalized(loc, raw);
@@ -97,9 +109,10 @@ export class OpenMeteoSource implements WeatherSource {
             'current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,' +
                 'wind_speed_10m,wind_direction_10m,surface_pressure,cloud_cover,visibility,is_day',
             'hourly=temperature_2m,weather_code,precipitation_probability,precipitation,wind_speed_10m',
-            // 注意：daily 无 precipitation_probability 变量（传了会 HTTP 400），
-            // 日降水概率用 precipitation_probability_max（%，已实测）。
+            // 注意：daily 没有 precipitation_probability 变量（传了 Open-Meteo 直接 HTTP 400），
+            // 日降水概率须用 precipitation_probability_max（单位 %）。hourly/current 的同名变量合法。
             'daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset,uv_index_max',
+            'minutely_15=precipitation',
             'timezone=auto',
             'forecast_days=16',
             'past_days=1',
@@ -159,6 +172,15 @@ export class OpenMeteoSource implements WeatherSource {
                 uvIndexMax: om.daily.uv_index_max[i]
             });
         }
+        // P2-5: 分钟级降水（minutely_15，取未来 2 小时 = 前 8 个点；部分模型不提供时为空）。
+        const minutely: MinutelyPoint[] = [];
+        const m15: OmMinutely15 | undefined = om.minutely_15;
+        if (m15) {
+            const mlen: number = Math.min(m15.time.length, 8);
+            for (let i = 0; i < mlen; i++) {
+                minutely.push({ time: new Date(m15.time[i]).getTime(), precip: m15.precipitation[i] });
+            }
+        }
         return {
             location: loc,
             current: {
@@ -177,6 +199,7 @@ export class OpenMeteoSource implements WeatherSource {
             },
             hourly: hourly,
             daily: daily,
+            minutely: minutely,
             source: this.id,
             fetchedAt: Date.now()
         };

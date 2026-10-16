@@ -1,8 +1,13 @@
 import { http } from '@kit.NetworkKit';
-import { LocationInfo, WeatherData, HourlyPoint, DailyPoint, AirQuality, WeatherAlert, Log } from 'common';
+import {
+  LocationInfo, WeatherData, HourlyPoint, DailyPoint, MinutelyPoint, AirQuality, WeatherAlert, Log
+} from 'common';
 import { WeatherSource } from './WeatherSource';
 import { qweatherIconToWmo } from './QWeatherCodes';
-import { QWEATHER_API_KEY } from './QWeatherConfig';
+import { QWeatherConfig } from './QWeatherConfig';
+
+const QW_API_ROOT: string = 'https://devapi.qweather.com/v7';
+const QW_GEO_ROOT: string = 'https://geoapi.qweather.com/v2';
 
 interface QwNow {
   temp: number;
@@ -84,32 +89,69 @@ interface QwWarningResponse {
   warning?: QwWarningItem[];
 }
 
+interface QwMinutelyPoint {
+  fxTime: string;
+  precip: string;
+}
+
+interface QwMinutelyResponse {
+  summary: string;
+  minutely: QwMinutelyPoint[];
+}
+
+/**
+ * 和风天气源（可选）。
+ * 个人开发者场景：API Key 由**用户在设置页自行填入**并仅存本机；
+ * 未配置 Key 时 `isAvailable()` 为 false，不出现在可选数据源列表。
+ */
 export class QWeatherSource implements WeatherSource {
   readonly id: string = 'qweather';
   readonly displayName: string = '和风天气 QWeather';
   readonly needApiKey: boolean = true;
-  readonly enabledByDefault: boolean = QWEATHER_API_KEY.length > 0;
+  readonly enabledByDefault: boolean = false;
 
-  private readonly apiKey: string = QWEATHER_API_KEY;
-  private readonly base: string = 'https://devapi.qweather.com/v7';
+  isAvailable(): boolean {
+    return QWeatherConfig.hasApiKey();
+  }
+
+  /** 校验 API Key（调用一次轻量接口），供设置页「保存」时即时反馈。 */
+  static async verify(apiKey: string): Promise<boolean> {
+    const key: string = apiKey.trim();
+    if (key.length === 0) {
+      return false;
+    }
+    const req: http.HttpRequest = http.createHttp();
+    try {
+      const resp: http.HttpResponse = await req.request(`${QW_API_ROOT}/weather/now?location=101010100`, {
+        method: http.RequestMethod.GET,
+        header: { 'X-QW-Api-Key': key, 'Content-Type': 'application/json' }
+      });
+      return resp.responseCode === 200;
+    } catch (e) {
+      Log.w(`QWeather verify failed: ${e}`);
+      return false;
+    } finally {
+      req.destroy();
+    }
+  }
 
   async getCurrentAndForecast(loc: LocationInfo, lang: string): Promise<WeatherData> {
-    if (!this.apiKey) {
-      throw new Error('QWeather API key not configured (compliance-gated source)');
+    if (!QWeatherConfig.hasApiKey()) {
+      throw new Error('QWeather API key not configured');
     }
     const ll: string = `${loc.longitude},${loc.latitude}`;
-    const now: string = await this.request(`${this.base}/weather/now?location=${ll}`);
-    const hourlyRaw: string = await this.request(`${this.base}/weather/24h?location=${ll}`);
-    const dailyRaw: string = await this.request(`${this.base}/weather/7d?location=${ll}`);
+    const now: string = await this.request(`${QW_API_ROOT}/weather/now?location=${ll}`);
+    const hourlyRaw: string = await this.request(`${QW_API_ROOT}/weather/24h?location=${ll}`);
+    const dailyRaw: string = await this.request(`${QW_API_ROOT}/weather/7d?location=${ll}`);
     const data: WeatherData = this.toNormalized(loc, now, hourlyRaw, dailyRaw);
-    // P2-1: 空气质量 + 气象预警（best-effort）。
     data.airQuality = await this.fetchAir(ll);
     data.alerts = await this.fetchWarnings(ll);
+    await this.fillMinutely(ll, data);
     return data;
   }
 
   async searchLocation(query: string, lang: string): Promise<LocationInfo[]> {
-    const raw: string = await this.request(`https://geoapi.qweather.com/v2/city/lookup?location=${encodeURIComponent(query)}`);
+    const raw: string = await this.request(`${QW_GEO_ROOT}/city/lookup?location=${encodeURIComponent(query)}`);
     const obj: QwGeoResponse = JSON.parse(raw) as QwGeoResponse;
     const list: QwGeoPoint[] = obj.location ?? [];
     return list.map((r: QwGeoPoint): LocationInfo => {
@@ -123,9 +165,22 @@ export class QWeatherSource implements WeatherSource {
     });
   }
 
+  private async fillMinutely(ll: string, data: WeatherData): Promise<void> {
+    try {
+      const raw: string = await this.request(`${QW_API_ROOT}/minutely/5m?location=${ll}`);
+      const r: QwMinutelyResponse = JSON.parse(raw) as QwMinutelyResponse;
+      data.minutelySummary = r.summary;
+      data.minutely = (r.minutely ?? []).map((p: QwMinutelyPoint): MinutelyPoint => {
+        return { time: new Date(p.fxTime).getTime(), precip: Number.parseFloat(p.precip) };
+      });
+    } catch (e) {
+      Log.w(`QWeather minutely failed: ${e}`);
+    }
+  }
+
   private async fetchAir(ll: string): Promise<AirQuality | undefined> {
     try {
-      const raw: string = await this.request(`${this.base}/air/now?location=${ll}`);
+      const raw: string = await this.request(`${QW_API_ROOT}/air/now?location=${ll}`);
       const r: QwAirResponse = JSON.parse(raw) as QwAirResponse;
       return {
         aqi: Number.parseInt(r.now.aqi, 10),
@@ -140,7 +195,7 @@ export class QWeatherSource implements WeatherSource {
 
   private async fetchWarnings(ll: string): Promise<WeatherAlert[] | undefined> {
     try {
-      const raw: string = await this.request(`${this.base}/warning/now?location=${ll}`);
+      const raw: string = await this.request(`${QW_API_ROOT}/warning/now?location=${ll}`);
       const r: QwWarningResponse = JSON.parse(raw) as QwWarningResponse;
       const list: QwWarningItem[] = r.warning ?? [];
       return list.map((w: QwWarningItem): WeatherAlert => {
@@ -163,7 +218,7 @@ export class QWeatherSource implements WeatherSource {
     try {
       const resp: http.HttpResponse = await req.request(url, {
         method: http.RequestMethod.GET,
-        header: { 'X-QW-Api-Key': this.apiKey, 'Content-Type': 'application/json' }
+        header: { 'X-QW-Api-Key': QWeatherConfig.getApiKey(), 'Content-Type': 'application/json' }
       });
       if (resp.responseCode !== 200) {
         throw new Error(`QWeather HTTP ${resp.responseCode}`);

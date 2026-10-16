@@ -10,6 +10,8 @@ export interface WeatherSource {
   readonly displayName: string;
   readonly needApiKey: boolean;
   readonly enabledByDefault: boolean;
+  /** 运行时是否可用（如：需要 Key 的源在用户填入自己的 Key 后才可用）。 */
+  isAvailable(): boolean;
 
   getCurrentAndForecast(loc: LocationInfo, lang: string): Promise<WeatherData>;
   searchLocation(query: string, lang: string): Promise<LocationInfo[]>;

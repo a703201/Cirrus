@@ -1,4 +1,4 @@
-Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙSE:\Codes\Project\Transplant\weather-app\data\src\main\ets\sources\WeatherSource.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¤dataÃÂÙ,E:\Codes\Project\Transplant\weather-app\dataÙ'E:\Codes\Project\Transplant\weather-app¤data¥1.0.0ÔrC’§pkgNameªpkgVersion¤data¥1.0.0‘ÔrD’²hostDependencyName®hostModuleName¸../sources/WeatherSource¤dataÙ,E:\Codes\Project\Transplant\weather-app\dataÃÚSimport { LocationInfo, WeatherData } from 'common';
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙSE:\Codes\Project\Transplant\weather-app\data\src\main\ets\sources\WeatherSource.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¤dataÃÂÙ,E:\Codes\Project\Transplant\weather-app\dataÙ'E:\Codes\Project\Transplant\weather-app¤data¥1.0.0ÔrC’§pkgNameªpkgVersion¤data¥1.0.0‘ÔrD’²hostDependencyName®hostModuleName¸../sources/WeatherSource¤dataÙ,E:\Codes\Project\Transplant\weather-app\dataÃÚÔimport { LocationInfo, WeatherData } from 'common';
 
 /**
  * Pluggable weather source contract (æ¥å£æ–‡æ¡£ Â§1.2).
@@ -10,8 +10,9 @@ export interface WeatherSource {
   readonly displayName: string;
   readonly needApiKey: boolean;
   readonly enabledByDefault: boolean;
+  /** è¿è¡Œæ—¶æ˜¯å¦å¯ç”¨ï¼ˆå¦‚ï¼šéœ€è¦ Key çš„æºåœ¨ç”¨æˆ·å¡«å…¥è‡ªå·±çš„ Key åæ‰å¯ç”¨ï¼‰ã€‚ */
+  isAvailable(): boolean;
 
   getCurrentAndForecast(loc: LocationInfo, lang: string): Promise<WeatherData>;
   searchLocation(query: string, lang: string): Promise<LocationInfo[]>;
-}
-ÀAÂÔrE”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache
+}ÀAÂÔrE”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache

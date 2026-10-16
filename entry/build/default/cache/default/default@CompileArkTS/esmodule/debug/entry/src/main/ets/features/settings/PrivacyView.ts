@@ -11,7 +11,7 @@ export class PrivacyView extends ViewV2 {
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create({ space: 12 });
-            Column.padding(16);
+            Column.padding({ top: 88, left: 16, right: 16, bottom: 24 });
             Column.width('100%');
             Column.height('100%');
             Column.alignItems(HorizontalAlign.Start);

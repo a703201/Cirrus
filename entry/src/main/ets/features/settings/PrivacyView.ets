@@ -28,7 +28,10 @@ export struct PrivacyView {
       .width('100%')
       .scrollBar(BarState.Auto)
     }
-    .padding(16)
+    //顶部避让：应用开启沉浸式全屏（EntryAbility.setWindowLayoutFullScreen），内容从屏幕 y=0
+    // 开始排布，需同时让开**状态栏 + HdsNavDestination 标题栏**（约 32 + 56 = 88vp），
+    // 否则二级标题会贴住标题栏下沿。
+    .padding({ top: 88, left: 16, right: 16, bottom: 24 })
     .width('100%')
     .height('100%')
     .alignItems(HorizontalAlign.Start)
