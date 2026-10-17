@@ -2,8 +2,8 @@
 	"app": {
 		"bundleName": "com.Lumio.Cirrus",
 		"debug": true,
-		"versionCode": 1000,
-		"versionName": "0.1.0",
+		"versionCode": 10200,
+		"versionName": "1.2.0",
 		"minAPIVersion": 260000026,
 		"targetAPIVersion": 260000026,
 		"apiReleaseType": "Release",

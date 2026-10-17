@@ -2,6 +2,7 @@
 
 > 参考 Breezy Weather / Geometric Weather ｜ 平台 HarmonyOS NEXT（**API 26**，用户指定最新稳定版）
 > 架构：Stage 模型 + ArkUI 声明式 ｜ 设备：手机 / 平板 / 折叠屏 / PC / TV / 手表
+> 当前版本：**V1.2.0**（versionCode `10200`）｜ 变更记录见 **[CHANGELOG.md](./CHANGELOG.md)**
 
 本目录包含**规划文档**（`docs/`）与**可打开的工程脚手架**（根目录 + `common` / `data` / `entry` / `watch` 模块）。
 
