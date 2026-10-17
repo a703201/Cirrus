@@ -1,14 +1,32 @@
 /**
- * 数据流向说明 + 隐私政策内嵌（P2-7, docs/09 隐私与权限合规、docs/14 §5）。
- * 二级页面内容组件：由 Index 的 navDestination 以 HdsNavDestination 装载（标题栏 + 返回由
- * NavDestination 提供，不再自带返回头），保证离线可读、可随时访问。
+ * 数据流向说明 + 隐私政策（P2-7, docs/09 隐私与权限合规、docs/14 §5）。
+ *
+ * 由 Index 的 navDestination 以 `HdsNavDestination` 装载，并 `hideTitleBar(true)`
+ * 由本组件**自绘标题栏**——因为应用开启沉浸式全屏后，系统标题栏会顶到状态栏之下，
+ * 自绘可精确控制顶部避让（约 44vp）。
  * 分区与 docs/09 §1~§4 合规矩阵一一对应：数据流向 / 权限使用 / 第三方数据源 / 隐私政策。
  * ⚠️ 正式发布前须以法务终稿复核全部文案（联系方式与生效信息为占位）。
  */
 @ComponentV2
 export struct PrivacyView {
+  @Param onBack: () => void = () => {};
+
   build() {
     Column({ space: 12 }) {
+      // 自绘标题栏（返回 + 标题），顶部避让状态栏。
+      Row({ space: 8 }) {
+        Text('‹')
+          .fontSize(26)
+          .fontWeight(FontWeight.Medium)
+          .accessibilityLevel('no')
+          .onClick(() => {
+            this.onBack();
+          })
+        Text($r('app.string.privacy_title')).fontSize(20).fontWeight(FontWeight.Medium)
+      }
+      .width('100%')
+      .alignItems(VerticalAlign.Center)
+
       Scroll() {
         Column({ space: 12 }) {
           this.dataFlowCard()
@@ -28,10 +46,7 @@ export struct PrivacyView {
       .width('100%')
       .scrollBar(BarState.Auto)
     }
-    //顶部避让：应用开启沉浸式全屏（EntryAbility.setWindowLayoutFullScreen），内容从屏幕 y=0
-    // 开始排布，需同时让开**状态栏 + HdsNavDestination 标题栏**（约 32 + 56 = 88vp），
-    // 否则二级标题会贴住标题栏下沿。
-    .padding({ top: 88, left: 16, right: 16, bottom: 24 })
+    .padding({ top: 44, left: 16, right: 16, bottom: 24 })
     .width('100%')
     .height('100%')
     .alignItems(HorizontalAlign.Start)

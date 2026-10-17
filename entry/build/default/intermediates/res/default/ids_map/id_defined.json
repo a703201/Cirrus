@@ -583,5 +583,29 @@
 			"type":	"string",
 			"name":	"qweather_source_unconfigured",
 			"id":	"0x03000091"
+		}, {
+			"type":	"media",
+			"name":	"ic_nav_location",
+			"id":	"0x03000092"
+		}, {
+			"type":	"media",
+			"name":	"ic_nav_location_filled",
+			"id":	"0x03000093"
+		}, {
+			"type":	"media",
+			"name":	"ic_nav_settings",
+			"id":	"0x03000094"
+		}, {
+			"type":	"media",
+			"name":	"ic_nav_settings_filled",
+			"id":	"0x03000095"
+		}, {
+			"type":	"media",
+			"name":	"ic_nav_weather",
+			"id":	"0x03000096"
+		}, {
+			"type":	"media",
+			"name":	"ic_nav_weather_outline",
+			"id":	"0x03000097"
 		}]
 }

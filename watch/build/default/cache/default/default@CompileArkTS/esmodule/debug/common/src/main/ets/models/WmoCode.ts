@@ -62,18 +62,20 @@ export function wmoDescription(code: number, lang: string): string {
     if (!entry) {
         return '';
     }
-    switch (lang) {
-        case 'zh-CN':
+    // 兼容短码（'zh'）与完整标签（'zh-CN'）：调用方（系统语言 / 用户设置 / 手表模块）
+    // 传入的形态不统一，若只认完整标签会静默落到 default 分支显示英文。
+    switch (lang.split('-')[0]) {
+        case 'zh':
             return entry.zh;
-        case 'ja-JP':
+        case 'ja':
             return entry.ja;
-        case 'ko-KR':
+        case 'ko':
             return entry.ko;
-        case 'fr-FR':
+        case 'fr':
             return entry.fr;
-        case 'es-ES':
+        case 'es':
             return entry.es;
-        case 'de-DE':
+        case 'de':
             return entry.de;
         default:
             return entry.en;

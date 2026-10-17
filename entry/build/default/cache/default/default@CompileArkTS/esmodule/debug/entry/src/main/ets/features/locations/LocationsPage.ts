@@ -1,7 +1,8 @@
 if (!("finalizeConstruction" in ViewPU.prototype)) {
     Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
 }
-import type { LocationInfo } from 'common';
+import { locationSubtitle } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import type { LocationInfo } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { appStore } from "@bundle:com.Lumio.Cirrus/entry/ets/store/AppStore";
 export class LocationsPage extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
@@ -139,12 +140,35 @@ export class LocationsPage extends ViewV2 {
                                         Row.borderRadius(14);
                                     }, Row);
                                     this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                        Column.create({ space: 2 });
+                                        Column.layoutWeight(1);
+                                        Column.alignItems(HorizontalAlign.Start);
+                                    }, Column);
+                                    this.observeComponentCreation2((elmtId, isInitialRender) => {
                                         Text.create(ri.item.name);
                                         Text.fontSize(15);
                                         Text.fontColor('#1A1A1A');
-                                        Text.layoutWeight(1);
                                     }, Text);
                                     Text.pop();
+                                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                        If.create();
+                                        if (locationSubtitle(ri.item).length > 0) {
+                                            this.ifElseBranchUpdateFunction(0, () => {
+                                                this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                                    Text.create(locationSubtitle(ri.item));
+                                                    Text.fontSize(12);
+                                                    Text.fontColor('#595959');
+                                                }, Text);
+                                                Text.pop();
+                                            });
+                                        }
+                                        else {
+                                            this.ifElseBranchUpdateFunction(1, () => {
+                                            });
+                                        }
+                                    }, If);
+                                    If.pop();
+                                    Column.pop();
                                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                                         Button.createWithLabel({ "id": 50331650, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
                                         Button.fontSize(12);
@@ -209,6 +233,24 @@ export class LocationsPage extends ViewV2 {
                             Text.fontColor('#1A1A1A');
                         }, Text);
                         Text.pop();
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            If.create();
+                            if (locationSubtitle(ri.item).length > 0) {
+                                this.ifElseBranchUpdateFunction(0, () => {
+                                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                        Text.create(locationSubtitle(ri.item));
+                                        Text.fontSize(12);
+                                        Text.fontColor('#595959');
+                                    }, Text);
+                                    Text.pop();
+                                });
+                            }
+                            else {
+                                this.ifElseBranchUpdateFunction(1, () => {
+                                });
+                            }
+                        }, If);
+                        If.pop();
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             If.create();
                             if (ri.item.id === appStore.defaultId) {

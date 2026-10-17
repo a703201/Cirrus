@@ -61,6 +61,9 @@ interface QwGeoPoint {
   lat: string;
   lon: string;
   tz: string;
+  adm1?: string;
+  adm2?: string;
+  country?: string;
 }
 
 interface QwGeoResponse {
@@ -160,7 +163,10 @@ export class QWeatherSource implements WeatherSource {
         name: r.name,
         latitude: Number.parseFloat(r.lat),
         longitude: Number.parseFloat(r.lon),
-        timezone: r.tz
+        timezone: r.tz,
+        admin1: r.adm1 ?? '',
+        admin2: r.adm2 ?? '',
+        country: r.country ?? ''
       };
     });
   }

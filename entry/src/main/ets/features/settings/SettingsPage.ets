@@ -30,10 +30,16 @@ export struct SettingsPage {
     this.keyDialog.open();
   }
 
-  /** 语言切换需冷启动才生效（i18n 资源加载机制），给用户明确提示。 */
+  /**
+   * 语言切换：立即生效，无需重启应用。
+   *
+   * i18n 的 `setAppPreferredLanguage` 只改资源查找路径、不会让已渲染的 `$r()` 组件
+   * 重新求值，因此 `updateSettings` 内部会触发 `Index.ets` 注册的语言回调重建 UI 根树。
+   * 「切回跟随系统」同样走这条路径——`toResourceLocale('system')` 会解析出系统语言
+   * 的具体标签（如 zh-CN），所以切回后立刻跟随系统语言。
+   */
   private async setLanguage(lang: string): Promise<void> {
     await appStore.updateSettings({ language: lang });
-    promptAction.showToast({ message: $r('app.string.language_restart_hint') });
   }
 
   build() {
@@ -241,15 +247,40 @@ export struct SettingsPage {
         .onClick(() => {
           this.setLanguage('system');
         })
+      MenuItem({ content: '中文' })
+        .selected(appStore.settings.language === 'zh-CN')
+        .onClick(() => {
+          this.setLanguage('zh-CN');
+        })
       MenuItem({ content: 'English' })
         .selected(appStore.settings.language === 'en')
         .onClick(() => {
           this.setLanguage('en');
         })
-      MenuItem({ content: '中文' })
-        .selected(appStore.settings.language === 'zh-CN')
+      MenuItem({ content: 'Français' })
+        .selected(appStore.settings.language === 'fr-FR')
         .onClick(() => {
-          this.setLanguage('zh-CN');
+          this.setLanguage('fr-FR');
+        })
+      MenuItem({ content: '日本語' })
+        .selected(appStore.settings.language === 'ja-JP')
+        .onClick(() => {
+          this.setLanguage('ja-JP');
+        })
+      MenuItem({ content: '한국어' })
+        .selected(appStore.settings.language === 'ko-KR')
+        .onClick(() => {
+          this.setLanguage('ko-KR');
+        })
+      MenuItem({ content: 'Español' })
+        .selected(appStore.settings.language === 'es-ES')
+        .onClick(() => {
+          this.setLanguage('es-ES');
+        })
+      MenuItem({ content: 'Deutsch' })
+        .selected(appStore.settings.language === 'de-DE')
+        .onClick(() => {
+          this.setLanguage('de-DE');
         })
     }
   }
@@ -291,13 +322,24 @@ export struct SettingsPage {
   }
 
   private languageLabel(): ResourceStr {
-    if (appStore.settings.language === 'en') {
-      return 'English';
+    switch (appStore.settings.language) {
+      case 'zh-CN':
+        return '中文';
+      case 'en':
+        return 'English';
+      case 'fr-FR':
+        return 'Français';
+      case 'ja-JP':
+        return '日本語';
+      case 'ko-KR':
+        return '한국어';
+      case 'es-ES':
+        return 'Español';
+      case 'de-DE':
+        return 'Deutsch';
+      default:
+        return $r('app.string.settings_language_system');
     }
-    if (appStore.settings.language === 'zh-CN') {
-      return '中文';
-    }
-    return $r('app.string.settings_language_system');
   }
 }
 

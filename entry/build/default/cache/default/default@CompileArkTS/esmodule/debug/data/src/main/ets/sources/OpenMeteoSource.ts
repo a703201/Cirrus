@@ -53,6 +53,9 @@ interface OmGeoResult {
     latitude: number;
     longitude: number;
     timezone: string;
+    admin1?: string;
+    admin2?: string;
+    country?: string;
 }
 interface OmGeoResponse {
     results?: OmGeoResult[];
@@ -213,7 +216,10 @@ export class OpenMeteoSource implements WeatherSource {
                 name: r.name,
                 latitude: r.latitude,
                 longitude: r.longitude,
-                timezone: r.timezone
+                timezone: r.timezone,
+                admin1: r.admin1 ?? '',
+                admin2: r.admin2 ?? '',
+                country: r.country ?? ''
             };
         });
     }

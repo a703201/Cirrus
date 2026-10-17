@@ -1,4 +1,4 @@
-import { LocationInfo } from 'common';
+import { LocationInfo, locationSubtitle } from 'common';
 import { appStore } from '../../store/AppStore';
 
 @ComponentV2
@@ -51,7 +51,14 @@ export struct LocationsPage {
             .each((ri: RepeatItem<LocationInfo>) => {
               ListItem() {
                 Row() {
-                  Text(ri.item.name).fontSize(15).fontColor('#1A1A1A').layoutWeight(1)
+                  Column({ space: 2 }) {
+                    Text(ri.item.name).fontSize(15).fontColor('#1A1A1A')
+                    if (locationSubtitle(ri.item).length > 0) {
+                      Text(locationSubtitle(ri.item)).fontSize(12).fontColor('#595959')
+                    }
+                  }
+                  .layoutWeight(1)
+                  .alignItems(HorizontalAlign.Start)
                   Button($r('app.string.action_add'))
                     .fontSize(12)
                     .onClick(() => {
@@ -81,6 +88,9 @@ export struct LocationsPage {
                     .fontSize(16)
                     .fontWeight(FontWeight.Medium)
                     .fontColor('#1A1A1A')
+                  if (locationSubtitle(ri.item).length > 0) {
+                    Text(locationSubtitle(ri.item)).fontSize(12).fontColor('#595959')
+                  }
                   if (ri.item.id === appStore.defaultId) {
                     Text($r('app.string.label_default')).fontSize(12).fontColor('#3B82F6')
                   }

@@ -13,15 +13,19 @@ export class HomePage extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
         super(parent, elmtId, extraInfo);
         this.initParam("scroller", (params && "scroller" in params) ? params.scroller : new Scroller());
+        this.initParam("pageStack", (params && "pageStack" in params) ? params.pageStack : new NavPathStack());
         this.refreshing = false;
         this.finalizeConstruction();
     }
     public resetStateVarsOnReuse(params: Object): void {
         this.resetParam("scroller", (params && "scroller" in params) ? params.scroller : new Scroller());
+        this.resetParam("pageStack", (params && "pageStack" in params) ? params.pageStack : new NavPathStack());
         this.refreshing = false;
     }
     @Param
     readonly scroller: Scroller;
+    @Param
+    readonly pageStack: NavPathStack;
     @Local
     refreshing: boolean;
     private palette(): SkyPalette {
@@ -115,7 +119,7 @@ export class HomePage extends ViewV2 {
                                     high: appStore.weather.daily.length > 0 ? appStore.weather.daily[0].tempMax : -999,
                                     low: appStore.weather.daily.length > 0 ? appStore.weather.daily[0].tempMin : -999,
                                     apparent: appStore.weather.current.apparent
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 41, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 42, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -155,13 +159,53 @@ export class HomePage extends ViewV2 {
                             }
                         }, { name: "WeatherCard" });
                     }
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        // 预警入口（二级页面）——与设置页行样式一致。
+                        Row.create({ space: 8 });
+                        // 预警入口（二级页面）——与设置页行样式一致。
+                        Row.width('100%');
+                        // 预警入口（二级页面）——与设置页行样式一致。
+                        Row.padding(14);
+                        // 预警入口（二级页面）——与设置页行样式一致。
+                        Row.backgroundColor('rgba(255,255,255,0.6)');
+                        // 预警入口（二级页面）——与设置页行样式一致。
+                        Row.borderRadius(14);
+                        // 预警入口（二级页面）——与设置页行样式一致。
+                        Row.accessibilityGroup(true);
+                        // 预警入口（二级页面）——与设置页行样式一致。
+                        Row.onClick(() => {
+                            this.pageStack.pushPath({ name: 'Alerts' });
+                        });
+                    }, Row);
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create({ "id": 50331691, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+                        Text.fontSize(16);
+                        Text.fontWeight(FontWeight.Medium);
+                        Text.layoutWeight(1);
+                    }, Text);
+                    Text.pop();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create(`${appStore.weather.alerts?.length ?? 0}`);
+                        Text.fontSize(14);
+                        Text.fontColor((appStore.weather.alerts?.length ?? 0) > 0 ? '#C5221F' : '#666666');
+                    }, Text);
+                    Text.pop();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create('›');
+                        Text.fontSize(14);
+                        Text.fontColor('#999999');
+                        Text.accessibilityLevel('no');
+                    }, Text);
+                    Text.pop();
+                    // 预警入口（二级页面）——与设置页行样式一致。
+                    Row.pop();
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
                                 let componentCall = new MinutelyPage(this, {
                                     minutely: appStore.weather.minutely,
                                     summary: appStore.weather.minutelySummary ?? ''
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 56, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 78, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -186,7 +230,7 @@ export class HomePage extends ViewV2 {
                                     current: appStore.weather.current,
                                     airQuality: appStore.weather.airQuality,
                                     unit: appStore.settings.temperatureUnit
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 60, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 82, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -212,7 +256,7 @@ export class HomePage extends ViewV2 {
                                 let componentCall = new HourlyPage(this, {
                                     weather: appStore.weather,
                                     unit: appStore.settings.temperatureUnit
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 65, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 87, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -237,7 +281,7 @@ export class HomePage extends ViewV2 {
                                     weather: appStore.weather,
                                     unit: appStore.settings.temperatureUnit,
                                     lang: appStore.resolveLang()
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 69, col: 13 });
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/features/home/HomePage.ets", line: 91, col: 13 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -312,6 +356,9 @@ export class HomePage extends ViewV2 {
         }
         if ("scroller" in params) {
             this.updateParam("scroller", params.scroller);
+        }
+        if ("pageStack" in params) {
+            this.updateParam("pageStack", params.pageStack);
         }
     }
     rerender() {

@@ -61,6 +61,7 @@ export class AppStore {
         }
         this.settings = await settingsStore.load();
         QWeatherConfig.setApiKey(this.settings.qweatherApiKey);
+        applyAppLanguage(this.settings.language);
         themeModel.themeMode = this.settings.theme;
         applyThemeMode(this.settings.theme, this.context);
         await NotificationUtil.ensureEnabled(context);

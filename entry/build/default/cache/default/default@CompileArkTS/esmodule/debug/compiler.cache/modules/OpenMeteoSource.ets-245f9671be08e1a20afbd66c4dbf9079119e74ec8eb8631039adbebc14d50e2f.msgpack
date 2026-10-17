@@ -1,4 +1,4 @@
-Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙUE:\Codes\Project\Transplant\weather-app\data\src\main\ets\sources\OpenMeteoSource.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¤dataÃÂÙ,E:\Codes\Project\Transplant\weather-app\dataÙ'E:\Codes\Project\Transplant\weather-app¤data¥1.0.0ÔrC’§pkgNameªpkgVersion¤data¥1.0.0’ÔrD’²hostDependencyName®hostModuleNameº../sources/OpenMeteoSource¤dataD±./OpenMeteoSource¤dataÙ,E:\Codes\Project\Transplant\weather-app\dataÃÚ/import { http } from '@kit.NetworkKit';
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙUE:\Codes\Project\Transplant\weather-app\data\src\main\ets\sources\OpenMeteoSource.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¤dataÃÂÙ,E:\Codes\Project\Transplant\weather-app\dataÙ'E:\Codes\Project\Transplant\weather-app¤data¥1.0.0ÔrC’§pkgNameªpkgVersion¤data¥1.0.0’ÔrD’²hostDependencyName®hostModuleNameº../sources/OpenMeteoSource¤dataD±./OpenMeteoSource¤dataÙ,E:\Codes\Project\Transplant\weather-app\dataÃÚËimport { http } from '@kit.NetworkKit';
 import { LocationInfo, WeatherData, HourlyPoint, DailyPoint, MinutelyPoint, AirQuality, Log, UnitUtil } from 'common';
 import { WeatherSource } from './WeatherSource';
 
@@ -59,6 +59,9 @@ interface OmGeoResult {
   latitude: number;
   longitude: number;
   timezone: string;
+  admin1?: string;
+  admin2?: string;
+  country?: string;
 }
 
 interface OmGeoResponse {
@@ -229,7 +232,10 @@ export class OpenMeteoSource implements WeatherSource {
         name: r.name,
         latitude: r.latitude,
         longitude: r.longitude,
-        timezone: r.timezone
+        timezone: r.timezone,
+        admin1: r.admin1 ?? '',
+        admin2: r.admin2 ?? '',
+        country: r.country ?? ''
       };
     });
   }
@@ -240,4 +246,4 @@ export class OpenMeteoSource implements WeatherSource {
     }
     return lang.split('-')[0];
   }
-}ÀÔrE’®@ohos.net.http¦commonÔrF–ªassertions¨external¢id¤metaªresolvedByµsyntheticNamedExportsAÃÙh hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.net.http.d.tsAªoh-resolveÂFAÂÙLE:\Codes\Project\Transplant\weather-app\common\src\main\ets\common\Index.etsAªoh-resolveÂÂÔrG”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache’ÔrH•¤type¥start£endªspecifiers¦source±ImportDeclaration "‘ÔrI”¤type¥start£end¥local¶ImportDefaultSpecifierÔrJ”¤type¥start£end¤nameªIdentifier¤httpÔrK•¤type¥start£end¥value£raw§Literal!®@ohos.net.http°"@ohos.net.http"H±ImportDeclaration$ÌK’ÔrL•¤type¥start£end¨imported¥local¯ImportSpecifier-0JªIdentifier-0£LogJªIdentifier-0£LogL¯ImportSpecifier2:JªIdentifier2:¨UnitUtilJªIdentifier2:¨UnitUtilK§LiteralÌBÌJ¦common¨'common'
+}ÀÔrE’®@ohos.net.http¦commonÔrF–ªassertions¨external¢id¤metaªresolvedByµsyntheticNamedExportsAÃÙh hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.net.http.d.tsÔrG‘¯hostModulesInfo‘D®@ohos.net.http¤dataªoh-resolveÂFAÂÙLE:\Codes\Project\Transplant\weather-app\common\src\main\ets\common\Index.etsAªoh-resolveÂÂÔrH”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache’ÔrI•¤type¥start£endªspecifiers¦source±ImportDeclaration "‘ÔrJ”¤type¥start£end¥local¶ImportDefaultSpecifierÔrK”¤type¥start£end¤nameªIdentifier¤httpÔrL•¤type¥start£end¥value£raw§Literal!®@ohos.net.http°"@ohos.net.http"I±ImportDeclaration$ÌK’ÔrM•¤type¥start£end¨imported¥local¯ImportSpecifier-0KªIdentifier-0£LogKªIdentifier-0£LogM¯ImportSpecifier2:KªIdentifier2:¨UnitUtilKªIdentifier2:¨UnitUtilL§LiteralÌBÌJ¦common¨'common'

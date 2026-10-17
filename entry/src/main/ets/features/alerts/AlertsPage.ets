@@ -1,45 +1,66 @@
 import { WeatherAlert } from 'common';
 import { appStore } from '../../store/AppStore';
 
+/**
+ * 预警（P2-1）——**二级页面**，自绘标题栏（返回 + 标题），布局与设置页一致。
+ * 由天气页入口（预警行）经 NavPathStack.pushPath('Alerts') 进入。
+ */
 @ComponentV2
 export struct AlertsPage {
+  @Param onBack: () => void = () => {};
+
   build() {
-    Column({ space: 10 }) {
-      Text($r('app.string.tab_alerts')).fontSize(20).fontWeight(FontWeight.Medium)
+    Column({ space: 12 }) {
+      Row({ space: 8 }) {
+        Text('‹')
+          .fontSize(26)
+          .fontWeight(FontWeight.Medium)
+          .accessibilityLevel('no')
+          .onClick(() => {
+            this.onBack();
+          })
+        Text($r('app.string.tab_alerts')).fontSize(20).fontWeight(FontWeight.Medium)
+      }
+      .width('100%')
+      .alignItems(VerticalAlign.Center)
 
       if ((appStore.weather?.alerts?.length ?? 0) === 0) {
-        Text($r('app.string.no_alerts')).fontSize(14).fontColor('#6B6B6B')
+        Row() {
+          Text($r('app.string.no_alerts')).fontSize(15).fontColor('#595959').layoutWeight(1)
+        }
+        .width('100%')
+        .padding(14)
+        .backgroundColor('rgba(255,255,255,0.6)')
+        .borderRadius(12)
       } else {
-        List({ space: 8 }) {
+        List({ space: 10 }) {
           Repeat<WeatherAlert>(appStore.weather?.alerts ?? [])
             .each((ri: RepeatItem<WeatherAlert>) => {
               ListItem() {
-                Column({ space: 4 }) {
-                  Row() {
+                Column({ space: 8 }) {
+                  Row({ space: 8 }) {
                     Text(ri.item.level)
                       .fontSize(12)
-                      .fontColor('#EF4444')
+                      .fontColor('#C5221F')
+                      .backgroundColor('rgba(239,68,68,0.12)')
                       .borderRadius(6)
-                      .borderWidth(1)
-                      .borderColor('#EF4444')
-                      .padding({ left: 6, right: 6, top: 1, bottom: 1 })
+                      .padding({ left: 8, right: 8, top: 2, bottom: 2 })
                     Text(ri.item.title)
                       .fontSize(16)
                       .fontWeight(FontWeight.Medium)
                       .layoutWeight(1)
-                      .margin({ left: 8 })
                   }
                   .width('100%')
                   .alignItems(VerticalAlign.Center)
                   Text(ri.item.description)
                     .fontSize(13)
-                    .fontColor('#4A4A4A')
-                    .margin({ top: 4 })
+                    .fontColor('#595959')
+                    .lineHeight(20)
                 }
-                .padding(12)
+                .width('100%')
+                .padding(14)
                 .backgroundColor('rgba(255,255,255,0.6)')
                 .borderRadius(12)
-                .width('100%')
                 .alignItems(HorizontalAlign.Start)
                 .accessibilityGroup(true)
                 .accessibilityText(`${ri.item.level} ${ri.item.title} ${ri.item.description}`)
@@ -49,10 +70,12 @@ export struct AlertsPage {
         }
         .layoutWeight(1)
         .width('100%')
+        .scrollBar(BarState.Off)
       }
     }
-    .padding({ top: 44, left: 16, right: 16, bottom: 92 })
+    .padding({ top: 44, left: 16, right: 16, bottom: 24 })
     .width('100%')
     .height('100%')
+    .alignItems(HorizontalAlign.Start)
   }
 }

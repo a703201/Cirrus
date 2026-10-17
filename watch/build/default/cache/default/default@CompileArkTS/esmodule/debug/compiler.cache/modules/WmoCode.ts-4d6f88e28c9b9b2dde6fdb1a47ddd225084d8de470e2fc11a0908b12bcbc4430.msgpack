@@ -1,4 +1,4 @@
-Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙME:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WmoCode.tsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¯hostModulesInfo¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0Ù.E:\Codes\Project\Transplant\weather-app\commonÃ‘ÔrD’²hostDependencyName®hostModuleName±../models/WmoCode¦commonÚ</**
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙME:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WmoCode.tsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¯hostModulesInfo¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0Ù.E:\Codes\Project\Transplant\weather-app\commonÃ‘ÔrD’²hostDependencyName®hostModuleName±../models/WmoCode¦commonÚ/**
  * WMO weather code â†’ icon key + localized description (7 languages).
  * Consolidated here for the scaffold (interfaceæ–‡æ¡£ Â§3.5). Each source maps its
  * own icon/condition ids into WMO codes; UI always reads from this single table.
@@ -66,18 +66,20 @@ export function wmoDescription(code: number, lang: string): string {
   if (!entry) {
     return '';
   }
-  switch (lang) {
-    case 'zh-CN':
+  // å…¼å®¹çŸ­ç ï¼ˆ'zh'ï¼‰ä¸å®Œæ•´æ ‡ç­¾ï¼ˆ'zh-CN'ï¼‰ï¼šè°ƒç”¨æ–¹ï¼ˆç³»ç»Ÿè¯­è¨€ / ç”¨æˆ·è®¾ç½® / æ‰‹è¡¨æ¨¡å—ï¼‰
+  // ä¼ å…¥çš„å½¢æ€ä¸ç»Ÿä¸€ï¼Œè‹¥åªè®¤å®Œæ•´æ ‡ç­¾ä¼šé™é»˜è½åˆ° default åˆ†æ”¯æ˜¾ç¤ºè‹±æ–‡ã€‚
+  switch (lang.split('-')[0]) {
+    case 'zh':
       return entry.zh;
-    case 'ja-JP':
+    case 'ja':
       return entry.ja;
-    case 'ko-KR':
+    case 'ko':
       return entry.ko;
-    case 'fr-FR':
+    case 'fr':
       return entry.fr;
-    case 'es-ES':
+    case 'es':
       return entry.es;
-    case 'de-DE':
+    case 'de':
       return entry.de;
     default:
       return entry.en;

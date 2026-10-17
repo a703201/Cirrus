@@ -11,7 +11,7 @@ import { hdsMaterial } from "@hms:hds.hdsMaterial";
 import type { HdsNavigationAttribute } from "@hms:hds.hdsBaseComponent";
 import type { HdsNavDestinationAttribute } from "@hms:hds.hdsBaseComponent";
 import type { HdsTabsAttribute } from "@hms:hds.hdsBaseComponent";
-import { MaterialTier } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import { MaterialTier, setLanguageAppliedListener } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { appStore } from "@bundle:com.Lumio.Cirrus/entry/ets/store/AppStore";
 import { uiState } from "@bundle:com.Lumio.Cirrus/entry/ets/store/UiState";
 import { HomePage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/home/HomePage";
@@ -26,6 +26,7 @@ class Index extends ViewV2 {
         this.isWide = false;
         this.isNarrow = false;
         this.isTv = false;
+        this.langEpoch = 0;
         this.wideListener = mediaquery.matchMediaSync('(width >= 840vp)');
         this.narrowListener = mediaquery.matchMediaSync('(width < 600vp)');
         this.tabController = new HdsTabsController();
@@ -37,6 +38,7 @@ class Index extends ViewV2 {
         this.isWide = false;
         this.isNarrow = false;
         this.isTv = false;
+        this.langEpoch = 0;
     }
     @Local
     isWide: boolean;
@@ -44,6 +46,12 @@ class Index extends ViewV2 {
     isNarrow: boolean;
     @Local
     isTv: boolean;
+    /**
+     * 语言代次：语言切换成功后自增，用于强制重建整棵组件树。
+     * `$r()` 在 build() 执行时才解析资源，故让依赖它的根节点重新 build 即可刷新文案。
+     */
+    @Local
+    langEpoch: number;
     private wideListener: mediaquery.MediaQueryListener;
     private narrowListener: mediaquery.MediaQueryListener;
     private tabController: HdsTabsController;
@@ -59,10 +67,27 @@ class Index extends ViewV2 {
         });
         this.isWide = this.wideListener.matches;
         this.isNarrow = this.narrowListener.matches;
+        // 注册语言变更回调：切换语言后立即重建 UI，无需重启应用。
+        setLanguageAppliedListener(() => {
+            this.onLanguageApplied();
+        });
     }
     aboutToDisappear(): void {
         this.wideListener.off('change');
         this.narrowListener.off('change');
+        setLanguageAppliedListener(undefined);
+    }
+    /**
+     * 语言切换后的 UI 重建。
+     *
+     * `setAppPreferredLanguage` 只改资源查找路径，已渲染的 `$r()` 不会自动刷新，
+     * 故通过自增 `langEpoch`（被 build() 读取）触发根组件重新 build。
+     * 同时把用户送回顶层页签并清空二级页面栈——否则设置页会停留在半重建状态。
+     */
+    private onLanguageApplied(): void {
+        this.pageStack.clear();
+        this.tabController.changeIndex(uiState.tabIndex);
+        this.langEpoch++;
     }
     private hdsLevel(): hdsMaterial.MaterialLevel {
         switch (appStore.settings.materialLevel) {
@@ -75,6 +100,35 @@ class Index extends ViewV2 {
             default:
                 return hdsMaterial.MaterialLevel.ADAPTIVE;
         }
+    }
+    /**
+     * 底部导航单个页签：图标 + 文字。
+     *
+     * 图标取自鸿蒙原生图标库（`HarmonyOS_Icons`），已转为 base/media 下的白色 PNG，
+     * 深浅背景下均以白色呈现，与 HdsTabs 悬浮胶囊协调。
+     * 未选中 / 选中各一套资源（描边 ↔ 实心），按 uiState.tabIndex 切换。
+     */
+    tabBarItem(index: number, label: ResourceStr, icon: Resource, iconSelected: Resource, parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create({ space: 2 });
+            Column.width('100%');
+            Column.height('52vp');
+            Column.justifyContent(FlexAlign.Center);
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Image.create(index === uiState.tabIndex ? iconSelected : icon);
+            Image.width(24);
+            Image.height(24);
+            Image.fillColor(Color.White);
+        }, Image);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(label);
+            Text.fontSize(10);
+            Text.fontColor('#FFFFFF');
+            Text.fontWeight(index === uiState.tabIndex ? FontWeight.Medium : FontWeight.Normal);
+        }, Text);
+        Text.pop();
+        Column.pop();
     }
     phoneTabs(parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -102,24 +156,27 @@ class Index extends ViewV2 {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new HomePage(this, { scroller: this.scroller }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 75, col: 9 });
+                            let componentCall = new HomePage(this, { scroller: this.scroller, pageStack: this.pageStack }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 119, col: 9 });
                             ViewV2.create(componentCall);
                             let paramsLambda = () => {
                                 return {
-                                    scroller: this.scroller
+                                    scroller: this.scroller,
+                                    pageStack: this.pageStack
                                 };
                             };
                             componentCall.paramsGenerator_ = paramsLambda;
                         }
                         else {
                             this.updateStateVarsOfChildByElmtId(elmtId, {
-                                scroller: this.scroller
+                                scroller: this.scroller, pageStack: this.pageStack
                             });
                         }
                     }, { name: "HomePage" });
                 }
             });
-            TabContent.tabBar({ "id": 50331692, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            TabContent.tabBar({ builder: () => {
+                    this.tabBarItem.call(this, 0, { "id": 50331692, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, { "id": 50331799, "type": 20000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, { "id": 50331798, "type": 20000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+                } });
         }, TabContent);
         TabContent.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -127,7 +184,7 @@ class Index extends ViewV2 {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new LocationsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 79, col: 9 });
+                            let componentCall = new LocationsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 124, col: 9 });
                             ViewV2.create(componentCall);
                             let paramsLambda = () => {
                                 return {};
@@ -140,7 +197,9 @@ class Index extends ViewV2 {
                     }, { name: "LocationsPage" });
                 }
             });
-            TabContent.tabBar({ "id": 50331693, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            TabContent.tabBar({ builder: () => {
+                    this.tabBarItem.call(this, 1, { "id": 50331693, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, { "id": 50331794, "type": 20000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, { "id": 50331795, "type": 20000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+                } });
         }, TabContent);
         TabContent.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -148,28 +207,7 @@ class Index extends ViewV2 {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new AlertsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 83, col: 9 });
-                            ViewV2.create(componentCall);
-                            let paramsLambda = () => {
-                                return {};
-                            };
-                            componentCall.paramsGenerator_ = paramsLambda;
-                        }
-                        else {
-                            this.updateStateVarsOfChildByElmtId(elmtId, {});
-                        }
-                    }, { name: "AlertsPage" });
-                }
-            });
-            TabContent.tabBar({ "id": 50331691, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-        }, TabContent);
-        TabContent.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            TabContent.create(() => {
-                {
-                    this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        if (isInitialRender) {
-                            let componentCall = new SettingsPage(this, { pageStack: this.pageStack }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 87, col: 9 });
+                            let componentCall = new SettingsPage(this, { pageStack: this.pageStack }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 129, col: 9 });
                             ViewV2.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -186,7 +224,9 @@ class Index extends ViewV2 {
                     }, { name: "SettingsPage" });
                 }
             });
-            TabContent.tabBar({ "id": 50331694, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            TabContent.tabBar({ builder: () => {
+                    this.tabBarItem.call(this, 2, { "id": 50331694, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, { "id": 50331796, "type": 20000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, { "id": 50331797, "type": 20000, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+                } });
         }, TabContent);
         TabContent.pop();
         HdsTabs.pop();
@@ -205,7 +245,7 @@ class Index extends ViewV2 {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new LocationsPage(this, { compact: true }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 112, col: 7 });
+                    let componentCall = new LocationsPage(this, { compact: true }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 155, col: 7 });
                     ViewV2.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -229,18 +269,19 @@ class Index extends ViewV2 {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new HomePage(this, { scroller: this.scroller }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 113, col: 7 });
+                    let componentCall = new HomePage(this, { scroller: this.scroller, pageStack: this.pageStack }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 156, col: 7 });
                     ViewV2.create(componentCall);
                     let paramsLambda = () => {
                         return {
-                            scroller: this.scroller
+                            scroller: this.scroller,
+                            pageStack: this.pageStack
                         };
                     };
                     componentCall.paramsGenerator_ = paramsLambda;
                 }
                 else {
                     this.updateStateVarsOfChildByElmtId(elmtId, {
-                        scroller: this.scroller
+                        scroller: this.scroller, pageStack: this.pageStack
                     });
                 }
             }, { name: "HomePage" });
@@ -248,32 +289,76 @@ class Index extends ViewV2 {
         __Common__.pop();
         Row.pop();
     }
-    privacyPage(parent = null) {
+    /**
+     * 二级页面分发（navDestination 的 builder）。
+     * ⚠️ ArkTS 不允许在普通 lambda 回调里直接写 UI 组件语法，故按官方模式用 @Builder 传入；
+     * 各二级页自绘标题栏（hideTitleBar），顶部避让由页面自身控制。
+     */
+    routePage(name: string, parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            HdsNavDestination.create(() => {
-                {
+            If.create();
+            if (name === 'Alerts') {
+                this.ifElseBranchUpdateFunction(0, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        if (isInitialRender) {
-                            let componentCall = new PrivacyView(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 122, col: 7 });
-                            ViewV2.create(componentCall);
-                            let paramsLambda = () => {
-                                return {};
-                            };
-                            componentCall.paramsGenerator_ = paramsLambda;
-                        }
-                        else {
-                            this.updateStateVarsOfChildByElmtId(elmtId, {});
-                        }
-                    }, { name: "PrivacyView" });
-                }
-            }, { moduleName: "entry", pagePath: "entry/src/main/ets/pages/Index" });
-            HdsNavDestination.titleBar({
-                content: {
-                    title: { mainTitle: { "id": 50331776, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } }
-                }
-            });
-        }, HdsNavDestination);
-        HdsNavDestination.pop();
+                        HdsNavDestination.create();
+                        HdsNavDestination.hideTitleBar(true);
+                    }, HdsNavDestination);
+                    {
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            if (isInitialRender) {
+                                let componentCall = new AlertsPage(this, { onBack: () => { this.pageStack.pop(); } }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 171, col: 9 });
+                                ViewV2.create(componentCall);
+                                let paramsLambda = () => {
+                                    return {
+                                        onBack: () => { this.pageStack.pop(); }
+                                    };
+                                };
+                                componentCall.paramsGenerator_ = paramsLambda;
+                            }
+                            else {
+                                this.updateStateVarsOfChildByElmtId(elmtId, {
+                                    onBack: () => { this.pageStack.pop(); }
+                                });
+                            }
+                        }, { name: "AlertsPage" });
+                    }
+                    HdsNavDestination.pop();
+                });
+            }
+            else if (name === 'Privacy') {
+                this.ifElseBranchUpdateFunction(1, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        HdsNavDestination.create();
+                        HdsNavDestination.hideTitleBar(true);
+                    }, HdsNavDestination);
+                    {
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            if (isInitialRender) {
+                                let componentCall = new PrivacyView(this, { onBack: () => { this.pageStack.pop(); } }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 176, col: 9 });
+                                ViewV2.create(componentCall);
+                                let paramsLambda = () => {
+                                    return {
+                                        onBack: () => { this.pageStack.pop(); }
+                                    };
+                                };
+                                componentCall.paramsGenerator_ = paramsLambda;
+                            }
+                            else {
+                                this.updateStateVarsOfChildByElmtId(elmtId, {
+                                    onBack: () => { this.pageStack.pop(); }
+                                });
+                            }
+                        }, { name: "PrivacyView" });
+                    }
+                    HdsNavDestination.pop();
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(2, () => {
+                });
+            }
+        }, If);
+        If.pop();
     }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -283,7 +368,7 @@ class Index extends ViewV2 {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new TvHome(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 133, col: 7 });
+                                let componentCall = new TvHome(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 184, col: 7 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {};
@@ -299,29 +384,32 @@ class Index extends ViewV2 {
             }
             else {
                 this.ifElseBranchUpdateFunction(1, () => {
-                    this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        HdsNavigation.create(this.pageStack, { moduleName: "entry", pagePath: "entry/src/main/ets/pages/Index", isUserCreateStack: true });
-                        HdsNavigation.hideTitleBar(true);
-                        HdsNavigation.mode(NavigationMode.Stack);
-                        HdsNavigation.navDestination({ builder: this.privacyPage.bind(this) });
-                        HdsNavigation.width('100%');
-                        HdsNavigation.height('100%');
-                    }, HdsNavigation);
-                    this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        If.create();
-                        if (this.isWide) {
-                            this.ifElseBranchUpdateFunction(0, () => {
-                                this.masterDetail.bind(this)();
-                            });
-                        }
-                        else {
-                            this.ifElseBranchUpdateFunction(1, () => {
-                                this.phoneTabs.bind(this)();
-                            });
-                        }
-                    }, If);
-                    If.pop();
-                    HdsNavigation.pop();
+                    if (!If.canRetake(`lang-${this.langEpoch}`)) {
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            HdsNavigation.create(this.pageStack);
+                            HdsNavigation.hideTitleBar(true);
+                            HdsNavigation.mode(NavigationMode.Stack);
+                            HdsNavigation.navDestination({ builder: this.routePage.bind(this) });
+                            HdsNavigation.width('100%');
+                            HdsNavigation.height('100%');
+                            HdsNavigation.id(`lang-${this.langEpoch}`);
+                        }, HdsNavigation);
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            If.create();
+                            if (this.isWide) {
+                                this.ifElseBranchUpdateFunction(0, () => {
+                                    this.masterDetail.bind(this)();
+                                });
+                            }
+                            else {
+                                this.ifElseBranchUpdateFunction(1, () => {
+                                    this.phoneTabs.bind(this)();
+                                });
+                            }
+                        }, If);
+                        If.pop();
+                        HdsNavigation.pop();
+                    }
                 });
             }
         }, If);

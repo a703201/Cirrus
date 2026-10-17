@@ -4,18 +4,48 @@ if (!("finalizeConstruction" in ViewPU.prototype)) {
 export class PrivacyView extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
         super(parent, elmtId, extraInfo);
+        this.initParam("onBack", (params && "onBack" in params) ? params.onBack : () => { });
         this.finalizeConstruction();
     }
     public resetStateVarsOnReuse(params: Object): void {
+        this.resetParam("onBack", (params && "onBack" in params) ? params.onBack : () => { });
     }
+    @Param
+    readonly onBack: () => void;
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create({ space: 12 });
-            Column.padding({ top: 88, left: 16, right: 16, bottom: 24 });
+            Column.padding({ top: 44, left: 16, right: 16, bottom: 24 });
             Column.width('100%');
             Column.height('100%');
             Column.alignItems(HorizontalAlign.Start);
         }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // 自绘标题栏（返回 + 标题），顶部避让状态栏。
+            Row.create({ space: 8 });
+            // 自绘标题栏（返回 + 标题），顶部避让状态栏。
+            Row.width('100%');
+            // 自绘标题栏（返回 + 标题），顶部避让状态栏。
+            Row.alignItems(VerticalAlign.Center);
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('‹');
+            Text.fontSize(26);
+            Text.fontWeight(FontWeight.Medium);
+            Text.accessibilityLevel('no');
+            Text.onClick(() => {
+                this.onBack();
+            });
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331776, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(20);
+            Text.fontWeight(FontWeight.Medium);
+        }, Text);
+        Text.pop();
+        // 自绘标题栏（返回 + 标题），顶部避让状态栏。
+        Row.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Scroll.create();
             Scroll.layoutWeight(1);
@@ -152,6 +182,14 @@ export class PrivacyView extends ViewV2 {
         }, Text);
         Text.pop();
         Column.pop();
+    }
+    public updateStateVars(params) {
+        if (params === undefined) {
+            return;
+        }
+        if ("onBack" in params) {
+            this.updateParam("onBack", params.onBack);
+        }
     }
     rerender() {
         this.updateDirtyElements();

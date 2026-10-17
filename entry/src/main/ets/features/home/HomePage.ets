@@ -9,6 +9,7 @@ import { MinutelyPage } from './MinutelyPage';
 @ComponentV2
 export struct HomePage {
   @Param scroller: Scroller = new Scroller();
+  @Param pageStack: NavPathStack = new NavPathStack();
   @Local refreshing: boolean = false;
 
   private palette(): SkyPalette {
@@ -53,6 +54,27 @@ export struct HomePage {
               low: appStore.weather.daily.length > 0 ? appStore.weather.daily[0].tempMin : -999,
               apparent: appStore.weather.current.apparent
             })
+
+            // 预警入口（二级页面）——与设置页行样式一致。
+            Row({ space: 8 }) {
+              Text($r('app.string.tab_alerts'))
+                .fontSize(16)
+                .fontWeight(FontWeight.Medium)
+                .layoutWeight(1)
+              Text(`${appStore.weather.alerts?.length ?? 0}`)
+                .fontSize(14)
+                .fontColor((appStore.weather.alerts?.length ?? 0) > 0 ? '#C5221F' : '#666666')
+              Text('›').fontSize(14).fontColor('#999999').accessibilityLevel('no')
+            }
+            .width('100%')
+            .padding(14)
+            .backgroundColor('rgba(255,255,255,0.6)')
+            .borderRadius(14)
+            .accessibilityGroup(true)
+            .onClick(() => {
+              this.pageStack.pushPath({ name: 'Alerts' });
+            })
+
             MinutelyPage({
               minutely: appStore.weather.minutely,
               summary: appStore.weather.minutelySummary ?? ''

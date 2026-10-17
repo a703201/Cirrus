@@ -43,10 +43,16 @@ export class SettingsPage extends ViewV2 {
     private openKeyDialog(): void {
         this.keyDialog.open();
     }
-    /** 语言切换需冷启动才生效（i18n 资源加载机制），给用户明确提示。 */
+    /**
+     * 语言切换：立即生效，无需重启应用。
+     *
+     * i18n 的 `setAppPreferredLanguage` 只改资源查找路径、不会让已渲染的 `$r()` 组件
+     * 重新求值，因此 `updateSettings` 内部会触发 `Index.ets` 注册的语言回调重建 UI 根树。
+     * 「切回跟随系统」同样走这条路径——`toResourceLocale('system')` 会解析出系统语言
+     * 的具体标签（如 zh-CN），所以切回后立刻跟随系统语言。
+     */
     private async setLanguage(lang: string): Promise<void> {
         await appStore.updateSettings({ language: lang });
-        promptAction.showToast({ message: { "id": 50331788, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
     }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -467,6 +473,14 @@ export class SettingsPage extends ViewV2 {
         }, MenuItem);
         MenuItem.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: '中文' });
+            MenuItem.selected(appStore.settings.language === 'zh-CN');
+            MenuItem.onClick(() => {
+                this.setLanguage('zh-CN');
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
             MenuItem.create({ content: 'English' });
             MenuItem.selected(appStore.settings.language === 'en');
             MenuItem.onClick(() => {
@@ -475,10 +489,42 @@ export class SettingsPage extends ViewV2 {
         }, MenuItem);
         MenuItem.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            MenuItem.create({ content: '中文' });
-            MenuItem.selected(appStore.settings.language === 'zh-CN');
+            MenuItem.create({ content: 'Français' });
+            MenuItem.selected(appStore.settings.language === 'fr-FR');
             MenuItem.onClick(() => {
-                this.setLanguage('zh-CN');
+                this.setLanguage('fr-FR');
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: '日本語' });
+            MenuItem.selected(appStore.settings.language === 'ja-JP');
+            MenuItem.onClick(() => {
+                this.setLanguage('ja-JP');
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: '한국어' });
+            MenuItem.selected(appStore.settings.language === 'ko-KR');
+            MenuItem.onClick(() => {
+                this.setLanguage('ko-KR');
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: 'Español' });
+            MenuItem.selected(appStore.settings.language === 'es-ES');
+            MenuItem.onClick(() => {
+                this.setLanguage('es-ES');
+            });
+        }, MenuItem);
+        MenuItem.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            MenuItem.create({ content: 'Deutsch' });
+            MenuItem.selected(appStore.settings.language === 'de-DE');
+            MenuItem.onClick(() => {
+                this.setLanguage('de-DE');
             });
         }, MenuItem);
         MenuItem.pop();
@@ -515,13 +561,24 @@ export class SettingsPage extends ViewV2 {
         return { "id": 50331669, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
     }
     private languageLabel(): ResourceStr {
-        if (appStore.settings.language === 'en') {
-            return 'English';
+        switch (appStore.settings.language) {
+            case 'zh-CN':
+                return '中文';
+            case 'en':
+                return 'English';
+            case 'fr-FR':
+                return 'Français';
+            case 'ja-JP':
+                return '日本語';
+            case 'ko-KR':
+                return '한국어';
+            case 'es-ES':
+                return 'Español';
+            case 'de-DE':
+                return 'Deutsch';
+            default:
+                return { "id": 50331682, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
         }
-        if (appStore.settings.language === 'zh-CN') {
-            return '中文';
-        }
-        return { "id": 50331682, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" };
     }
     public updateStateVars(params) {
         if (params === undefined) {

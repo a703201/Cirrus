@@ -1,4 +1,4 @@
-Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙQE:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WeatherData.tsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0‘ÔrD’²hostDependencyName®hostModuleNameµ../models/WeatherData¦commonÙ.E:\Codes\Project\Transplant\weather-app\commonÃÚ»/**
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙQE:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WeatherData.tsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0‘ÔrD’²hostDependencyName®hostModuleNameµ../models/WeatherData¦commonÙ.E:\Codes\Project\Transplant\weather-app\commonÃÚ	¥/**
  * Normalized weather data model (UI-consumed).
  * Mirrors æ¥å£æ–‡æ¡£ Â§2. Every weather source maps its raw response into these types.
  */
@@ -9,6 +9,30 @@ export interface LocationInfo {
   latitude: number;
   longitude: number;
   timezone: string;
+  /** ä¸€çº§è¡Œæ”¿åŒºï¼ˆçœ/ç›´è¾–å¸‚ï¼‰ï¼Œç”¨äºæ¶ˆæ­§ï¼ˆå¯é€‰ï¼‰ã€‚ */
+  admin1?: string;
+  /** äºŒçº§è¡Œæ”¿åŒºï¼ˆå¸‚/åŒºï¼‰ï¼Œç”¨äºæ¶ˆæ­§ï¼ˆå¯é€‰ï¼‰ã€‚ */
+  admin2?: string;
+  /** å›½å®¶/åœ°åŒºï¼ˆå¯é€‰ï¼‰ã€‚ */
+  country?: string;
+}
+
+/** ä½ç½®å‰¯æ ‡é¢˜ï¼ˆè¡Œæ”¿åŒºåˆ’ï¼‰ï¼Œç”¨äºæœç´¢ç»“æœæ¶ˆæ­§ï¼Œå¦‚ã€ŒåŒ—äº¬å¸‚ Â· æœé˜³åŒº Â· ä¸­å›½ã€ã€‚ */
+export function locationSubtitle(loc: LocationInfo): string {
+  const parts: string[] = [];
+  const a1: string = loc.admin1 ?? '';
+  const a2: string = loc.admin2 ?? '';
+  const c: string = loc.country ?? '';
+  if (a1.length > 0) {
+    parts.push(a1);
+  }
+  if (a2.length > 0 && a2 !== a1) {
+    parts.push(a2);
+  }
+  if (c.length > 0) {
+    parts.push(c);
+  }
+  return parts.join(' Â· ');
 }
 
 export interface CurrentWeather {

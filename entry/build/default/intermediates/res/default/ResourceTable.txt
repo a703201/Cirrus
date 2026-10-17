@@ -106,6 +106,12 @@ string unit_fahrenheit 0x03000030
 string updated_at 0x03000031
 color start_window_background 0x03000032
 media app_icon 0x03000001
+media ic_nav_location 0x03000092
+media ic_nav_location_filled 0x03000093
+media ic_nav_settings 0x03000094
+media ic_nav_settings_filled 0x03000095
+media ic_nav_weather 0x03000096
+media ic_nav_weather_outline 0x03000097
 media wx_clear_day 0x03000035
 media wx_clear_night 0x03000036
 media wx_drizzle_dense_day 0x03000037

@@ -130,7 +130,7 @@
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets": {
-      "mtimeMs": 1791897758094.2036,
+      "mtimeMs": 1792142489826.1812,
       "children": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\models\\WeatherData.ts",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\models\\WmoCode.ts",
@@ -138,6 +138,7 @@
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\utils\\Log.ts",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\utils\\DateTimeUtil.ts",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\utils\\UnitUtil.ts",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\utils\\LangUtil.ts",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\ThemeUtil.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\WeatherCard.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\MaterialUtil.ets",
@@ -1575,7 +1576,7 @@
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\models\\WeatherData.ts": {
-      "mtimeMs": 1792139108164.7092,
+      "mtimeMs": 1792220384393.411,
       "children": [],
       "parent": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets"
@@ -1583,7 +1584,7 @@
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\models\\WmoCode.ts": {
-      "mtimeMs": 1791895515302.9685,
+      "mtimeMs": 1792142472732.938,
       "children": [],
       "parent": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets",
@@ -1611,7 +1612,8 @@
       "parent": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\MaterialUtil.ets",
-        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\ThemeUtil.ets"
+        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\ThemeUtil.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\utils\\LangUtil.ts"
       ],
       "error": false
     },
@@ -2083,7 +2085,8 @@
       "mtimeMs": 1787845011000,
       "children": [],
       "parent": [
-        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\time_picker.d.ts"
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\time_picker.d.ts",
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.i18n.d.ts"
       ],
       "error": false
     },
@@ -2182,6 +2185,27 @@
       ],
       "parent": [
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.security.cert.d.ts"
+      ],
+      "error": false
+    },
+    "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\utils\\LangUtil.ts": {
+      "mtimeMs": 1792221155536.077,
+      "children": [
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.i18n.d.ts",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\utils\\Log.ts"
+      ],
+      "parent": [
+        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets"
+      ],
+      "error": false
+    },
+    "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.i18n.d.ts": {
+      "mtimeMs": 1787845011000,
+      "children": [
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.intl.d.ts"
+      ],
+      "parent": [
+        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\utils\\LangUtil.ts"
       ],
       "error": false
     }
