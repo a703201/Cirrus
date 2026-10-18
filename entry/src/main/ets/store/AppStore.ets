@@ -173,6 +173,20 @@ export class AppStore {
     }
   }
 
+  /** 本地相关度过滤：剔除与查询无关的模糊命中（如搜「北京」混入重庆/成都）。 */
+  private filterRelevant(list: LocationInfo[], query: string): LocationInfo[] {
+    const q: string = query.trim().toLowerCase();
+    if (q.length === 0) {
+      return list;
+    }
+    const hit: LocationInfo[] = list.filter((l: LocationInfo) => {
+      return l.name.toLowerCase().includes(q)
+        || (l.admin1 ?? '').toLowerCase().includes(q)
+        || (l.admin2 ?? '').toLowerCase().includes(q);
+    });
+    return hit.length > 0 ? hit : list;
+  }
+
   async searchLocations(query: string): Promise<void> {
     if (query.length === 0) {
       this.searchResults = [];
@@ -180,7 +194,8 @@ export class AppStore {
     }
     this.searching = true;
     try {
-      this.searchResults = await this.repo.search(query, this.resolveLang(), this.settings.sourceId);
+      const list: LocationInfo[] = await this.repo.search(query, this.resolveLang(), this.settings.sourceId);
+      this.searchResults = this.filterRelevant(list, query);
     } catch (e) {
       this.error = `${e}`;
       Log.e(`search failed: ${this.error}`);

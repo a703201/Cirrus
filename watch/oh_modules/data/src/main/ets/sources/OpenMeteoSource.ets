@@ -102,7 +102,7 @@ export class OpenMeteoSource implements WeatherSource {
   }
 
   async searchLocation(query: string, lang: string): Promise<LocationInfo[]> {
-    const url: string = `${GEO_URL}?name=${encodeURIComponent(query)}&count=10&language=${this.langToGeo(lang)}&format=json`;
+    const url: string = `${GEO_URL}?name=${encodeURIComponent(query)}&count=20&language=${this.langToGeo(lang)}&format=json`;
     const raw: string = await this.request(url);
     return this.parseGeo(raw);
   }

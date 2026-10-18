@@ -15,17 +15,26 @@ export interface LocationInfo {
     /** 国家/地区（可选）。 */
     country?: string;
 }
-/** 位置副标题（行政区划），用于搜索结果消歧，如「北京市 · 朝阳区 · 中国」。 */
+/**
+ * 位置主标题：城市 + 区县，如「北京市房山区」。
+ * 数据源差异统一在此归一（Open-Meteo 的 admin1 常为省/直辖市、name 为具体地点；
+ * 和风 adm2 为市、name 为区县）。
+ */
+export function locationTitle(loc: LocationInfo): string {
+    const city: string = (loc.admin2 ?? '').length > 0 ? (loc.admin2 ?? '') : (loc.admin1 ?? '');
+    if (city.length > 0 && city !== loc.name && !loc.name.startsWith(city)) {
+        return `${city}${loc.name}`;
+    }
+    return loc.name;
+}
+/** 位置副标题：省 / 国家（与主标题中的城市去重）。 */
 export function locationSubtitle(loc: LocationInfo): string {
     const parts: string[] = [];
     const a1: string = loc.admin1 ?? '';
     const a2: string = loc.admin2 ?? '';
     const c: string = loc.country ?? '';
-    if (a1.length > 0) {
+    if (a1.length > 0 && a1 !== a2) {
         parts.push(a1);
-    }
-    if (a2.length > 0 && a2 !== a1) {
-        parts.push(a2);
     }
     if (c.length > 0) {
         parts.push(c);

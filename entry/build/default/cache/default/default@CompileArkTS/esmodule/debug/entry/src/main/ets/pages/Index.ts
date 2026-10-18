@@ -14,6 +14,7 @@ import type { HdsTabsAttribute } from "@hms:hds.hdsBaseComponent";
 import { MaterialTier, setLanguageAppliedListener } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { appStore } from "@bundle:com.Lumio.Cirrus/entry/ets/store/AppStore";
 import { uiState } from "@bundle:com.Lumio.Cirrus/entry/ets/store/UiState";
+import { themeModel } from "@bundle:com.Lumio.Cirrus/entry/ets/store/ThemeModel";
 import { HomePage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/home/HomePage";
 import { LocationsPage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/locations/LocationsPage";
 import { AlertsPage } from "@bundle:com.Lumio.Cirrus/entry/ets/features/alerts/AlertsPage";
@@ -108,6 +109,16 @@ class Index extends ViewV2 {
      * 深浅背景下均以白色呈现，与 HdsTabs 悬浮胶囊协调。
      * 未选中 / 选中各一套资源（描边 ↔ 实心），按 uiState.tabIndex 切换。
      */
+    /**
+     * 页签前景色：随深浅色自适应。悬浮胶囊材质本身随系统明暗变化，
+     * 固定白字在浅色材质上对比度不足，故按主题取色。
+     */
+    private tabInk(selected: boolean): string {
+        if (themeModel.resolveDark()) {
+            return selected ? '#FFFFFF' : '#B3FFFFFF';
+        }
+        return selected ? '#1A1A1A' : '#8A000000';
+    }
     tabBarItem(index: number, label: ResourceStr, icon: Resource, iconSelected: Resource, parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create({ space: 2 });
@@ -119,12 +130,12 @@ class Index extends ViewV2 {
             Image.create(index === uiState.tabIndex ? iconSelected : icon);
             Image.width(24);
             Image.height(24);
-            Image.fillColor(Color.White);
+            Image.fillColor(this.tabInk(index === uiState.tabIndex));
         }, Image);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create(label);
             Text.fontSize(10);
-            Text.fontColor('#FFFFFF');
+            Text.fontColor(this.tabInk(index === uiState.tabIndex));
             Text.fontWeight(index === uiState.tabIndex ? FontWeight.Medium : FontWeight.Normal);
         }, Text);
         Text.pop();
@@ -156,7 +167,7 @@ class Index extends ViewV2 {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new HomePage(this, { scroller: this.scroller, pageStack: this.pageStack }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 119, col: 9 });
+                            let componentCall = new HomePage(this, { scroller: this.scroller, pageStack: this.pageStack }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 131, col: 9 });
                             ViewV2.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -184,7 +195,7 @@ class Index extends ViewV2 {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new LocationsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 124, col: 9 });
+                            let componentCall = new LocationsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 136, col: 9 });
                             ViewV2.create(componentCall);
                             let paramsLambda = () => {
                                 return {};
@@ -207,7 +218,7 @@ class Index extends ViewV2 {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new SettingsPage(this, { pageStack: this.pageStack }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 129, col: 9 });
+                            let componentCall = new SettingsPage(this, { pageStack: this.pageStack }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 141, col: 9 });
                             ViewV2.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -245,7 +256,7 @@ class Index extends ViewV2 {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new LocationsPage(this, { compact: true }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 155, col: 7 });
+                    let componentCall = new LocationsPage(this, { compact: true }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 167, col: 7 });
                     ViewV2.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -269,7 +280,7 @@ class Index extends ViewV2 {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new HomePage(this, { scroller: this.scroller, pageStack: this.pageStack }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 156, col: 7 });
+                    let componentCall = new HomePage(this, { scroller: this.scroller, pageStack: this.pageStack }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 168, col: 7 });
                     ViewV2.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -291,8 +302,8 @@ class Index extends ViewV2 {
     }
     /**
      * 二级页面分发（navDestination 的 builder）。
-     * ⚠️ ArkTS 不允许在普通 lambda 回调里直接写 UI 组件语法，故按官方模式用 @Builder 传入；
-     * 各二级页自绘标题栏（hideTitleBar），顶部避让由页面自身控制。
+     * 使用 **HdsNavDestination 原生标题栏**（自带系统返回按钮）；应用为沉浸式全屏，
+     * 标题栏会顶到状态栏之下，故以 `.margin({ top: 38 })` 整体下移避让状态栏。
      */
     routePage(name: string, parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -301,24 +312,21 @@ class Index extends ViewV2 {
                 this.ifElseBranchUpdateFunction(0, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         HdsNavDestination.create();
-                        HdsNavDestination.hideTitleBar(true);
+                        HdsNavDestination.titleBar({ content: { title: { mainTitle: { "id": 50331691, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } } } });
+                        HdsNavDestination.margin({ top: 38 });
                     }, HdsNavDestination);
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new AlertsPage(this, { onBack: () => { this.pageStack.pop(); } }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 171, col: 9 });
+                                let componentCall = new AlertsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 183, col: 9 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
-                                    return {
-                                        onBack: () => { this.pageStack.pop(); }
-                                    };
+                                    return {};
                                 };
                                 componentCall.paramsGenerator_ = paramsLambda;
                             }
                             else {
-                                this.updateStateVarsOfChildByElmtId(elmtId, {
-                                    onBack: () => { this.pageStack.pop(); }
-                                });
+                                this.updateStateVarsOfChildByElmtId(elmtId, {});
                             }
                         }, { name: "AlertsPage" });
                     }
@@ -329,24 +337,21 @@ class Index extends ViewV2 {
                 this.ifElseBranchUpdateFunction(1, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         HdsNavDestination.create();
-                        HdsNavDestination.hideTitleBar(true);
+                        HdsNavDestination.titleBar({ content: { title: { mainTitle: { "id": 50331776, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } } } });
+                        HdsNavDestination.margin({ top: 38 });
                     }, HdsNavDestination);
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new PrivacyView(this, { onBack: () => { this.pageStack.pop(); } }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 176, col: 9 });
+                                let componentCall = new PrivacyView(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 189, col: 9 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
-                                    return {
-                                        onBack: () => { this.pageStack.pop(); }
-                                    };
+                                    return {};
                                 };
                                 componentCall.paramsGenerator_ = paramsLambda;
                             }
                             else {
-                                this.updateStateVarsOfChildByElmtId(elmtId, {
-                                    onBack: () => { this.pageStack.pop(); }
-                                });
+                                this.updateStateVarsOfChildByElmtId(elmtId, {});
                             }
                         }, { name: "PrivacyView" });
                     }
@@ -368,7 +373,7 @@ class Index extends ViewV2 {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new TvHome(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 184, col: 7 });
+                                let componentCall = new TvHome(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 198, col: 7 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {};

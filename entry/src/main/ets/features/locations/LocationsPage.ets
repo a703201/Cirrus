@@ -1,4 +1,4 @@
-import { LocationInfo, locationSubtitle } from 'common';
+import { LocationInfo, locationSubtitle, locationTitle } from 'common';
 import { appStore } from '../../store/AppStore';
 
 @ComponentV2
@@ -52,7 +52,7 @@ export struct LocationsPage {
               ListItem() {
                 Row() {
                   Column({ space: 2 }) {
-                    Text(ri.item.name).fontSize(15).fontColor('#1A1A1A')
+                    Text(locationTitle(ri.item)).fontSize(15).fontColor('#1A1A1A')
                     if (locationSubtitle(ri.item).length > 0) {
                       Text(locationSubtitle(ri.item)).fontSize(12).fontColor('#595959')
                     }

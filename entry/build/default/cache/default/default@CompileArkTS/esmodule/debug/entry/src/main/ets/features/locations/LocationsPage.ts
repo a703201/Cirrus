@@ -1,7 +1,7 @@
 if (!("finalizeConstruction" in ViewPU.prototype)) {
     Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
 }
-import { locationSubtitle } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import { locationSubtitle, locationTitle } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import type { LocationInfo } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { appStore } from "@bundle:com.Lumio.Cirrus/entry/ets/store/AppStore";
 export class LocationsPage extends ViewV2 {
@@ -145,7 +145,7 @@ export class LocationsPage extends ViewV2 {
                                         Column.alignItems(HorizontalAlign.Start);
                                     }, Column);
                                     this.observeComponentCreation2((elmtId, isInitialRender) => {
-                                        Text.create(ri.item.name);
+                                        Text.create(locationTitle(ri.item));
                                         Text.fontSize(15);
                                         Text.fontColor('#1A1A1A');
                                     }, Text);

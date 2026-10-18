@@ -6,44 +6,18 @@ import { appStore } from "@bundle:com.Lumio.Cirrus/entry/ets/store/AppStore";
 export class AlertsPage extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
         super(parent, elmtId, extraInfo);
-        this.initParam("onBack", (params && "onBack" in params) ? params.onBack : () => { });
         this.finalizeConstruction();
     }
     public resetStateVarsOnReuse(params: Object): void {
-        this.resetParam("onBack", (params && "onBack" in params) ? params.onBack : () => { });
     }
-    @Param
-    readonly onBack: () => void;
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create({ space: 12 });
-            Column.padding({ top: 44, left: 16, right: 16, bottom: 24 });
+            Column.padding({ top: 60, left: 16, right: 16, bottom: 24 });
             Column.width('100%');
             Column.height('100%');
             Column.alignItems(HorizontalAlign.Start);
         }, Column);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create({ space: 8 });
-            Row.width('100%');
-            Row.alignItems(VerticalAlign.Center);
-        }, Row);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('‹');
-            Text.fontSize(26);
-            Text.fontWeight(FontWeight.Medium);
-            Text.accessibilityLevel('no');
-            Text.onClick(() => {
-                this.onBack();
-            });
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331691, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(20);
-            Text.fontWeight(FontWeight.Medium);
-        }, Text);
-        Text.pop();
-        Row.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
             if ((appStore.weather?.alerts?.length ?? 0) === 0) {
@@ -134,14 +108,6 @@ export class AlertsPage extends ViewV2 {
         }, If);
         If.pop();
         Column.pop();
-    }
-    public updateStateVars(params) {
-        if (params === undefined) {
-            return;
-        }
-        if ("onBack" in params) {
-            this.updateParam("onBack", params.onBack);
-        }
     }
     rerender() {
         this.updateDirtyElements();

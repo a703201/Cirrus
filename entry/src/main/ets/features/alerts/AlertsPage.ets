@@ -2,28 +2,13 @@ import { WeatherAlert } from 'common';
 import { appStore } from '../../store/AppStore';
 
 /**
- * 预警（P2-1）——**二级页面**，自绘标题栏（返回 + 标题），布局与设置页一致。
+ * 预警（P2-1）——**二级页面**，标题栏与返回按钮由 HdsNavDestination 原生提供，布局与设置页一致。
  * 由天气页入口（预警行）经 NavPathStack.pushPath('Alerts') 进入。
  */
 @ComponentV2
 export struct AlertsPage {
-  @Param onBack: () => void = () => {};
-
   build() {
     Column({ space: 12 }) {
-      Row({ space: 8 }) {
-        Text('‹')
-          .fontSize(26)
-          .fontWeight(FontWeight.Medium)
-          .accessibilityLevel('no')
-          .onClick(() => {
-            this.onBack();
-          })
-        Text($r('app.string.tab_alerts')).fontSize(20).fontWeight(FontWeight.Medium)
-      }
-      .width('100%')
-      .alignItems(VerticalAlign.Center)
-
       if ((appStore.weather?.alerts?.length ?? 0) === 0) {
         Row() {
           Text($r('app.string.no_alerts')).fontSize(15).fontColor('#595959').layoutWeight(1)
@@ -73,7 +58,7 @@ export struct AlertsPage {
         .scrollBar(BarState.Off)
       }
     }
-    .padding({ top: 44, left: 16, right: 16, bottom: 24 })
+    .padding({ top: 60, left: 16, right: 16, bottom: 24 })
     .width('100%')
     .height('100%')
     .alignItems(HorizontalAlign.Start)

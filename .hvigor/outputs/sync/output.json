@@ -176,8 +176,8 @@
     "SELECT_PRODUCT_NAME": "default",
     "MODULE_BUILD_DIR": "E:\\Codes\\Project\\Transplant\\weather-app\\build",
     "BUNDLE_NAME": "com.Lumio.Cirrus",
-    "VERSION_CODE": 1000,
-    "VERSION_NAME": "0.1.0",
+    "VERSION_CODE": 10200,
+    "VERSION_NAME": "1.2.0",
     "BUILD_PATH": {
       "OUTPUT_PATH": "E:\\Codes\\Project\\Transplant\\weather-app\\build\\outputs\\default"
     },

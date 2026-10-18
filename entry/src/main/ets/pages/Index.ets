@@ -7,6 +7,7 @@ import {
 import { MaterialTier, setLanguageAppliedListener } from 'common';
 import { appStore } from '../store/AppStore';
 import { uiState } from '../store/UiState';
+import { themeModel } from '../store/ThemeModel';
 import { HomePage } from '../features/home/HomePage';
 import { LocationsPage } from '../features/locations/LocationsPage';
 import { AlertsPage } from '../features/alerts/AlertsPage';
@@ -95,16 +96,27 @@ struct Index {
    * 深浅背景下均以白色呈现，与 HdsTabs 悬浮胶囊协调。
    * 未选中 / 选中各一套资源（描边 ↔ 实心），按 uiState.tabIndex 切换。
    */
+  /**
+   * 页签前景色：随深浅色自适应。悬浮胶囊材质本身随系统明暗变化，
+   * 固定白字在浅色材质上对比度不足，故按主题取色。
+   */
+  private tabInk(selected: boolean): string {
+    if (themeModel.resolveDark()) {
+      return selected ? '#FFFFFF' : '#B3FFFFFF';
+    }
+    return selected ? '#1A1A1A' : '#8A000000';
+  }
+
   @Builder
   tabBarItem(index: number, label: ResourceStr, icon: Resource, iconSelected: Resource) {
     Column({ space: 2 }) {
       Image(index === uiState.tabIndex ? iconSelected : icon)
         .width(24)
         .height(24)
-        .fillColor(Color.White)
+        .fillColor(this.tabInk(index === uiState.tabIndex))
       Text(label)
         .fontSize(10)
-        .fontColor('#FFFFFF')
+        .fontColor(this.tabInk(index === uiState.tabIndex))
         .fontWeight(index === uiState.tabIndex ? FontWeight.Medium : FontWeight.Normal)
     }
     .width('100%')
@@ -161,21 +173,23 @@ struct Index {
 
   /**
    * 二级页面分发（navDestination 的 builder）。
-   * ⚠️ ArkTS 不允许在普通 lambda 回调里直接写 UI 组件语法，故按官方模式用 @Builder 传入；
-   * 各二级页自绘标题栏（hideTitleBar），顶部避让由页面自身控制。
+   * 使用 **HdsNavDestination 原生标题栏**（自带系统返回按钮）；应用为沉浸式全屏，
+   * 标题栏会顶到状态栏之下，故以 `.margin({ top: 38 })` 整体下移避让状态栏。
    */
   @Builder
   routePage(name: string) {
     if (name === 'Alerts') {
       HdsNavDestination() {
-        AlertsPage({ onBack: () => { this.pageStack.pop(); } })
+        AlertsPage()
       }
-      .hideTitleBar(true)
+      .titleBar({ content: { title: { mainTitle: $r('app.string.tab_alerts') } } })
+      .margin({ top: 38 })
     } else if (name === 'Privacy') {
       HdsNavDestination() {
-        PrivacyView({ onBack: () => { this.pageStack.pop(); } })
+        PrivacyView()
       }
-      .hideTitleBar(true)
+      .titleBar({ content: { title: { mainTitle: $r('app.string.privacy_title') } } })
+      .margin({ top: 38 })
     }
   }
 

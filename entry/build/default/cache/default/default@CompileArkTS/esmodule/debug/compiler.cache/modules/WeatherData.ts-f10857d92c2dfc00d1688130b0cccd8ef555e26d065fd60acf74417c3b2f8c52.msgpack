@@ -1,4 +1,4 @@
-Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙQE:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WeatherData.tsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0‘ÔrD’²hostDependencyName®hostModuleNameµ../models/WeatherData¦commonÙ.E:\Codes\Project\Transplant\weather-app\commonÃÚ	¥/**
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙQE:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WeatherData.tsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0‘ÔrD’²hostDependencyName®hostModuleNameµ../models/WeatherData¦commonÙ.E:\Codes\Project\Transplant\weather-app\commonÃÚX/**
  * Normalized weather data model (UI-consumed).
  * Mirrors æ¥å£æ–‡æ¡£ Â§2. Every weather source maps its raw response into these types.
  */
@@ -17,17 +17,27 @@ export interface LocationInfo {
   country?: string;
 }
 
-/** ä½ç½®å‰¯æ ‡é¢˜ï¼ˆè¡Œæ”¿åŒºåˆ’ï¼‰ï¼Œç”¨äºæœç´¢ç»“æœæ¶ˆæ­§ï¼Œå¦‚ã€ŒåŒ—äº¬å¸‚ Â· æœé˜³åŒº Â· ä¸­å›½ã€ã€‚ */
+/**
+ * ä½ç½®ä¸»æ ‡é¢˜ï¼šåŸå¸‚ + åŒºå¿ï¼Œå¦‚ã€ŒåŒ—äº¬å¸‚æˆ¿å±±åŒºã€ã€‚
+ * æ•°æ®æºå·®å¼‚ç»Ÿä¸€åœ¨æ­¤å½’ä¸€ï¼ˆOpen-Meteo çš„ admin1 å¸¸ä¸ºçœ/ç›´è¾–å¸‚ã€name ä¸ºå…·ä½“åœ°ç‚¹ï¼›
+ * å’Œé£ adm2 ä¸ºå¸‚ã€name ä¸ºåŒºå¿ï¼‰ã€‚
+ */
+export function locationTitle(loc: LocationInfo): string {
+  const city: string = (loc.admin2 ?? '').length > 0 ? (loc.admin2 ?? '') : (loc.admin1 ?? '');
+  if (city.length > 0 && city !== loc.name && !loc.name.startsWith(city)) {
+    return `${city}${loc.name}`;
+  }
+  return loc.name;
+}
+
+/** ä½ç½®å‰¯æ ‡é¢˜ï¼šçœ / å›½å®¶ï¼ˆä¸ä¸»æ ‡é¢˜ä¸­çš„åŸå¸‚å»é‡ï¼‰ã€‚ */
 export function locationSubtitle(loc: LocationInfo): string {
   const parts: string[] = [];
   const a1: string = loc.admin1 ?? '';
   const a2: string = loc.admin2 ?? '';
   const c: string = loc.country ?? '';
-  if (a1.length > 0) {
+  if (a1.length > 0 && a1 !== a2) {
     parts.push(a1);
-  }
-  if (a2.length > 0 && a2 !== a1) {
-    parts.push(a2);
   }
   if (c.length > 0) {
     parts.push(c);
