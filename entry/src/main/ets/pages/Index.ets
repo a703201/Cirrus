@@ -144,7 +144,8 @@ struct Index {
 
   /**
    * 二级页分发。标题栏/返回按钮由 HdsNavDestination 原生提供；
-   * - `avoidLayoutSafeArea: true` 让标题栏自动避让状态栏（不再用 margin hack）；
+   * - 标题栏与正文一起用 `margin({ top: 38 })` 下移避让状态栏，正文再以 60vp 内边距避开标题栏
+   *   （`avoidLayoutSafeArea` 会把标题栏在页内下移而正文仍从顶部起排，曾导致首行被压在标题栏下）；
    * - `originalStyle` 显式给出标题栏背景/标题/返回图标的主题色 → 深色模式不再白底白字。
    */
   @Builder
@@ -154,7 +155,6 @@ struct Index {
         LocationsPage()
       }
       .titleBar({
-        avoidLayoutSafeArea: true,
         style: {
           originalStyle: {
             backgroundStyle: { backgroundColor: Tokens.surfaceBg(themeModel.resolveDark()) },
@@ -167,6 +167,7 @@ struct Index {
         content: { title: { mainTitle: $r('app.string.tab_locations') } }
       })
       .backgroundColor(Tokens.surfaceBg(themeModel.resolveDark()))
+      .margin({ top: 38 })
       .onShown(() => {
         SystemBar.setTone(themeModel.resolveDark());
       })
@@ -178,7 +179,6 @@ struct Index {
         AlertsPage()
       }
       .titleBar({
-        avoidLayoutSafeArea: true,
         style: {
           originalStyle: {
             backgroundStyle: { backgroundColor: Tokens.surfaceBg(themeModel.resolveDark()) },
@@ -191,6 +191,7 @@ struct Index {
         content: { title: { mainTitle: $r('app.string.tab_alerts') } }
       })
       .backgroundColor(Tokens.surfaceBg(themeModel.resolveDark()))
+      .margin({ top: 38 })
       .onShown(() => {
         SystemBar.setTone(themeModel.resolveDark());
       })
@@ -202,7 +203,6 @@ struct Index {
         PrivacyView()
       }
       .titleBar({
-        avoidLayoutSafeArea: true,
         style: {
           originalStyle: {
             backgroundStyle: { backgroundColor: Tokens.surfaceBg(themeModel.resolveDark()) },
@@ -215,6 +215,7 @@ struct Index {
         content: { title: { mainTitle: $r('app.string.settings_privacy') } }
       })
       .backgroundColor(Tokens.surfaceBg(themeModel.resolveDark()))
+      .margin({ top: 38 })
       .onShown(() => {
         SystemBar.setTone(themeModel.resolveDark());
       })

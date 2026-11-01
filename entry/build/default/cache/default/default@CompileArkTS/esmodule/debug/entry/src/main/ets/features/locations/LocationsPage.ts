@@ -38,6 +38,7 @@ export class LocationsPage extends ViewV2 {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Row.create({ space: 8 });
             Row.width('100%');
+            Row.height(48);
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             TextInput.create({ placeholder: { "id": 50331668, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" }, text: this.query });

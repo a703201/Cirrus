@@ -44,6 +44,7 @@ export struct LocationsPage {
           })
       }
       .width('100%')
+      .height(48)
 
       Button($r('app.string.action_locate'))
         .width('100%')
