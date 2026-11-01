@@ -2,7 +2,7 @@
 
 > 参考 Breezy Weather / Geometric Weather ｜ 平台 HarmonyOS NEXT（**API 26**，用户指定最新稳定版）
 > 架构：Stage 模型 + ArkUI 声明式 ｜ 设备：手机 / 平板 / 折叠屏 / PC / TV / 手表
-> 当前版本：**V1.2.0**（versionCode `10200`）｜ 变更记录见 **[CHANGELOG.md](./CHANGELOG.md)**
+> 当前版本：**V1.3.2**（versionCode `10302`）｜ 变更记录见 **[CHANGELOG.md](./CHANGELOG.md)**
 
 本目录包含**规划文档**（`docs/`）与**可打开的工程脚手架**（根目录 + `common` / `data` / `entry` / `watch` 模块）。
 
@@ -17,12 +17,19 @@
 
 ## 已落地的架构要点（对齐 docs/ 规划）
 
-- **多源可插拔**：`data/sources/WeatherSource.ts` 定义契约；`OpenMeteoSource` 默认免密钥；`QWeatherSource` 采用**用户自带 Key**——设置页填入自己的和风 Key 并经接口校验通过后，该源才出现在「数据源」列表（`sources/registry.ts` 运行时按 `isAvailable()` 过滤）；Key 仅存本机且不跨设备同步，合规边界见 `docs/09-隐私与权限合规.md §3`。
-- **归一模型**：`common/models/WeatherData.ts` 是唯一 UI 消费对象；各源实现 `toNormalized`。
+- **多源可插拔**：`data/sources/WeatherSource.ts` 定义契约；`OpenMeteoSource` 默认免密钥；`QWeatherSource` 采用**用户自带 Key**——已注册进 `sources/registry.ts`，运行时按 `isAvailable()` 过滤，设置页填入自己的和风 Key 并经接口校验通过后该源才出现在「数据源」列表；Key 仅存本机且不跨设备同步，合规边界见 `docs/09-隐私与权限合规.md §3`。
+- **归一模型**：`common/models/WeatherData.ts` 是唯一 UI 消费对象；各源实现 `toNormalized`。位置主标题 `locationTitle()` 已修正「上海 / 上海市」互为包含时的拼接问题（V1.3.2）。
 - **WMO 全量映射 + 7 语种**：`common/models/WmoCode.ts`（28 条代码 × 7 语）。和风 `icon→WMO` 对照见 `sources/QWeatherCodes.ts`（待补全）。
 - **多设备**：`entry/pages/Index.ets` 按 `(width >= 840vp)` 断点在 Tabs（手机）与主从（大屏）间切换；手表独立模块。
-- **i18n**：`entry/resources` 含 `base` + 7 语种 `string.json`；UI 字符串全部 `$r()` 引用。天气状况文案走 `WmoCode.ts`。
-- **状态/红线**：统一 `Log` 封装（禁裸 console/hilog）；类型标注无 `any/unknown`；`@Component` 方法替代 getter。
+  - 底部导航已精简为「**天气 / 设置**」两个页签（HDS 悬浮胶囊）；位置管理、预警、「数据与隐私」均为设置内 **二级页**，入口元素通过 `geometryTransition` 共享元素实现「一镜到底」连续转场。
+- **i18n**：`entry/resources` 含 `base` + 7 语种 `string.json`（zh-CN / en-US / fr-FR / ja-JP / ko-KR / es-ES / de-DE）；UI 字符串全部 `$r()` 引用，天气状况文案走 `WmoCode.ts`。语言切换**即时生效**（注入 `langEpoch` 重建 UI 树，无需重启）。
+- **本地持久化全链路打通**：天气快照与位置走 **RDB**（`data/local/RdbStore.ets`，基于 `@kit.ArkData` 的 `relationalStore`，S1 安全级）；设置走 `Preferences`（`settingsStore`）；位置与设置通过 `distributedKVStore` **跨设备同步**（和风 Key 除外）。首次启动以 Shanghai 为 SEED 填充并持久化，可管理、可设默认、跨启动保留。
+- **设计语言体系化（V1.3.x）**：新增 `common/ui/DesignTokens.ets`（`Tokens`），间距 / 圆角 / 字号 / 临界阻尼弹簧统一取值，界面分层由「字号 + 字重 + 行高」成组表达，深色下为低明度半透明避免浅叠浅；完整方法论见 `docs/13-美学设计语言.md`。
+- **状态栏联动（V1.3.0）**：`entry/system/SystemBar.ets` 统一控制器，应用沉浸式全屏，状态栏 / 导航栏图标色随当前页面背景明暗实时切换（`setTone(dark)`，由 EntryAbility 绑定窗口、二级页 `onShown/onHidden` 调用）。
+- **深色模式 / 夜间天气（V1.3.0）**：卡片、文字、图标、结构面全部主题感知；二级页标题栏经 `HdsNavDestination.originalStyle` 显式给出背景 / 标题 / 返回图标主题色，深色下不再白底白字（V1.3.1 硬化）。
+- **设置页层级（V1.3.0）**：分组卡片（外观 / 数据源 / 语言 / 更多）+ 分隔线 + 箭头 + 当前值色阶，选项位置与可点击区域一目了然。
+- **位置搜索清洗排序（V1.3.2）**：`AppStore.rankAndClean` 替代旧子串过滤——城市级命中优先、按「名称精确 / 城市精确 / 前缀 / 包含」打分、结合人口降序、按「标题+城市」去重并截断前 10，彻底剔除「绍兴市上海」等同名异地候选；Open-Meteo 地理编码已补 `population` / `feature_code` 权重。
+- **状态/红线**：统一 `Log` 封装（禁裸 console/hilog）；类型标注无 `any/unknown`；`@Component` 方法替代 getter；状态管理统一 V2（`@ObservedV2/@Trace`、`AppStorageV2/PersistenceV2`）。
 
 ## 鸿蒙新特性与沉浸光感（规划重点）
 
@@ -58,19 +65,19 @@
 
 ## 当前为脚手架（Stub）的部分
 
-- `CacheStore` 为内存占位，待接 `@kit.ArkData`（`relationalStore` RDB）与 `distributedKVStore`（跨设备同步）。
+- 本地缓存**已接 RDB**：`data/local/RdbStore.ets` 基于 `@kit.ArkData` 的 `relationalStore`（S1 安全级）承载天气快照与位置；`CacheStore` 旧封装仍保留、待迁移。`distributedKVStore` 跨设备同步已落地（位置 + 设置，和风 Key 除外）。
 - `LocationProvider` 已接 `geoLocationManager`，运行时需动态申请 `LOCATION` / `APPROXIMATELY_LOCATION`。
-- `RefreshScheduler` 已接 WorkScheduler（延迟任务，**无需** `KEEP_BACKGROUND_RUNNING`），待细化周期策略（≤4 次/日）。
+- `RefreshScheduler` 已接 WorkScheduler（延迟任务，**无需** `KEEP_BACKGROUND_RUNNING`，WIFI + 持久化），但**周期策略仍待细化**——`WorkInfo` 尚未配置 `repeatInterval`，当前未达到「≤4 次/日」的精确节奏。
 - `WeatherFormAbility` 已接真实天气：onAddForm 同步返占位、异步 `updateForm` 推 RDB 缓存真实数据（**P1-7 完成**）；卡片图标用 erikflowers/weather-icons（见「图标素材来源」）。
-- `QWeatherSource` 已结构实现，但 `icon→WMO` 对照表待补全，且**未注册**直至合规通过。
-- 默认位置为硬编码（Shanghai），待接定位与位置管理持久化。
+- `QWeatherSource` 已结构实现并**已注册**进 `sources/registry`（运行时按 `isAvailable()` 过滤，未配 Key 不出现），但 `icon→WMO` 对照表仍待补全，且默认不随包发布直至合规通过。
+- 默认位置：首次启动以 Shanghai 为 SEED 填充并**持久化**，已可管理 / 设默认 / 跨设备同步，不再硬编码死。
 - UI 已接入 HDS（`HdsNavigation`/`HdsTabs`/`hdsMaterial`）、状态管理 V2、数字翻牌/渐变文本；沉浸光感材质与 HDS 视效**需真机验收**（模拟器不支持，见 doc 11）。
 
 ## 下一步建议
 
 1. 补全图标/签名后做一次空跑构建，确认工程可编译。
-2. 按 `docs/10-研发计划与质量保障.md` 的 M1–M7 推进；优先打通 `entry` 主流程（定位→展示→刷新）。
-3. 接入 RDB/DistributedKV 与真实设置持久化（源/单位/主题/语言）。
-4. 国内源启用前完成 `docs/09` §3.1 合规清单并评审。
+2. 主流程已闭环（定位 → 展示 → 刷新 → RDB 缓存 → 多设备 → 跨设备同步），按 `docs/10-研发计划与质量保障.md` 的 M1–M7 收尾质量保障与测试。
+3. **细化刷新周期策略**：为 `RefreshScheduler` 的 `WorkInfo` 配置 `repeatInterval`，落实「≤4 次/日」的精确节奏。
+4. 国内源启用前完成 `docs/09` §3.1 合规清单并评审；补全 `QWeatherSource` 的 `icon→WMO` 对照表。
 5. 按 `docs/11` 接入沉浸光感/HDS 框架与状态管理 V2，并做**真机**材质验收（模拟器无 HDS 沉浸视效）。
-6. 规划文档随版本同步：新增 `docs/11-鸿蒙新特性与沉浸光感适配.md`，其余文档已按 API 26 新特性增补（Kit 化导入、状态管理 V2、三层工程、材质、权限修正）。
+6. 设计语言已体系化（`docs/13-美学设计语言.md`），持续对齐 Apple 流体界面方法论；无障碍与 P2 服务见 `docs/14-P2服务与无障碍.md`。
