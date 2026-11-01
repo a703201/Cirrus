@@ -1,20 +1,34 @@
-import { LocationInfo, locationSubtitle, locationTitle } from 'common';
+import { LocationInfo, locationSubtitle, locationTitle, Tokens } from 'common';
 import { appStore } from '../../store/AppStore';
+import { themeModel } from '../../store/ThemeModel';
 
+/**
+ * 位置管理页（重构）。
+ * - 普通形态：作为设置入口打开的**二级页**（需求 5），共享元素转场 `geo-locations`（需求 6）；
+ * - 紧凑形态：大屏主从布局的侧栏（`compact = true`）。
+ * 视觉：分组卡片 + 选中态描边 + 明确可点击行；颜色走 Tokens（夜间可读）。
+ */
 @ComponentV2
 export struct LocationsPage {
   @Local query: string = '';
-  /** true 时作为大屏侧栏（紧凑、无大标题）。 */
   @Param compact: boolean = false;
 
+  private dark(): boolean {
+    return themeModel.resolveDark();
+  }
+
   private displayName(loc: LocationInfo): ResourceStr {
-    return loc.name.length > 0 ? loc.name : $r('app.string.current_location');
+    return loc.name.length > 0 ? locationTitle(loc) : $r('app.string.current_location');
   }
 
   build() {
-    Column({ space: 12 }) {
+    Column({ space: 14 }) {
       if (!this.compact) {
-        Text($r('app.string.tab_locations')).fontSize(20).fontWeight(FontWeight.Medium)
+        Text($r('app.string.tab_locations'))
+          .fontSize(28)
+          .fontWeight(FontWeight.Bold)
+          .letterSpacing(-0.5)
+          .fontColor(Tokens.ink(this.dark()))
       }
 
       Row({ space: 8 }) {
@@ -26,55 +40,78 @@ export struct LocationsPage {
             appStore.searchLocations(this.query);
           })
           .layoutWeight(1)
+          .backgroundColor(Tokens.cardBg(this.dark()))
+          .borderRadius(Tokens.RADIUS_MD)
         Button($r('app.string.action_search'))
+          .height(40)
+          .borderRadius(Tokens.RADIUS_MD)
+          .backgroundColor(Tokens.accent(this.dark()))
           .onClick(() => {
             appStore.searchLocations(this.query);
           })
       }
+      .width('100%')
 
       Button($r('app.string.action_locate'))
         .width('100%')
+        .height(44)
+        .borderRadius(Tokens.RADIUS_MD)
+        .backgroundColor(Tokens.cardBg(this.dark()))
+        .fontColor(Tokens.accent(this.dark()))
         .onClick(() => {
           appStore.useCurrentLocation();
         })
 
       if (appStore.error.length > 0) {
-        Text(appStore.error).fontSize(12).fontColor('#EF4444')
+        Text(appStore.error).fontSize(Tokens.FONT_CAPTION).fontColor('#E5484D').width('100%')
       }
       if (appStore.searching) {
-        Text($r('app.string.msg_loading')).fontSize(14).fontColor('#595959')
+        Text($r('app.string.msg_loading')).fontSize(Tokens.FONT_CAPTION).fontColor(Tokens.subInk(this.dark()))
       }
 
       if (appStore.searchResults.length > 0) {
+        Text($r('app.string.action_search'))
+          .fontSize(Tokens.FONT_CAPTION)
+          .fontColor(Tokens.sectionTitle(this.dark()))
+          .letterSpacing(0.4)
+          .width('100%')
         List({ space: 8 }) {
           Repeat<LocationInfo>(appStore.searchResults)
             .each((ri: RepeatItem<LocationInfo>) => {
               ListItem() {
                 Row() {
                   Column({ space: 2 }) {
-                    Text(locationTitle(ri.item)).fontSize(15).fontColor('#1A1A1A')
+                    Text(locationTitle(ri.item))
+                      .fontSize(Tokens.FONT_BODY)
+                      .fontWeight(FontWeight.Medium)
+                      .fontColor(Tokens.ink(this.dark()))
                     if (locationSubtitle(ri.item).length > 0) {
-                      Text(locationSubtitle(ri.item)).fontSize(12).fontColor('#595959')
+                      Text(locationSubtitle(ri.item))
+                        .fontSize(Tokens.FONT_CAPTION)
+                        .fontColor(Tokens.subInk(this.dark()))
                     }
                   }
                   .layoutWeight(1)
                   .alignItems(HorizontalAlign.Start)
                   Button($r('app.string.action_add'))
-                    .fontSize(12)
+                    .fontSize(Tokens.FONT_CAPTION)
+                    .height(32)
+                    .borderRadius(Tokens.RADIUS_SM)
+                    .backgroundColor(Tokens.accent(this.dark()))
                     .onClick(() => {
                       appStore.addLocation(ri.item);
                     })
                 }
                 .width('100%')
                 .padding(14)
-                .backgroundColor('rgba(255,255,255,0.6)')
-                .borderRadius(14)
+                .backgroundColor(Tokens.cardBg(this.dark()))
+                .borderRadius(Tokens.RADIUS_MD)
               }
             })
             .key((l: LocationInfo) => l.id)
         }
         .width('100%')
-        .constraintSize({ maxHeight: 220 })
+        .constraintSize({ maxHeight: 240 })
         .scrollBar(BarState.Off)
       }
 
@@ -85,44 +122,49 @@ export struct LocationsPage {
               Row() {
                 Column({ space: 2 }) {
                   Text(this.displayName(ri.item))
-                    .fontSize(16)
+                    .fontSize(Tokens.FONT_BODY)
                     .fontWeight(FontWeight.Medium)
-                    .fontColor('#1A1A1A')
+                    .fontColor(Tokens.ink(this.dark()))
                   if (locationSubtitle(ri.item).length > 0) {
-                    Text(locationSubtitle(ri.item)).fontSize(12).fontColor('#595959')
+                    Text(locationSubtitle(ri.item))
+                      .fontSize(Tokens.FONT_CAPTION)
+                      .fontColor(Tokens.subInk(this.dark()))
                   }
                   if (ri.item.id === appStore.defaultId) {
-                    Text($r('app.string.label_default')).fontSize(12).fontColor('#3B82F6')
+                    Text($r('app.string.label_default'))
+                      .fontSize(Tokens.FONT_CAPTION)
+                      .fontColor(Tokens.accent(this.dark()))
                   }
                 }
                 .layoutWeight(1)
                 .alignItems(HorizontalAlign.Start)
 
                 Button($r('app.string.action_set_default'))
-                  .fontSize(12)
-                  .backgroundColor('#3B82F6')
-                  .fontColor('#FFFFFF')
+                  .fontSize(Tokens.FONT_CAPTION)
+                  .height(30)
+                  .borderRadius(Tokens.RADIUS_SM)
+                  .backgroundColor(Tokens.accent(this.dark()))
                   .visibility(ri.item.id === appStore.defaultId ? Visibility.None : Visibility.Visible)
                   .onClick(() => {
                     appStore.setDefaultLocation(ri.item.id);
                   })
-                // 危险操作用「浅红底 + 深红字」，红字压在默认蓝底上几乎不可读。
                 Button($r('app.string.action_delete'))
-                  .fontSize(12)
-                  .fontColor('#C5221F')
-                  .backgroundColor('rgba(239,68,68,0.12)')
+                  .fontSize(Tokens.FONT_CAPTION)
+                  .height(30)
+                  .borderRadius(Tokens.RADIUS_SM)
+                  .fontColor('#E5484D')
+                  .backgroundColor('rgba(229,72,77,0.12)')
                   .onClick(() => {
                     appStore.removeLocation(ri.item.id);
                   })
               }
               .width('100%')
               .padding(14)
-              .backgroundColor(ri.item.id === appStore.currentId ? 'rgba(59,130,246,0.14)' : 'rgba(255,255,255,0.6)')
-              .borderRadius(14)
-              .borderWidth(ri.item.id === appStore.currentId ? 1 : 0)
-              .borderColor('#3B82F6')
+              .backgroundColor(Tokens.cardBg(this.dark()))
+              .borderRadius(Tokens.RADIUS_MD)
+              .borderWidth(ri.item.id === appStore.currentId ? 1.5 : 0)
+              .borderColor(Tokens.accent(this.dark()))
               .accessibilityGroup(true)
-
               .onClick(() => {
                 appStore.selectLocation(ri.item.id);
               })
@@ -134,9 +176,10 @@ export struct LocationsPage {
       .width('100%')
       .scrollBar(BarState.Off)
     }
-    .padding({ top: this.compact ? 12 : 44, left: 14, right: 14, bottom: 92 })
+    .padding({ top: this.compact ? 12 : 60, left: 16, right: 16, bottom: 24 })
     .width('100%')
     .height('100%')
     .alignItems(HorizontalAlign.Start)
+    .geometryTransition('geo-locations')
   }
 }

@@ -1,14 +1,19 @@
 if (!("finalizeConstruction" in ViewPU.prototype)) {
     Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
 }
-import type { WeatherAlert } from 'common';
+import { Tokens } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import type { WeatherAlert } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { appStore } from "@bundle:com.Lumio.Cirrus/entry/ets/store/AppStore";
+import { themeModel } from "@bundle:com.Lumio.Cirrus/entry/ets/store/ThemeModel";
 export class AlertsPage extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
         super(parent, elmtId, extraInfo);
         this.finalizeConstruction();
     }
     public resetStateVarsOnReuse(params: Object): void {
+    }
+    private dark(): boolean {
+        return themeModel.resolveDark();
     }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -17,6 +22,7 @@ export class AlertsPage extends ViewV2 {
             Column.width('100%');
             Column.height('100%');
             Column.alignItems(HorizontalAlign.Start);
+            Column.geometryTransition('geo-alerts');
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
@@ -25,14 +31,14 @@ export class AlertsPage extends ViewV2 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         Row.create();
                         Row.width('100%');
-                        Row.padding(14);
-                        Row.backgroundColor('rgba(255,255,255,0.6)');
-                        Row.borderRadius(12);
+                        Row.padding(16);
+                        Row.backgroundColor(Tokens.cardBg(this.dark()));
+                        Row.borderRadius(Tokens.RADIUS_LG);
                     }, Row);
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         Text.create({ "id": 50331676, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-                        Text.fontSize(15);
-                        Text.fontColor('#595959');
+                        Text.fontSize(Tokens.FONT_BODY);
+                        Text.fontColor(Tokens.subInk(this.dark()));
                         Text.layoutWeight(1);
                     }, Text);
                     Text.pop();
@@ -58,9 +64,9 @@ export class AlertsPage extends ViewV2 {
                                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                                         Column.create({ space: 8 });
                                         Column.width('100%');
-                                        Column.padding(14);
-                                        Column.backgroundColor('rgba(255,255,255,0.6)');
-                                        Column.borderRadius(12);
+                                        Column.padding(16);
+                                        Column.backgroundColor(Tokens.cardBg(this.dark()));
+                                        Column.borderRadius(Tokens.RADIUS_LG);
                                         Column.alignItems(HorizontalAlign.Start);
                                         Column.accessibilityGroup(true);
                                         Column.accessibilityText(`${ri.item.level} ${ri.item.title} ${ri.item.description}`);
@@ -72,25 +78,26 @@ export class AlertsPage extends ViewV2 {
                                     }, Row);
                                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                                         Text.create(ri.item.level);
-                                        Text.fontSize(12);
-                                        Text.fontColor('#C5221F');
-                                        Text.backgroundColor('rgba(239,68,68,0.12)');
+                                        Text.fontSize(Tokens.FONT_CAPTION);
+                                        Text.fontColor('#E5484D');
+                                        Text.backgroundColor('rgba(229,72,77,0.14)');
                                         Text.borderRadius(6);
                                         Text.padding({ left: 8, right: 8, top: 2, bottom: 2 });
                                     }, Text);
                                     Text.pop();
                                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                                         Text.create(ri.item.title);
-                                        Text.fontSize(16);
+                                        Text.fontSize(Tokens.FONT_HEADLINE);
                                         Text.fontWeight(FontWeight.Medium);
+                                        Text.fontColor(Tokens.ink(this.dark()));
                                         Text.layoutWeight(1);
                                     }, Text);
                                     Text.pop();
                                     Row.pop();
                                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                                         Text.create(ri.item.description);
-                                        Text.fontSize(13);
-                                        Text.fontColor('#595959');
+                                        Text.fontSize(Tokens.FONT_CAPTION + 1);
+                                        Text.fontColor(Tokens.subInk(this.dark()));
                                         Text.lineHeight(20);
                                     }, Text);
                                     Text.pop();

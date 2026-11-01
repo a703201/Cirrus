@@ -1,26 +1,24 @@
 import { promptAction } from '@kit.ArkUI';
-import { TemperatureUnit, ThemeMode, MaterialTier } from 'common';
+import { TemperatureUnit, ThemeMode, MaterialTier, Tokens } from 'common';
 import { listAllSources, WeatherSource, QWeatherSource } from 'data';
 import { appStore } from '../../store/AppStore';
+import { themeModel } from '../../store/ThemeModel';
 
 /**
- * 设置页（P1-4/P1-10, docs/13 §9）。
- * 单项切换（数据源 / 单位 / 主题 / 材质 / 语言）统一改为下拉菜单（Menu + bindMenu）：
- * bindMenu 按官方样本结构**直接绑定在 build() 内的行容器上**（不放进 @Builder 中转——
- * CustomBuilder 内使用 bindMenu 弹出菜单受限，正是此前菜单点不开的根因），点击行即弹出菜单，
- * 已选项带选中态；选中后通过 `appStore.updateSettings` 持久化。
- * 和风 API Key：仅当数据源为「和风天气」时显示一行，右侧「编辑」按钮唤起配置弹窗
- * （未配置 Key 时该源在菜单里显示为「未配置」，点击直接唤起弹窗，避免无入口的死锁）。
- * 「数据与隐私」经 NavPathStack.pushPath 进入二级页面（HdsNavDestination，见 Index.navDestination）。
+ * 设置页（重构，apple-design × HarmonyOS 原生）。
+ *
+ * - 分组卡片：外观 / 数据源 / 语言 / 更多；卡间 20vp 留白形成清晰分区；
+ * - 行内为 标签 + 当前值（次文本色）+ chevron，点击态明确；卡内以发丝线分隔；
+ * - 颜色统一走 `Tokens`（深浅色自适应，夜间可读）；
+ * - ⚠️ `bindMenu` 必须**直接绑定在 build() 内联的行上**（放进 @Builder 会导致菜单点不开）。
+ *
+ * 位置管理改为入口 → 二级页 `Locations`（需求 5），geometryTransition 共享元素转场（需求 6）。
  */
 @ComponentV2
 export struct SettingsPage {
   @Param pageStack: NavPathStack = new NavPathStack();
-  /** 和风 API Key 配置弹窗控制器（普通成员，不加 @State）。 */
+
   private keyDialog: CustomDialogController = new CustomDialogController({
-    // ⚠️ builder 必须是**调用形式** `Struct({})`（SDK 官方写法）。传裸 struct 引用会让框架
-    // 在 open() 时对它 `new`，而 @CustomDialog struct 不能被 new → 运行时报
-    // "TypeError: class constructor cannot call"（17:35 崩溃根因）。
     builder: QWeatherKeyDialog({}),
     alignment: DialogAlignment.Center,
     autoCancel: true
@@ -30,134 +28,158 @@ export struct SettingsPage {
     this.keyDialog.open();
   }
 
-  /**
-   * 语言切换：立即生效，无需重启应用。
-   *
-   * i18n 的 `setAppPreferredLanguage` 只改资源查找路径、不会让已渲染的 `$r()` 组件
-   * 重新求值，因此 `updateSettings` 内部会触发 `Index.ets` 注册的语言回调重建 UI 根树。
-   * 「切回跟随系统」同样走这条路径——`toResourceLocale('system')` 会解析出系统语言
-   * 的具体标签（如 zh-CN），所以切回后立刻跟随系统语言。
-   */
   private async setLanguage(lang: string): Promise<void> {
     await appStore.updateSettings({ language: lang });
   }
 
+  private dk(): boolean {
+    return themeModel.resolveDark();
+  }
+
   build() {
-    Column({ space: 12 }) {
-      Text($r('app.string.tab_settings')).fontSize(20).fontWeight(FontWeight.Medium)
+    Scroll() {
+      Column({ space: 20 }) {
+        Text($r('app.string.tab_settings'))
+          .fontSize(30)
+          .fontWeight(FontWeight.Bold)
+          .letterSpacing(-0.6)
+          .fontColor(Tokens.ink(this.dk()))
+          .width('100%')
 
-      // 数据源
-      Row({ space: 8 }) {
-        Text($r('app.string.settings_source')).fontSize(16).layoutWeight(1)
-        Text(this.sourceLabel()).fontSize(14).fontColor('#666666')
-        Text('▾').fontSize(14).fontColor('#999999').accessibilityLevel('no')
-      }
-      .width('100%')
-      .padding(14)
-      .backgroundColor('rgba(255,255,255,0.6)')
-      .borderRadius(12)
-      .accessibilityGroup(true)
-      .bindMenu(this.sourceMenu, { placement: Placement.BottomRight })
+        // ── 外观 ──
+        Column() {
+          Row({ space: 8 }) {
+            Text($r('app.string.settings_theme')).fontSize(Tokens.FONT_HEADLINE).fontColor(Tokens.ink(this.dk())).layoutWeight(1)
+            Text(this.themeLabel()).fontSize(Tokens.FONT_BODY).fontColor(Tokens.subInk(this.dk()))
+            Text('›').fontSize(16).fontColor(Tokens.sectionTitle(this.dk())).accessibilityLevel('no')
+          }
+          .width('100%')
+          .padding({ left: 16, right: 16, top: 15, bottom: 15 })
+          .accessibilityGroup(true)
+          .bindMenu(this.themeMenu, { placement: Placement.BottomRight })
 
-      // 和风天气 API Key：仅在数据源切到和风时出现；右侧「编辑」唤起配置弹窗。
-      if (appStore.settings.sourceId === 'qweather') {
-        Row({ space: 8 }) {
-          Text($r('app.string.settings_qweather_key')).fontSize(16).layoutWeight(1)
-          Text($r('app.string.qweather_key_configured')).fontSize(14).fontColor('#666666')
-          Text($r('app.string.action_edit'))
-            .fontSize(14)
-            .fontColor('#3B82F6')
-            .padding({ left: 10, right: 10, top: 4, bottom: 4 })
-            .onClick(() => {
-              this.openKeyDialog();
-            })
+          Divider().color(Tokens.hairline(this.dk())).strokeWidth(0.5).margin({ left: 16, right: 16 })
+
+          Row({ space: 8 }) {
+            Text($r('app.string.settings_material')).fontSize(Tokens.FONT_HEADLINE).fontColor(Tokens.ink(this.dk())).layoutWeight(1)
+            Text(this.materialLabel()).fontSize(Tokens.FONT_BODY).fontColor(Tokens.subInk(this.dk()))
+            Text('›').fontSize(16).fontColor(Tokens.sectionTitle(this.dk())).accessibilityLevel('no')
+          }
+          .width('100%')
+          .padding({ left: 16, right: 16, top: 15, bottom: 15 })
+          .accessibilityGroup(true)
+          .bindMenu(this.materialMenu, { placement: Placement.BottomRight })
+
+          Divider().color(Tokens.hairline(this.dk())).strokeWidth(0.5).margin({ left: 16, right: 16 })
+
+          Row({ space: 8 }) {
+            Text($r('app.string.settings_unit')).fontSize(Tokens.FONT_HEADLINE).fontColor(Tokens.ink(this.dk())).layoutWeight(1)
+            Text(this.unitLabel()).fontSize(Tokens.FONT_BODY).fontColor(Tokens.subInk(this.dk()))
+            Text('›').fontSize(16).fontColor(Tokens.sectionTitle(this.dk())).accessibilityLevel('no')
+          }
+          .width('100%')
+          .padding({ left: 16, right: 16, top: 15, bottom: 15 })
+          .accessibilityGroup(true)
+          .bindMenu(this.unitMenu, { placement: Placement.BottomRight })
         }
         .width('100%')
-        .padding(14)
-        .backgroundColor('rgba(255,255,255,0.6)')
-        .borderRadius(12)
-        .accessibilityGroup(true)
-      }
+        .backgroundColor(Tokens.cardBg(this.dk()))
+        .borderRadius(Tokens.RADIUS_LG)
 
-      // 单位
-      Row({ space: 8 }) {
-        Text($r('app.string.settings_unit')).fontSize(16).layoutWeight(1)
-        Text(this.unitLabel()).fontSize(14).fontColor('#666666')
-        Text('▾').fontSize(14).fontColor('#999999').accessibilityLevel('no')
-      }
-      .width('100%')
-      .padding(14)
-      .backgroundColor('rgba(255,255,255,0.6)')
-      .borderRadius(12)
-      .accessibilityGroup(true)
-      .bindMenu(this.unitMenu, { placement: Placement.BottomRight })
+        // ── 数据源 ──
+        Column() {
+          Row({ space: 8 }) {
+            Text($r('app.string.settings_source')).fontSize(Tokens.FONT_HEADLINE).fontColor(Tokens.ink(this.dk())).layoutWeight(1)
+            Text(this.sourceLabel()).fontSize(Tokens.FONT_BODY).fontColor(Tokens.subInk(this.dk()))
+            Text('›').fontSize(16).fontColor(Tokens.sectionTitle(this.dk())).accessibilityLevel('no')
+          }
+          .width('100%')
+          .padding({ left: 16, right: 16, top: 15, bottom: 15 })
+          .accessibilityGroup(true)
+          .bindMenu(this.sourceMenu, { placement: Placement.BottomRight })
 
-      // 主题
-      Row({ space: 8 }) {
-        Text($r('app.string.settings_theme')).fontSize(16).layoutWeight(1)
-        Text(this.themeLabel()).fontSize(14).fontColor('#666666')
-        Text('▾').fontSize(14).fontColor('#999999').accessibilityLevel('no')
-      }
-      .width('100%')
-      .padding(14)
-      .backgroundColor('rgba(255,255,255,0.6)')
-      .borderRadius(12)
-      .accessibilityGroup(true)
-      .bindMenu(this.themeMenu, { placement: Placement.BottomRight })
+          if (appStore.settings.sourceId === 'qweather') {
+            Divider().color(Tokens.hairline(this.dk())).strokeWidth(0.5).margin({ left: 16, right: 16 })
+            Row({ space: 8 }) {
+              Text($r('app.string.settings_qweather_key')).fontSize(Tokens.FONT_HEADLINE).fontColor(Tokens.ink(this.dk())).layoutWeight(1)
+              Text($r('app.string.qweather_key_configured')).fontSize(Tokens.FONT_BODY).fontColor(Tokens.subInk(this.dk()))
+              Text($r('app.string.action_edit'))
+                .fontSize(Tokens.FONT_BODY)
+                .fontColor(Tokens.accent(this.dk()))
+                .padding({ left: 10, right: 4, top: 4, bottom: 4 })
+                .onClick(() => {
+                  this.openKeyDialog();
+                })
+            }
+            .width('100%')
+            .padding({ left: 16, right: 16, top: 15, bottom: 15 })
+            .accessibilityGroup(true)
+          }
+        }
+        .width('100%')
+        .backgroundColor(Tokens.cardBg(this.dk()))
+        .borderRadius(Tokens.RADIUS_LG)
 
-      // 沉浸光感
-      Row({ space: 8 }) {
-        Text($r('app.string.settings_material')).fontSize(16).layoutWeight(1)
-        Text(this.materialLabel()).fontSize(14).fontColor('#666666')
-        Text('▾').fontSize(14).fontColor('#999999').accessibilityLevel('no')
-      }
-      .width('100%')
-      .padding(14)
-      .backgroundColor('rgba(255,255,255,0.6)')
-      .borderRadius(12)
-      .accessibilityGroup(true)
-      .bindMenu(this.materialMenu, { placement: Placement.BottomRight })
+        // ── 语言 ──
+        Column() {
+          Row({ space: 8 }) {
+            Text($r('app.string.settings_language')).fontSize(Tokens.FONT_HEADLINE).fontColor(Tokens.ink(this.dk())).layoutWeight(1)
+            Text(this.languageLabel()).fontSize(Tokens.FONT_BODY).fontColor(Tokens.subInk(this.dk()))
+            Text('›').fontSize(16).fontColor(Tokens.sectionTitle(this.dk())).accessibilityLevel('no')
+          }
+          .width('100%')
+          .padding({ left: 16, right: 16, top: 15, bottom: 15 })
+          .accessibilityGroup(true)
+          .bindMenu(this.languageMenu, { placement: Placement.BottomRight })
+        }
+        .width('100%')
+        .backgroundColor(Tokens.cardBg(this.dk()))
+        .borderRadius(Tokens.RADIUS_LG)
 
-      // 语言
-      Row({ space: 8 }) {
-        Text($r('app.string.settings_language')).fontSize(16).layoutWeight(1)
-        Text(this.languageLabel()).fontSize(14).fontColor('#666666')
-        Text('▾').fontSize(14).fontColor('#999999').accessibilityLevel('no')
-      }
-      .width('100%')
-      .padding(14)
-      .backgroundColor('rgba(255,255,255,0.6)')
-      .borderRadius(12)
-      .accessibilityGroup(true)
-      .bindMenu(this.languageMenu, { placement: Placement.BottomRight })
+        // ── 更多（入口页）──
+        Column() {
+          Row({ space: 8 }) {
+            Text($r('app.string.tab_locations')).fontSize(Tokens.FONT_HEADLINE).fontColor(Tokens.ink(this.dk())).layoutWeight(1)
+            Text('›').fontSize(16).fontColor(Tokens.sectionTitle(this.dk())).accessibilityLevel('no')
+          }
+          .width('100%')
+          .padding({ left: 16, right: 16, top: 15, bottom: 15 })
+          .accessibilityGroup(true)
+          .geometryTransition('geo-locations')
+          .onClick(() => {
+            this.pageStack.pushPath({ name: 'Locations' });
+          })
 
-      // 数据与隐私（二级页面）
-      Row({ space: 8 }) {
-        Text($r('app.string.settings_privacy')).fontSize(16).layoutWeight(1)
-        Text('›').fontSize(14).fontColor('#999999').accessibilityLevel('no')
+          Divider().color(Tokens.hairline(this.dk())).strokeWidth(0.5).margin({ left: 16, right: 16 })
+
+          Row({ space: 8 }) {
+            Text($r('app.string.settings_privacy')).fontSize(Tokens.FONT_HEADLINE).fontColor(Tokens.ink(this.dk())).layoutWeight(1)
+            Text('›').fontSize(16).fontColor(Tokens.sectionTitle(this.dk())).accessibilityLevel('no')
+          }
+          .width('100%')
+          .padding({ left: 16, right: 16, top: 15, bottom: 15 })
+          .accessibilityGroup(true)
+          .geometryTransition('geo-privacy')
+          .onClick(() => {
+            this.pageStack.pushPath({ name: 'Privacy' });
+          })
+        }
+        .width('100%')
+        .backgroundColor(Tokens.cardBg(this.dk()))
+        .borderRadius(Tokens.RADIUS_LG)
       }
+      .padding({ top: 44, left: 16, right: 16, bottom: 108 })
       .width('100%')
-      .padding(14)
-      .backgroundColor('rgba(255,255,255,0.6)')
-      .borderRadius(12)
-      .accessibilityGroup(true)
-      .onClick(() => {
-        this.pageStack.pushPath({ name: 'Privacy' });
-      })
     }
-    .padding({ top: 44, left: 16, right: 16, bottom: 92 })
     .width('100%')
     .height('100%')
-    .alignItems(HorizontalAlign.Start)
+    .align(Alignment.TopStart)
+    .scrollBar(BarState.Off)
   }
 
   @Builder
   sourceMenu() {
     Menu() {
-      // 列出全部已注册源：未配置 Key 的和风显示为「未配置」，点击直接唤起配置弹窗
-      //（若过滤掉，用户将没有任何入口去填 Key）。
-      // content 里的 $r() 必须**就地内联**：经方法间接返回的 Resource 在弹窗的独立
-      // 渲染节点上解析不到，框架会报 "MenuItem content or label is empty" 且菜单项无字。
       ForEach(listAllSources(), (src: WeatherSource) => {
         MenuItem({
           content: src.needApiKey && !src.isAvailable()
@@ -344,9 +366,7 @@ export struct SettingsPage {
 }
 
 /**
- * 和风天气 API Key 配置弹窗（设置页「数据源 → 和风天气 → 编辑」唤起）。
- * - `controller` 为普通成员（`@CustomDialog` 下不可加 `@State`）；
- * - 回显已保存的 Key 仅限掩码形式，避免明文暴露；保存前经官方接口校验，仅通过才落盘。
+ * 和风天气 API Key 配置弹窗。
  */
 @CustomDialog
 struct QWeatherKeyDialog {
@@ -360,7 +380,6 @@ struct QWeatherKeyDialog {
     }
   }
 
-  /** 保存：先打一次官方轻量接口校验，**仅校验通过才落盘**（无效或断网均不保存）。 */
   private async save(): Promise<void> {
     const key: string = this.input.trim();
     if (key.length === 0) {
@@ -379,7 +398,6 @@ struct QWeatherKeyDialog {
     this.close();
   }
 
-  /** 清除本机 Key：和风源随即不可用，若正在使用会自动回落默认源。 */
   private async clear(): Promise<void> {
     await appStore.updateSettings({ qweatherApiKey: '' });
     promptAction.showToast({ message: $r('app.string.qweather_key_cleared') });

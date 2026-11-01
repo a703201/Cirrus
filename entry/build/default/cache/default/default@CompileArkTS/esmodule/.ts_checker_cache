@@ -132,7 +132,8 @@
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.ArkUI.d.ts",
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.window.floatView.d.ts",
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.arkui.advanced.FoldSplitContainer.d.ets",
-        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.arkui.uiExtension.d.ts"
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.arkui.uiExtension.d.ts",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\system\\SystemBar.ets"
       ],
       "error": false
     },
@@ -234,12 +235,13 @@
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\hms\\ets\\api\\@hms.hds.HdsSideBar.d.ets",
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\hms\\ets\\api\\@hms.hds.HdsSideMenu.d.ets",
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\hms\\ets\\api\\@hms.hds.HdsActionBar.d.ets",
-        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\hms\\ets\\api\\@hms.core.push.pushService.d.ts"
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\hms\\ets\\api\\@hms.core.push.pushService.d.ts",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\system\\SystemBar.ets"
       ],
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets": {
-      "mtimeMs": 1792142489826.1812,
+      "mtimeMs": 1793499951331.4963,
       "children": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\models\\WeatherData.ts",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\models\\WmoCode.ts",
@@ -253,6 +255,7 @@
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\MaterialUtil.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\AnimatedNumber.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\GradientText.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\DesignTokens.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\ThemeUtil.ets"
       ],
       "parent": [
@@ -281,7 +284,9 @@
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\notify\\NotificationUtil.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\push\\PushService.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\alerts\\AlertsPage.ets",
-        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\home\\MinutelyPage.ets"
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\home\\MinutelyPage.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\system\\SystemBar.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\settings\\PrivacyView.ets"
       ],
       "error": false
     },
@@ -319,12 +324,16 @@
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\AppStore.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\home\\HomePage.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\tv\\TvHome.ets",
-        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\pages\\Index.ets"
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\pages\\Index.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\locations\\LocationsPage.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\alerts\\AlertsPage.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\settings\\SettingsPage.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\settings\\PrivacyView.ets"
       ],
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets": {
-      "mtimeMs": 1792142551718.3215,
+      "mtimeMs": 1793499951323.949,
       "children": [
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.UIAbility.d.ts",
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.AbilityConstant.d.ts",
@@ -337,13 +346,11 @@
         "E:\\Codes\\Project\\Transplant\\weather-app\\data\\src\\main\\ets\\data\\Index.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\AppStore.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\ThemeModel.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\system\\SystemBar.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\push\\PushService.ets"
       ],
       "parent": [],
-      "error": true,
-      "errorCodes": [
-        28007
-      ]
+      "error": false
     },
     "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.Ability.d.ts": {
       "mtimeMs": 1787845011000,
@@ -1885,9 +1892,10 @@
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\WeatherCard.ets": {
-      "mtimeMs": 1792042536312.5767,
+      "mtimeMs": 1793499951346.029,
       "children": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\models\\Settings.ts",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\DesignTokens.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\MaterialUtil.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\GradientText.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\models\\WmoCode.ts"
@@ -2626,7 +2634,7 @@
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\home\\HomePage.ets": {
-      "mtimeMs": 1792220384347.7295,
+      "mtimeMs": 1793499951353.5757,
       "children": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\AppStore.ets",
@@ -2642,10 +2650,11 @@
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\locations\\LocationsPage.ets": {
-      "mtimeMs": 1792293117857.9492,
+      "mtimeMs": 1793500597410.557,
       "children": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets",
-        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\AppStore.ets"
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\AppStore.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\ThemeModel.ets"
       ],
       "parent": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\pages\\Index.ets"
@@ -2653,12 +2662,13 @@
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\settings\\SettingsPage.ets": {
-      "mtimeMs": 1792221161051.437,
+      "mtimeMs": 1793500597410.557,
       "children": [
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\data\\src\\main\\ets\\data\\Index.ets",
-        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\AppStore.ets"
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\AppStore.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\ThemeModel.ets"
       ],
       "parent": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\pages\\Index.ets"
@@ -2682,7 +2692,7 @@
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\pages\\Index.ets": {
-      "mtimeMs": 1792293117851.9233,
+      "mtimeMs": 1793499951323.949,
       "children": [
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.mediaquery.d.ts",
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.deviceInfo.d.ts",
@@ -2698,6 +2708,7 @@
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\AppStore.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\UiState.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\ThemeModel.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\system\\SystemBar.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\home\\HomePage.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\locations\\LocationsPage.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\alerts\\AlertsPage.ets",
@@ -3473,7 +3484,7 @@
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\home\\HourlyPage.ets": {
-      "mtimeMs": 1792042536316.5706,
+      "mtimeMs": 1793500597364.4387,
       "children": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets"
       ],
@@ -3483,7 +3494,7 @@
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\home\\DailyPage.ets": {
-      "mtimeMs": 1792042536420.1216,
+      "mtimeMs": 1793500597399.0305,
       "children": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets"
       ],
@@ -3493,7 +3504,7 @@
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\home\\DetailsPage.ets": {
-      "mtimeMs": 1792042536420.1216,
+      "mtimeMs": 1793500597400.0293,
       "children": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets"
       ],
@@ -4518,7 +4529,8 @@
       "mtimeMs": 1787845011000,
       "children": [],
       "parent": [
-        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.ArkUI.d.ts"
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.ArkUI.d.ts",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\DesignTokens.ets"
       ],
       "error": false
     },
@@ -5464,10 +5476,11 @@
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\alerts\\AlertsPage.ets": {
-      "mtimeMs": 1792295093734.8953,
+      "mtimeMs": 1793500597404.5376,
       "children": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets",
-        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\AppStore.ets"
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\AppStore.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\ThemeModel.ets"
       ],
       "parent": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\pages\\Index.ets"
@@ -5475,19 +5488,19 @@
       "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\settings\\PrivacyView.ets": {
-      "mtimeMs": 1792293117852.9214,
-      "children": [],
+      "mtimeMs": 1793500597406.548,
+      "children": [
+        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\store\\ThemeModel.ets"
+      ],
       "parent": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\settings\\SettingsPage.ets",
         "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\pages\\Index.ets"
       ],
-      "error": false,
-      "errorCodes": [
-        2339
-      ]
+      "error": false
     },
     "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\features\\home\\MinutelyPage.ets": {
-      "mtimeMs": 1792139108171.7114,
+      "mtimeMs": 1793500597403.0288,
       "children": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets"
       ],
@@ -5504,6 +5517,33 @@
       ],
       "parent": [
         "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets"
+      ],
+      "error": false
+    },
+    "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\system\\SystemBar.ets": {
+      "mtimeMs": 1793499951320.939,
+      "children": [
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.window.d.ts",
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.base.d.ts",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets"
+      ],
+      "parent": [
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\entry\\src\\main\\ets\\pages\\Index.ets"
+      ],
+      "error": true,
+      "errorCodes": [
+        28007
+      ]
+    },
+    "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\DesignTokens.ets": {
+      "mtimeMs": 1793499951319.9395,
+      "children": [
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.curves.d.ts"
+      ],
+      "parent": [
+        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\common\\Index.ets",
+        "E:\\Codes\\Project\\Transplant\\weather-app\\common\\src\\main\\ets\\ui\\WeatherCard.ets"
       ],
       "error": false
     }

@@ -4,10 +4,11 @@ import {
   HdsNavigation, HdsNavDestination, HdsTabs, HdsTabsController,
   hdsMaterial
 } from '@kit.UIDesignKit';
-import { MaterialTier, setLanguageAppliedListener } from 'common';
+import { MaterialTier, Tokens, setLanguageAppliedListener } from 'common';
 import { appStore } from '../store/AppStore';
 import { uiState } from '../store/UiState';
 import { themeModel } from '../store/ThemeModel';
+import { SystemBar } from '../system/SystemBar';
 import { HomePage } from '../features/home/HomePage';
 import { LocationsPage } from '../features/locations/LocationsPage';
 import { AlertsPage } from '../features/alerts/AlertsPage';
@@ -16,13 +17,11 @@ import { PrivacyView } from '../features/settings/PrivacyView';
 import { TvHome } from '../features/tv/TvHome';
 
 /**
- * App entry page (state management V2) — 卷云·气象拟真（docs/13 §10）.
- * - 底部页签：天气 / 位置 / 设置（预警已改为**二级页面**，从天气页入口进入）。
- * - 二级页面：NavPathStack + navDestination（预警 / 数据与隐私），自绘标题栏（hideTitleBar）。
- * - 折叠屏：HdsNavigation 显式 `NavigationMode.Stack`，避免展开态分栏挤压右侧。
- *
- * 语言切换即时生效：`langEpoch` 作为 `$r()` 重建信号量（见 `onLanguageApplied`）。
- * ⚠️ HDS 组件属 API 26 新特性；模拟器不支持沉浸视效，须真机验收。
+ * App entry (V2) — 卷云·气象拟真 × apple-design（docs/13）。
+ * - 底部页签：**天气 / 设置**。位置管理改为设置页入口 → 二级页（需求 5）。
+ * - 二级页：HdsNavDestination 原生标题栏；`geometryTransition` 实现「一镜到底」共享元素转场（需求 6）。
+ * - 状态栏：二级页 onShown/onHidden 实时切换图标色（需求 1）。
+ * - 折叠屏：NavigationMode.Stack，避免展开态分栏挤压右侧。
  */
 @Entry
 @ComponentV2
@@ -30,10 +29,6 @@ struct Index {
   @Local isWide: boolean = false;
   @Local isNarrow: boolean = false;
   @Local isTv: boolean = false;
-  /**
-   * 语言代次：语言切换成功后自增，用于强制重建整棵组件树。
-   * `$r()` 在 build() 执行时才解析资源，故让依赖它的根节点重新 build 即可刷新文案。
-   */
   @Local langEpoch: number = 0;
   private wideListener: mediaquery.MediaQueryListener = mediaquery.matchMediaSync('(width >= 840vp)');
   private narrowListener: mediaquery.MediaQueryListener = mediaquery.matchMediaSync('(width < 600vp)');
@@ -51,7 +46,6 @@ struct Index {
     });
     this.isWide = this.wideListener.matches;
     this.isNarrow = this.narrowListener.matches;
-    // 注册语言变更回调：切换语言后立即重建 UI，无需重启应用。
     setLanguageAppliedListener(() => {
       this.onLanguageApplied();
     });
@@ -63,13 +57,6 @@ struct Index {
     setLanguageAppliedListener(undefined);
   }
 
-  /**
-   * 语言切换后的 UI 重建。
-   *
-   * `setAppPreferredLanguage` 只改资源查找路径，已渲染的 `$r()` 不会自动刷新，
-   * 故通过自增 `langEpoch`（被 build() 读取）触发根组件重新 build。
-   * 同时把用户送回顶层页签并清空二级页面栈——否则设置页会停留在半重建状态。
-   */
   private onLanguageApplied(): void {
     this.pageStack.clear();
     this.tabController.changeIndex(uiState.tabIndex);
@@ -89,22 +76,11 @@ struct Index {
     }
   }
 
-  /**
-   * 底部导航单个页签：图标 + 文字。
-   *
-   * 图标取自鸿蒙原生图标库（`HarmonyOS_Icons`），已转为 base/media 下的白色 PNG，
-   * 深浅背景下均以白色呈现，与 HdsTabs 悬浮胶囊协调。
-   * 未选中 / 选中各一套资源（描边 ↔ 实心），按 uiState.tabIndex 切换。
-   */
-  /**
-   * 页签前景色：随深浅色自适应。悬浮胶囊材质本身随系统明暗变化，
-   * 固定白字在浅色材质上对比度不足，故按主题取色。
-   */
   private tabInk(selected: boolean): string {
     if (themeModel.resolveDark()) {
       return selected ? '#FFFFFF' : '#B3FFFFFF';
     }
-    return selected ? '#1A1A1A' : '#8A000000';
+    return selected ? '#111417' : '#8A000000';
   }
 
   @Builder
@@ -133,13 +109,8 @@ struct Index {
         $r('app.media.ic_nav_weather_outline'), $r('app.media.ic_nav_weather')))
 
       TabContent() {
-        LocationsPage()
-      }.tabBar(this.tabBarItem(1, $r('app.string.tab_locations'),
-        $r('app.media.ic_nav_location'), $r('app.media.ic_nav_location_filled')))
-
-      TabContent() {
         SettingsPage({ pageStack: this.pageStack })
-      }.tabBar(this.tabBarItem(2, $r('app.string.tab_settings'),
+      }.tabBar(this.tabBarItem(1, $r('app.string.tab_settings'),
         $r('app.media.ic_nav_settings'), $r('app.media.ic_nav_settings_filled')))
     }
     .scrollable(false)
@@ -164,7 +135,7 @@ struct Index {
   @Builder
   masterDetail() {
     Row() {
-      LocationsPage({ compact: true }).width('32%').padding(8)
+      LocationsPage({ compact: true }).width('34%').padding(8)
       HomePage({ scroller: this.scroller, pageStack: this.pageStack }).layoutWeight(1)
     }
     .width('100%')
@@ -172,24 +143,50 @@ struct Index {
   }
 
   /**
-   * 二级页面分发（navDestination 的 builder）。
-   * 使用 **HdsNavDestination 原生标题栏**（自带系统返回按钮）；应用为沉浸式全屏，
-   * 标题栏会顶到状态栏之下，故以 `.margin({ top: 38 })` 整体下移避让状态栏。
+   * 二级页分发。标题栏/返回按钮由 HdsNavDestination 原生提供；
+   * 页面底色取主题结构面，并在 onShown/onHidden 时同步状态栏图标色。
    */
   @Builder
   routePage(name: string) {
-    if (name === 'Alerts') {
+    if (name === 'Locations') {
+      HdsNavDestination() {
+        LocationsPage()
+      }
+      .titleBar({ content: { title: { mainTitle: $r('app.string.tab_locations') } } })
+      .backgroundColor(Tokens.surfaceBg(themeModel.resolveDark()))
+      .margin({ top: 38 })
+      .onShown(() => {
+        SystemBar.setTone(themeModel.resolveDark());
+      })
+      .onHidden(() => {
+        SystemBar.setTone(themeModel.resolveDark());
+      })
+    } else if (name === 'Alerts') {
       HdsNavDestination() {
         AlertsPage()
       }
       .titleBar({ content: { title: { mainTitle: $r('app.string.tab_alerts') } } })
+      .backgroundColor(Tokens.surfaceBg(themeModel.resolveDark()))
       .margin({ top: 38 })
+      .onShown(() => {
+        SystemBar.setTone(themeModel.resolveDark());
+      })
+      .onHidden(() => {
+        SystemBar.setTone(themeModel.resolveDark());
+      })
     } else if (name === 'Privacy') {
       HdsNavDestination() {
         PrivacyView()
       }
-      .titleBar({ content: { title: { mainTitle: $r('app.string.privacy_title') } } })
+      .titleBar({ content: { title: { mainTitle: $r('app.string.settings_privacy') } } })
+      .backgroundColor(Tokens.surfaceBg(themeModel.resolveDark()))
       .margin({ top: 38 })
+      .onShown(() => {
+        SystemBar.setTone(themeModel.resolveDark());
+      })
+      .onHidden(() => {
+        SystemBar.setTone(themeModel.resolveDark());
+      })
     }
   }
 
@@ -209,10 +206,6 @@ struct Index {
       .navDestination(this.routePage)
       .width('100%')
       .height('100%')
-      // ⚠️ 关键：.id() 绑定 langEpoch 建立依赖。语言切换后 id 变化，ArkUI 会
-      // **销毁并重建整棵子树**，内部所有 $r() 因此按新语言重新解析——
-      // 这是 setAppPreferredLanguage 之后让 UI 立即刷新的唯一可靠手段。
-      // 不能删（删了会退化为「改了设置但界面不变，必须重启应用」）。
       .id(`lang-${this.langEpoch}`)
     }
   }

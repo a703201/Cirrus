@@ -1,7 +1,7 @@
 if (!("finalizeConstruction" in ViewPU.prototype)) {
     Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
 }
-import { TemperatureUnit } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import { TemperatureUnit, Tokens } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import type { AirQuality, CurrentWeather } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 export class DetailsPage extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
@@ -9,12 +9,14 @@ export class DetailsPage extends ViewV2 {
         this.initParam("current", (params && "current" in params) ? params.current : undefined);
         this.initParam("airQuality", (params && "airQuality" in params) ? params.airQuality : undefined);
         this.initParam("unit", (params && "unit" in params) ? params.unit : TemperatureUnit.CELSIUS);
+        this.initParam("dark", (params && "dark" in params) ? params.dark : false);
         this.finalizeConstruction();
     }
     public resetStateVarsOnReuse(params: Object): void {
         this.resetParam("current", (params && "current" in params) ? params.current : undefined);
         this.resetParam("airQuality", (params && "airQuality" in params) ? params.airQuality : undefined);
         this.resetParam("unit", (params && "unit" in params) ? params.unit : TemperatureUnit.CELSIUS);
+        this.resetParam("dark", (params && "dark" in params) ? params.dark : false);
     }
     @Param
     readonly current: CurrentWeather | undefined;
@@ -22,6 +24,8 @@ export class DetailsPage extends ViewV2 {
     readonly airQuality: AirQuality | undefined;
     @Param
     readonly unit: TemperatureUnit;
+    @Param
+    readonly dark: boolean;
     private aqiLabel(): string {
         const aqi: number = this.airQuality?.aqi ?? 0;
         if (aqi <= 50) {
@@ -49,10 +53,10 @@ export class DetailsPage extends ViewV2 {
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create({ "id": 50331661, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(15);
+            Text.fontSize(Tokens.FONT_CAPTION + 1);
             Text.fontWeight(FontWeight.Medium);
-            Text.fontColor('#3A3A3A');
-            Text.letterSpacing(0.3);
+            Text.fontColor(Tokens.sectionTitle(this.dark));
+            Text.letterSpacing(0.4);
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -63,8 +67,8 @@ export class DetailsPage extends ViewV2 {
                         Column.create({ space: 10 });
                         Column.width('100%');
                         Column.padding(14);
-                        Column.backgroundColor('rgba(255,255,255,0.5)');
-                        Column.borderRadius(20);
+                        Column.backgroundColor(Tokens.cardBg(this.dark));
+                        Column.borderRadius(Tokens.RADIUS_LG);
                     }, Column);
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         Row.create({ space: 10 });
@@ -124,22 +128,22 @@ export class DetailsPage extends ViewV2 {
             Column.create({ space: 4 });
             Column.padding(12);
             Column.layoutWeight(1);
-            Column.backgroundColor('rgba(255,255,255,0.6)');
-            Column.borderRadius(14);
+            Column.backgroundColor(Tokens.cardBg(this.dark));
+            Column.borderRadius(Tokens.RADIUS_SM);
             Column.alignItems(HorizontalAlign.Start);
             Column.accessibilityGroup(true);
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create(label);
-            Text.fontSize(12);
-            Text.fontColor('#595959');
+            Text.fontSize(Tokens.FONT_CAPTION);
+            Text.fontColor(Tokens.subInk(this.dark));
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create(value);
-            Text.fontSize(18);
+            Text.fontSize(Tokens.FONT_HEADLINE + 1);
             Text.fontWeight(FontWeight.Medium);
-            Text.fontColor('#1A1A1A');
+            Text.fontColor(Tokens.ink(this.dark));
             Text.maxLines(1);
         }, Text);
         Text.pop();
@@ -157,6 +161,9 @@ export class DetailsPage extends ViewV2 {
         }
         if ("unit" in params) {
             this.updateParam("unit", params.unit);
+        }
+        if ("dark" in params) {
+            this.updateParam("dark", params.dark);
         }
     }
     rerender() {

@@ -7,20 +7,18 @@ interface QWeatherKeyDialog_Params {
     verifying?: boolean;
 }
 import promptAction from "@ohos:promptAction";
-import { TemperatureUnit, ThemeMode, MaterialTier } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import { TemperatureUnit, ThemeMode, MaterialTier, Tokens } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { listAllSources, QWeatherSource } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
 import type { WeatherSource } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
 import { appStore } from "@bundle:com.Lumio.Cirrus/entry/ets/store/AppStore";
+import { themeModel } from "@bundle:com.Lumio.Cirrus/entry/ets/store/ThemeModel";
 export class SettingsPage extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
         super(parent, elmtId, extraInfo);
         this.initParam("pageStack", (params && "pageStack" in params) ? params.pageStack : new NavPathStack());
         this.keyDialog = new CustomDialogController({
-            // ⚠️ builder 必须是**调用形式** `Struct({})`（SDK 官方写法）。传裸 struct 引用会让框架
-            // 在 open() 时对它 `new`，而 @CustomDialog struct 不能被 new → 运行时报
-            // "TypeError: class constructor cannot call"（17:35 崩溃根因）。
             builder: () => {
-                let jsDialog = new QWeatherKeyDialog(this, {}, undefined, -1, () => { }, { page: "entry/src/main/ets/features/settings/SettingsPage.ets", line: 24, col: 14 });
+                let jsDialog = new QWeatherKeyDialog(this, {}, undefined, -1, () => { }, { page: "entry/src/main/ets/features/settings/SettingsPage.ets", line: 22, col: 14 });
                 jsDialog.setController(this.keyDialog);
                 ViewPU.create(jsDialog);
                 let paramsLambda = () => {
@@ -38,103 +36,218 @@ export class SettingsPage extends ViewV2 {
     }
     @Param
     readonly pageStack: NavPathStack;
-    /** 和风 API Key 配置弹窗控制器（普通成员，不加 @State）。 */
     private keyDialog: CustomDialogController;
     private openKeyDialog(): void {
         this.keyDialog.open();
     }
-    /**
-     * 语言切换：立即生效，无需重启应用。
-     *
-     * i18n 的 `setAppPreferredLanguage` 只改资源查找路径、不会让已渲染的 `$r()` 组件
-     * 重新求值，因此 `updateSettings` 内部会触发 `Index.ets` 注册的语言回调重建 UI 根树。
-     * 「切回跟随系统」同样走这条路径——`toResourceLocale('system')` 会解析出系统语言
-     * 的具体标签（如 zh-CN），所以切回后立刻跟随系统语言。
-     */
     private async setLanguage(lang: string): Promise<void> {
         await appStore.updateSettings({ language: lang });
     }
+    private dk(): boolean {
+        return themeModel.resolveDark();
+    }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 12 });
-            Column.padding({ top: 44, left: 16, right: 16, bottom: 92 });
+            Scroll.create();
+            Scroll.width('100%');
+            Scroll.height('100%');
+            Scroll.align(Alignment.TopStart);
+            Scroll.scrollBar(BarState.Off);
+        }, Scroll);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create({ space: 20 });
+            Column.padding({ top: 44, left: 16, right: 16, bottom: 108 });
             Column.width('100%');
-            Column.height('100%');
-            Column.alignItems(HorizontalAlign.Start);
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create({ "id": 50331694, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(20);
-            Text.fontWeight(FontWeight.Medium);
+            Text.fontSize(30);
+            Text.fontWeight(FontWeight.Bold);
+            Text.letterSpacing(-0.6);
+            Text.fontColor(Tokens.ink(this.dk()));
+            Text.width('100%');
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            // 数据源
+            // ── 外观 ──
+            Column.create();
+            // ── 外观 ──
+            Column.width('100%');
+            // ── 外观 ──
+            Column.backgroundColor(Tokens.cardBg(this.dk()));
+            // ── 外观 ──
+            Column.borderRadius(Tokens.RADIUS_LG);
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
             Row.create({ space: 8 });
-            // 数据源
             Row.width('100%');
-            // 数据源
-            Row.padding(14);
-            // 数据源
-            Row.backgroundColor('rgba(255,255,255,0.6)');
-            // 数据源
-            Row.borderRadius(12);
-            // 数据源
+            Row.padding({ left: 16, right: 16, top: 15, bottom: 15 });
             Row.accessibilityGroup(true);
-            // 数据源
+            Row.bindMenu({ builder: this.themeMenu.bind(this) }, { placement: Placement.BottomRight });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331686, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(Tokens.FONT_HEADLINE);
+            Text.fontColor(Tokens.ink(this.dk()));
+            Text.layoutWeight(1);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(this.themeLabel());
+            Text.fontSize(Tokens.FONT_BODY);
+            Text.fontColor(Tokens.subInk(this.dk()));
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('›');
+            Text.fontSize(16);
+            Text.fontColor(Tokens.sectionTitle(this.dk()));
+            Text.accessibilityLevel('no');
+        }, Text);
+        Text.pop();
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Divider.create();
+            Divider.color(Tokens.hairline(this.dk()));
+            Divider.strokeWidth(0.5);
+            Divider.margin({ left: 16, right: 16 });
+        }, Divider);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create({ space: 8 });
+            Row.width('100%');
+            Row.padding({ left: 16, right: 16, top: 15, bottom: 15 });
+            Row.accessibilityGroup(true);
+            Row.bindMenu({ builder: this.materialMenu.bind(this) }, { placement: Placement.BottomRight });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331683, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(Tokens.FONT_HEADLINE);
+            Text.fontColor(Tokens.ink(this.dk()));
+            Text.layoutWeight(1);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(this.materialLabel());
+            Text.fontSize(Tokens.FONT_BODY);
+            Text.fontColor(Tokens.subInk(this.dk()));
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('›');
+            Text.fontSize(16);
+            Text.fontColor(Tokens.sectionTitle(this.dk()));
+            Text.accessibilityLevel('no');
+        }, Text);
+        Text.pop();
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Divider.create();
+            Divider.color(Tokens.hairline(this.dk()));
+            Divider.strokeWidth(0.5);
+            Divider.margin({ left: 16, right: 16 });
+        }, Divider);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create({ space: 8 });
+            Row.width('100%');
+            Row.padding({ left: 16, right: 16, top: 15, bottom: 15 });
+            Row.accessibilityGroup(true);
+            Row.bindMenu({ builder: this.unitMenu.bind(this) }, { placement: Placement.BottomRight });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331690, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(Tokens.FONT_HEADLINE);
+            Text.fontColor(Tokens.ink(this.dk()));
+            Text.layoutWeight(1);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(this.unitLabel());
+            Text.fontSize(Tokens.FONT_BODY);
+            Text.fontColor(Tokens.subInk(this.dk()));
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('›');
+            Text.fontSize(16);
+            Text.fontColor(Tokens.sectionTitle(this.dk()));
+            Text.accessibilityLevel('no');
+        }, Text);
+        Text.pop();
+        Row.pop();
+        // ── 外观 ──
+        Column.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // ── 数据源 ──
+            Column.create();
+            // ── 数据源 ──
+            Column.width('100%');
+            // ── 数据源 ──
+            Column.backgroundColor(Tokens.cardBg(this.dk()));
+            // ── 数据源 ──
+            Column.borderRadius(Tokens.RADIUS_LG);
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create({ space: 8 });
+            Row.width('100%');
+            Row.padding({ left: 16, right: 16, top: 15, bottom: 15 });
+            Row.accessibilityGroup(true);
             Row.bindMenu({ builder: this.sourceMenu.bind(this) }, { placement: Placement.BottomRight });
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create({ "id": 50331685, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(16);
+            Text.fontSize(Tokens.FONT_HEADLINE);
+            Text.fontColor(Tokens.ink(this.dk()));
             Text.layoutWeight(1);
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create(this.sourceLabel());
-            Text.fontSize(14);
-            Text.fontColor('#666666');
+            Text.fontSize(Tokens.FONT_BODY);
+            Text.fontColor(Tokens.subInk(this.dk()));
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('▾');
-            Text.fontSize(14);
-            Text.fontColor('#999999');
+            Text.create('›');
+            Text.fontSize(16);
+            Text.fontColor(Tokens.sectionTitle(this.dk()));
             Text.accessibilityLevel('no');
         }, Text);
         Text.pop();
-        // 数据源
         Row.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
-            // 和风天气 API Key：仅在数据源切到和风时出现；右侧「编辑」唤起配置弹窗。
             if (appStore.settings.sourceId === 'qweather') {
                 this.ifElseBranchUpdateFunction(0, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Divider.create();
+                        Divider.color(Tokens.hairline(this.dk()));
+                        Divider.strokeWidth(0.5);
+                        Divider.margin({ left: 16, right: 16 });
+                    }, Divider);
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
                         Row.create({ space: 8 });
                         Row.width('100%');
-                        Row.padding(14);
-                        Row.backgroundColor('rgba(255,255,255,0.6)');
-                        Row.borderRadius(12);
+                        Row.padding({ left: 16, right: 16, top: 15, bottom: 15 });
                         Row.accessibilityGroup(true);
                     }, Row);
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         Text.create({ "id": 50331785, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-                        Text.fontSize(16);
+                        Text.fontSize(Tokens.FONT_HEADLINE);
+                        Text.fontColor(Tokens.ink(this.dk()));
                         Text.layoutWeight(1);
                     }, Text);
                     Text.pop();
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         Text.create({ "id": 50331789, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-                        Text.fontSize(14);
-                        Text.fontColor('#666666');
+                        Text.fontSize(Tokens.FONT_BODY);
+                        Text.fontColor(Tokens.subInk(this.dk()));
                     }, Text);
                     Text.pop();
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         Text.create({ "id": 50331787, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-                        Text.fontSize(14);
-                        Text.fontColor('#3B82F6');
-                        Text.padding({ left: 10, right: 10, top: 4, bottom: 4 });
+                        Text.fontSize(Tokens.FONT_BODY);
+                        Text.fontColor(Tokens.accent(this.dk()));
+                        Text.padding({ left: 10, right: 4, top: 4, bottom: 4 });
                         Text.onClick(() => {
                             this.openKeyDialog();
                         });
@@ -143,205 +256,130 @@ export class SettingsPage extends ViewV2 {
                     Row.pop();
                 });
             }
-            // 单位
             else {
                 this.ifElseBranchUpdateFunction(1, () => {
                 });
             }
         }, If);
         If.pop();
+        // ── 数据源 ──
+        Column.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            // 单位
+            // ── 语言 ──
+            Column.create();
+            // ── 语言 ──
+            Column.width('100%');
+            // ── 语言 ──
+            Column.backgroundColor(Tokens.cardBg(this.dk()));
+            // ── 语言 ──
+            Column.borderRadius(Tokens.RADIUS_LG);
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
             Row.create({ space: 8 });
-            // 单位
             Row.width('100%');
-            // 单位
-            Row.padding(14);
-            // 单位
-            Row.backgroundColor('rgba(255,255,255,0.6)');
-            // 单位
-            Row.borderRadius(12);
-            // 单位
+            Row.padding({ left: 16, right: 16, top: 15, bottom: 15 });
             Row.accessibilityGroup(true);
-            // 单位
-            Row.bindMenu({ builder: this.unitMenu.bind(this) }, { placement: Placement.BottomRight });
-        }, Row);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331690, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(16);
-            Text.layoutWeight(1);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create(this.unitLabel());
-            Text.fontSize(14);
-            Text.fontColor('#666666');
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('▾');
-            Text.fontSize(14);
-            Text.fontColor('#999999');
-            Text.accessibilityLevel('no');
-        }, Text);
-        Text.pop();
-        // 单位
-        Row.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            // 主题
-            Row.create({ space: 8 });
-            // 主题
-            Row.width('100%');
-            // 主题
-            Row.padding(14);
-            // 主题
-            Row.backgroundColor('rgba(255,255,255,0.6)');
-            // 主题
-            Row.borderRadius(12);
-            // 主题
-            Row.accessibilityGroup(true);
-            // 主题
-            Row.bindMenu({ builder: this.themeMenu.bind(this) }, { placement: Placement.BottomRight });
-        }, Row);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331686, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(16);
-            Text.layoutWeight(1);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create(this.themeLabel());
-            Text.fontSize(14);
-            Text.fontColor('#666666');
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('▾');
-            Text.fontSize(14);
-            Text.fontColor('#999999');
-            Text.accessibilityLevel('no');
-        }, Text);
-        Text.pop();
-        // 主题
-        Row.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            // 沉浸光感
-            Row.create({ space: 8 });
-            // 沉浸光感
-            Row.width('100%');
-            // 沉浸光感
-            Row.padding(14);
-            // 沉浸光感
-            Row.backgroundColor('rgba(255,255,255,0.6)');
-            // 沉浸光感
-            Row.borderRadius(12);
-            // 沉浸光感
-            Row.accessibilityGroup(true);
-            // 沉浸光感
-            Row.bindMenu({ builder: this.materialMenu.bind(this) }, { placement: Placement.BottomRight });
-        }, Row);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create({ "id": 50331683, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(16);
-            Text.layoutWeight(1);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create(this.materialLabel());
-            Text.fontSize(14);
-            Text.fontColor('#666666');
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('▾');
-            Text.fontSize(14);
-            Text.fontColor('#999999');
-            Text.accessibilityLevel('no');
-        }, Text);
-        Text.pop();
-        // 沉浸光感
-        Row.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            // 语言
-            Row.create({ space: 8 });
-            // 语言
-            Row.width('100%');
-            // 语言
-            Row.padding(14);
-            // 语言
-            Row.backgroundColor('rgba(255,255,255,0.6)');
-            // 语言
-            Row.borderRadius(12);
-            // 语言
-            Row.accessibilityGroup(true);
-            // 语言
             Row.bindMenu({ builder: this.languageMenu.bind(this) }, { placement: Placement.BottomRight });
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create({ "id": 50331681, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(16);
+            Text.fontSize(Tokens.FONT_HEADLINE);
+            Text.fontColor(Tokens.ink(this.dk()));
             Text.layoutWeight(1);
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create(this.languageLabel());
-            Text.fontSize(14);
-            Text.fontColor('#666666');
+            Text.fontSize(Tokens.FONT_BODY);
+            Text.fontColor(Tokens.subInk(this.dk()));
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('▾');
-            Text.fontSize(14);
-            Text.fontColor('#999999');
+            Text.create('›');
+            Text.fontSize(16);
+            Text.fontColor(Tokens.sectionTitle(this.dk()));
             Text.accessibilityLevel('no');
         }, Text);
         Text.pop();
-        // 语言
+        Row.pop();
+        // ── 语言 ──
+        Column.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // ── 更多（入口页）──
+            Column.create();
+            // ── 更多（入口页）──
+            Column.width('100%');
+            // ── 更多（入口页）──
+            Column.backgroundColor(Tokens.cardBg(this.dk()));
+            // ── 更多（入口页）──
+            Column.borderRadius(Tokens.RADIUS_LG);
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create({ space: 8 });
+            Row.width('100%');
+            Row.padding({ left: 16, right: 16, top: 15, bottom: 15 });
+            Row.accessibilityGroup(true);
+            Row.geometryTransition('geo-locations');
+            Row.onClick(() => {
+                this.pageStack.pushPath({ name: 'Locations' });
+            });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create({ "id": 50331693, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
+            Text.fontSize(Tokens.FONT_HEADLINE);
+            Text.fontColor(Tokens.ink(this.dk()));
+            Text.layoutWeight(1);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('›');
+            Text.fontSize(16);
+            Text.fontColor(Tokens.sectionTitle(this.dk()));
+            Text.accessibilityLevel('no');
+        }, Text);
+        Text.pop();
         Row.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            // 数据与隐私（二级页面）
+            Divider.create();
+            Divider.color(Tokens.hairline(this.dk()));
+            Divider.strokeWidth(0.5);
+            Divider.margin({ left: 16, right: 16 });
+        }, Divider);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
             Row.create({ space: 8 });
-            // 数据与隐私（二级页面）
             Row.width('100%');
-            // 数据与隐私（二级页面）
-            Row.padding(14);
-            // 数据与隐私（二级页面）
-            Row.backgroundColor('rgba(255,255,255,0.6)');
-            // 数据与隐私（二级页面）
-            Row.borderRadius(12);
-            // 数据与隐私（二级页面）
+            Row.padding({ left: 16, right: 16, top: 15, bottom: 15 });
             Row.accessibilityGroup(true);
-            // 数据与隐私（二级页面）
+            Row.geometryTransition('geo-privacy');
             Row.onClick(() => {
                 this.pageStack.pushPath({ name: 'Privacy' });
             });
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create({ "id": 50331684, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-            Text.fontSize(16);
+            Text.fontSize(Tokens.FONT_HEADLINE);
+            Text.fontColor(Tokens.ink(this.dk()));
             Text.layoutWeight(1);
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create('›');
-            Text.fontSize(14);
-            Text.fontColor('#999999');
+            Text.fontSize(16);
+            Text.fontColor(Tokens.sectionTitle(this.dk()));
             Text.accessibilityLevel('no');
         }, Text);
         Text.pop();
-        // 数据与隐私（二级页面）
         Row.pop();
+        // ── 更多（入口页）──
         Column.pop();
+        Column.pop();
+        Scroll.pop();
     }
     sourceMenu(parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Menu.create();
         }, Menu);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            // 列出全部已注册源：未配置 Key 的和风显示为「未配置」，点击直接唤起配置弹窗
-            //（若过滤掉，用户将没有任何入口去填 Key）。
-            // content 里的 $r() 必须**就地内联**：经方法间接返回的 Resource 在弹窗的独立
-            // 渲染节点上解析不到，框架会报 "MenuItem content or label is empty" 且菜单项无字。
             ForEach.create();
             const forEachItemGenFunction = _item => {
                 const src = _item;
@@ -363,10 +401,6 @@ export class SettingsPage extends ViewV2 {
             };
             this.forEachUpdateFunction(elmtId, listAllSources(), forEachItemGenFunction, (src: WeatherSource) => src.id, false, false);
         }, ForEach);
-        // 列出全部已注册源：未配置 Key 的和风显示为「未配置」，点击直接唤起配置弹窗
-        //（若过滤掉，用户将没有任何入口去填 Key）。
-        // content 里的 $r() 必须**就地内联**：经方法间接返回的 Resource 在弹窗的独立
-        // 渲染节点上解析不到，框架会报 "MenuItem content or label is empty" 且菜单项无字。
         ForEach.pop();
         Menu.pop();
     }
@@ -650,7 +684,6 @@ class QWeatherKeyDialog extends ViewPU {
             this.controller.close();
         }
     }
-    /** 保存：先打一次官方轻量接口校验，**仅校验通过才落盘**（无效或断网均不保存）。 */
     private async save(): Promise<void> {
         const key: string = this.input.trim();
         if (key.length === 0) {
@@ -668,7 +701,6 @@ class QWeatherKeyDialog extends ViewPU {
         promptAction.showToast({ message: { "id": 50331784, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });
         this.close();
     }
-    /** 清除本机 Key：和风源随即不可用，若正在使用会自动回落默认源。 */
     private async clear(): Promise<void> {
         await appStore.updateSettings({ qweatherApiKey: '' });
         promptAction.showToast({ message: { "id": 50331781, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } });

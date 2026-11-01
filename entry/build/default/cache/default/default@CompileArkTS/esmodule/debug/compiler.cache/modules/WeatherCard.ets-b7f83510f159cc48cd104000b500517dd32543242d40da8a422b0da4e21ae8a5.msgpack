@@ -1,13 +1,14 @@
-Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙNE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\WeatherCard.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0‘ÔrD’²hostDependencyName®hostModuleName±../ui/WeatherCard¦commonÙ.E:\Codes\Project\Transplant\weather-app\commonÃÚimport { TemperatureUnit, MaterialTier } from '../models/Settings';
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙNE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\WeatherCard.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¯hostModulesInfo¦commonÃÂÙ.E:\Codes\Project\Transplant\weather-app\commonÙ'E:\Codes\Project\Transplant\weather-app¦common¥1.0.0ÔrC’§pkgNameªpkgVersion¦common¥1.0.0Ù.E:\Codes\Project\Transplant\weather-app\commonÃ‘ÔrD’²hostDependencyName®hostModuleName±../ui/WeatherCard¦commonÚÌimport { TemperatureUnit, MaterialTier } from '../models/Settings';
+import { Tokens } from './DesignTokens';
 import { MaterialUtil } from './MaterialUtil';
 import { GradientText } from './GradientText';
 import { wmoIconKey } from '../models/WmoCode';
 
 /**
- * Hero å¤©æ°”å¡ï¼ˆå·äº‘Â·æ°”è±¡æ‹ŸçœŸï¼Œdocs/13 Â§7ï¼‰.
- * - å†…å®¹å¡é‡‡ç”¨ç¨³å®šç»ç’ƒï¼ˆImmersiveMaterial å¯¹å†…å®¹åŒºä¸ç”Ÿæ•ˆï¼‰ã€‚
- * - æ¸©åº¦ï¼šæ•°å­—ç¿»ç‰Œ + æ¸å˜å­—ï¼›å¤©æ°”å›¾æ ‡ï¼šweather-icons å­—ä½“å›¾ï¼ˆcommon mediaï¼‰ã€‚
- * - ç‰ˆå¼ï¼šåœ°ç‚¹ â†’ å¤§æ¸©åº¦+å›¾æ ‡ â†’ ç°è±¡ â†’ é«˜ä½æ¸©/ä½“æ„Ÿ â†’ æ›´æ–°æ—¶é—´ï¼ˆæ¸…æ™°è§†è§‰å±‚çº§ï¼‰ã€‚
+ * Hero å¤©æ°”å¡ï¼ˆapple-design Ã— å·äº‘Â·æ°”è±¡æ‹ŸçœŸï¼‰ã€‚
+ * - å­—å·å±‚çº§ï¼šåœ°ç‚¹(17 Medium) â†’ å¤§æ¸©åº¦(84 Light) â†’ ç°è±¡(16) â†’ é«˜ä½æ¸©/ä½“æ„Ÿ(13)ï¼›
+ * - æè´¨ï¼šå†…å®¹é¢ lighter åŠé€æ˜ï¼›**æ·±è‰²æ¨¡å¼è‡ªåŠ¨æ¢æ·±è‰²åŠé€æ˜**ï¼Œé¿å…æµ…è‰²å æµ…è‰²ï¼›
+ * - æ–‡æœ¬èµ° Tokens.ink/subInkï¼Œå¤œé—´ä¸æ·±è‰²æ¨¡å¼ä¸‹ä¿æŒå¯¹æ¯”åº¦ã€‚
  */
 @ComponentV2
 export struct WeatherCard {
@@ -22,6 +23,7 @@ export struct WeatherCard {
   @Param high: number = -999;
   @Param low: number = -999;
   @Param apparent: number = -999;
+  @Param dark: boolean = false;
 
   private convert(v: number): number {
     return this.unit === TemperatureUnit.FAHRENHEIT ? Math.round(v * 9 / 5 + 32) : Math.round(v);
@@ -31,69 +33,70 @@ export struct WeatherCard {
     return `${this.convert(this.temperature)}Â°`;
   }
 
-  /**
-   * å¤©æ°”å›¾æ ‡èµ„æºï¼šæ–‡ä»¶å = `wx_<base>_<day|night>`ï¼Œä¸ `wmoIconKey()` è¾“å‡ºä¸€è‡´ï¼Œ
-   * èµ„æºç½®äº common æ¨¡å— mediaï¼ˆerikflowers/weather-iconsï¼ŒMITï¼Œè§ READMEï¼‰ã€‚
-   */
   private iconResource(): Resource {
-    const key: string = wmoIconKey(this.weatherCode, this.isDay);
-    return $r('common.media.' + key);
+    return $r('common.media.' + wmoIconKey(this.weatherCode, this.isDay));
+  }
+
+  private tempGradient(): ResourceColor[] {
+    if (this.dark) {
+      return ['#FFFFFF', '#9FC0FF'];
+    }
+    return this.isDay ? ['#111417', '#2F6FED'] : ['#F2F4F8', '#7EA6F0'];
   }
 
   build() {
     Column({ space: 2 }) {
       Text(this.locationName)
-        .fontSize(17)
+        .fontSize(Tokens.FONT_HEADLINE)
         .fontWeight(FontWeight.Medium)
-        .fontColor('#1A1A1A')
+        .fontColor(Tokens.ink(this.dark))
         .maxLines(1)
         .textOverflow({ overflow: TextOverflow.Ellipsis })
 
       Row({ space: 12 }) {
         Image(this.iconResource())
-          .width(52)
-          .height(52)
-          .fillColor(this.isDay ? '#3B82F6' : '#7EA6F0')
+          .width(48)
+          .height(48)
+          .fillColor(this.dark ? '#9FC0FF' : '#2F6FED')
         GradientText({
           text: this.tempText(),
-          fontSize: 88,
+          fontSize: Tokens.FONT_DISPLAY,
           fontWeight: FontWeight.Lighter,
-          colors: this.isDay ? ['#1A1A1A', '#3B82F6'] : ['#F2F2F2', '#7EA6F0']
+          colors: this.tempGradient()
         })
       }
       .alignItems(VerticalAlign.Center)
-      .margin({ top: 2 })
+      .margin({ top: 4 })
 
       Text(this.condition)
-        .fontSize(17)
-        .fontColor('#3F3F3F')
+        .fontSize(Tokens.FONT_BODY + 1)
+        .fontColor(Tokens.subInk(this.dark))
         .letterSpacing(0.3)
 
       if (this.high > -900 && this.low > -900) {
         Row({ space: 12 }) {
-          Text(`â†‘ ${this.convert(this.high)}Â°`).fontSize(14).fontColor('#3F3F3F')
-          Text(`â†“ ${this.convert(this.low)}Â°`).fontSize(14).fontColor('#3F3F3F')
+          Text(`â†‘ ${this.convert(this.high)}Â°`).fontSize(Tokens.FONT_CAPTION + 1).fontColor(Tokens.subInk(this.dark))
+          Text(`â†“ ${this.convert(this.low)}Â°`).fontSize(Tokens.FONT_CAPTION + 1).fontColor(Tokens.subInk(this.dark))
           if (this.apparent > -900) {
-            Text(`ï½œ ${this.convert(this.apparent)}Â°`).fontSize(14).fontColor('#595959')
+            Text(`ï½œ ${this.convert(this.apparent)}Â°`).fontSize(Tokens.FONT_CAPTION + 1).fontColor(Tokens.subInk(this.dark))
           }
         }
-        .margin({ top: 8 })
+        .margin({ top: 10 })
       }
 
       if (this.updatedAt.length > 0) {
         Text(this.updatedAt)
-          .fontSize(12)
-          .fontColor('#6B6B6B')
+          .fontSize(11)
+          .fontColor(Tokens.subInk(this.dark))
           .margin({ top: 8 })
       }
     }
     .width('100%')
     .padding({ top: 26, bottom: 26, left: 20, right: 20 })
-    .backgroundColor('rgba(255,255,255,0.38)')
+    .backgroundColor(Tokens.cardBg(this.dark))
     .backgroundBlurStyle(MaterialUtil.cardBlurStyle(this.materialTier))
-    .borderRadius(28)
+    .borderRadius(Tokens.RADIUS_XL)
     .accessibilityGroup(true)
     .accessibilityText(`${this.tempText()} ${this.condition}`)
   }
-}
-ÀÔrE”®./MaterialUtil²../models/Settings®./GradientText±../models/WmoCodeÔrF–ªassertions¨external¢id¤metaªresolvedByµsyntheticNamedExportsAÂÙOE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\MaterialUtil.etsAªoh-resolveÂFAÂÙNE:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\Settings.tsAªoh-resolveÂFAÂÙOE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\GradientText.etsAªoh-resolveÂFAÂÙME:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WmoCode.tsAªoh-resolveÂÂÔrG”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache”ÔrH•¤type¥start£endªspecifiers¦source±ImportDeclarationÍÂÍ’ÔrI•¤type¥start£end¨imported¥local¯ImportSpecifierÍËÍÚÔrJ”¤type¥start£end¤nameªIdentifierÍËÍÚ¯TemperatureUnitJªIdentifierÍËÍÚ¯TemperatureUnitI¯ImportSpecifierÍÜÍèJªIdentifierÍÜÍè¬MaterialTierJªIdentifierÍÜÍè¬MaterialTierÔrK•¤type¥start£end¥value£raw§LiteralÍğÍ²../models/Settings´'../models/Settings'H±ImportDeclarationÍÍ5‘I¯ImportSpecifierÍÍJªIdentifierÍÍ¬MaterialUtilJªIdentifierÍÍ¬MaterialUtilK§LiteralÍ$Í4®./MaterialUtil°'./MaterialUtil'H±ImportDeclarationÍ7Íe‘I¯ImportSpecifierÍ@ÍLJªIdentifierÍ@ÍL¬GradientTextJªIdentifierÍ@ÍL¬GradientTextK§LiteralÍTÍd®./GradientText°'./GradientText'H±ImportDeclarationÍgÍ–‘I¯ImportSpecifierÍpÍzJªIdentifierÍpÍzªwmoIconKeyJªIdentifierÍpÍzªwmoIconKeyK§LiteralÍ‚Í•±../models/WmoCode³'../models/WmoCode'
+}ÀÔrE•²../models/Settings®./MaterialUtil®./GradientText®./DesignTokens±../models/WmoCodeÔrF–ªassertions¨external¢id¤metaªresolvedByµsyntheticNamedExportsAÂÙNE:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\Settings.tsAªoh-resolveÂFAÂÙOE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\MaterialUtil.etsAªoh-resolveÂFAÂÙOE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\GradientText.etsAªoh-resolveÂFAÂÙOE:\Codes\Project\Transplant\weather-app\common\src\main\ets\ui\DesignTokens.etsAªoh-resolveÂFAÂÙME:\Codes\Project\Transplant\weather-app\common\src\main\ets\models\WmoCode.tsAªoh-resolveÂÂÔrG”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache•ÔrH•¤type¥start£endªspecifiers¦source±ImportDeclarationÍÂÍ’ÔrI•¤type¥start£end¨imported¥local¯ImportSpecifierÍËÍÚÔrJ”¤type¥start£end¤nameªIdentifierÍËÍÚ¯TemperatureUnitJªIdentifierÍËÍÚ¯TemperatureUnitI¯ImportSpecifierÍÜÍèJªIdentifierÍÜÍè¬MaterialTierJªIdentifierÍÜÍè¬MaterialTierÔrK•¤type¥start£end¥value£raw§LiteralÍğÍ²../models/Settings´'../models/Settings'H±ImportDeclarationÍÍ/‘I¯ImportSpecifierÍÍJªIdentifierÍÍ¦TokensJªIdentifierÍÍ¦TokensK§LiteralÍÍ.®./DesignTokens°'./DesignTokens'H±ImportDeclarationÍ1Í_‘I¯ImportSpecifierÍ:ÍFJªIdentifierÍ:ÍF¬MaterialUtilJªIdentifierÍ:ÍF¬MaterialUtilK§LiteralÍNÍ^®./MaterialUtil°'./MaterialUtil'H±ImportDeclarationÍaÍ‘I¯ImportSpecifierÍjÍvJªIdentifierÍjÍv¬GradientTextJªIdentifierÍjÍv¬GradientTextK§LiteralÍ~Í®./GradientText°'./GradientText'H±ImportDeclarationÍ‘ÍÀ‘I¯ImportSpecifierÍšÍ¤JªIdentifierÍšÍ¤ªwmoIconKeyJªIdentifierÍšÍ¤ªwmoIconKeyK§LiteralÍ¬Í¿±../models/WmoCode³'../models/WmoCode'

@@ -1,10 +1,11 @@
-import { AirQuality, CurrentWeather, TemperatureUnit } from 'common';
+import { AirQuality, CurrentWeather, TemperatureUnit, Tokens } from 'common';
 
 @ComponentV2
 export struct DetailsPage {
   @Param current: CurrentWeather | undefined = undefined;
   @Param airQuality: AirQuality | undefined = undefined;
   @Param unit: TemperatureUnit = TemperatureUnit.CELSIUS;
+  @Param dark: boolean = false;
 
   private aqiLabel(): string {
     const aqi: number = this.airQuality?.aqi ?? 0;
@@ -29,10 +30,10 @@ export struct DetailsPage {
   build() {
     Column({ space: 10 }) {
       Text($r('app.string.label_details'))
-        .fontSize(15)
+        .fontSize(Tokens.FONT_CAPTION + 1)
         .fontWeight(FontWeight.Medium)
-        .fontColor('#3A3A3A')
-        .letterSpacing(0.3)
+        .fontColor(Tokens.sectionTitle(this.dark))
+        .letterSpacing(0.4)
       if (this.current) {
         Column({ space: 10 }) {
           Row({ space: 10 }) {
@@ -60,8 +61,8 @@ export struct DetailsPage {
         }
         .width('100%')
         .padding(14)
-        .backgroundColor('rgba(255,255,255,0.5)')
-        .borderRadius(20)
+        .backgroundColor(Tokens.cardBg(this.dark))
+        .borderRadius(Tokens.RADIUS_LG)
       }
     }
     .width('100%')
@@ -71,13 +72,17 @@ export struct DetailsPage {
   @Builder
   metric(label: Resource | string, value: string) {
     Column({ space: 4 }) {
-      Text(label).fontSize(12).fontColor('#595959')
-      Text(value).fontSize(18).fontWeight(FontWeight.Medium).fontColor('#1A1A1A').maxLines(1)
+      Text(label).fontSize(Tokens.FONT_CAPTION).fontColor(Tokens.subInk(this.dark))
+      Text(value)
+        .fontSize(Tokens.FONT_HEADLINE + 1)
+        .fontWeight(FontWeight.Medium)
+        .fontColor(Tokens.ink(this.dark))
+        .maxLines(1)
     }
     .padding(12)
     .layoutWeight(1)
-    .backgroundColor('rgba(255,255,255,0.6)')
-    .borderRadius(14)
+    .backgroundColor(Tokens.cardBg(this.dark))
+    .borderRadius(Tokens.RADIUS_SM)
     .alignItems(HorizontalAlign.Start)
     .accessibilityGroup(true)
   }

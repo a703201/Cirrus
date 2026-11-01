@@ -10,4 +10,5 @@ export { WeatherCard } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/Weathe
 export { MaterialUtil } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/MaterialUtil";
 export { AnimatedNumber } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/AnimatedNumber";
 export { GradientText } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/GradientText";
+export { Tokens } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/DesignTokens";
 export { applyThemeMode } from "@bundle:com.Lumio.Cirrus/entry@common/ets/ui/ThemeUtil";

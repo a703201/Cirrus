@@ -1,22 +1,27 @@
 if (!("finalizeConstruction" in ViewPU.prototype)) {
     Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
 }
-import type { MinutelyPoint } from 'common';
+import { Tokens } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import type { MinutelyPoint } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 export class MinutelyPage extends ViewV2 {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda, extraInfo) {
         super(parent, elmtId, extraInfo);
         this.initParam("minutely", (params && "minutely" in params) ? params.minutely : undefined);
         this.initParam("summary", (params && "summary" in params) ? params.summary : '');
+        this.initParam("dark", (params && "dark" in params) ? params.dark : false);
         this.finalizeConstruction();
     }
     public resetStateVarsOnReuse(params: Object): void {
         this.resetParam("minutely", (params && "minutely" in params) ? params.minutely : undefined);
         this.resetParam("summary", (params && "summary" in params) ? params.summary : '');
+        this.resetParam("dark", (params && "dark" in params) ? params.dark : false);
     }
     @Param
     readonly minutely: MinutelyPoint[] | undefined;
     @Param
     readonly summary: string;
+    @Param
+    readonly dark: boolean;
     private maxPrecip(): number {
         let m: number = 0;
         const list: MinutelyPoint[] = this.minutely ?? [];
@@ -43,18 +48,18 @@ export class MinutelyPage extends ViewV2 {
                     }, Column);
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         Text.create({ "id": 50331779, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-                        Text.fontSize(15);
+                        Text.fontSize(Tokens.FONT_CAPTION + 1);
                         Text.fontWeight(FontWeight.Medium);
-                        Text.fontColor('#3A3A3A');
-                        Text.letterSpacing(0.3);
+                        Text.fontColor(Tokens.sectionTitle(this.dark));
+                        Text.letterSpacing(0.4);
                     }, Text);
                     Text.pop();
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         Column.create({ space: 8 });
                         Column.width('100%');
                         Column.padding(14);
-                        Column.backgroundColor('rgba(255,255,255,0.5)');
-                        Column.borderRadius(20);
+                        Column.backgroundColor(Tokens.cardBg(this.dark));
+                        Column.borderRadius(Tokens.RADIUS_LG);
                         Column.alignItems(HorizontalAlign.Start);
                         Column.accessibilityGroup(true);
                     }, Column);
@@ -64,8 +69,8 @@ export class MinutelyPage extends ViewV2 {
                             this.ifElseBranchUpdateFunction(0, () => {
                                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                                     Text.create(this.summary);
-                                    Text.fontSize(13);
-                                    Text.fontColor('#3F3F3F');
+                                    Text.fontSize(Tokens.FONT_CAPTION + 1);
+                                    Text.fontColor(Tokens.subInk(this.dark));
                                     Text.maxLines(2);
                                 }, Text);
                                 Text.pop();
@@ -75,8 +80,8 @@ export class MinutelyPage extends ViewV2 {
                             this.ifElseBranchUpdateFunction(1, () => {
                                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                                     Text.create({ "id": 50331780, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-                                    Text.fontSize(13);
-                                    Text.fontColor('#3F3F3F');
+                                    Text.fontSize(Tokens.FONT_CAPTION + 1);
+                                    Text.fontColor(Tokens.subInk(this.dark));
                                 }, Text);
                                 Text.pop();
                             });
@@ -99,7 +104,7 @@ export class MinutelyPage extends ViewV2 {
                                 Column.create();
                                 Column.layoutWeight(1);
                                 Column.height(this.barHeight(ri.item.precip));
-                                Column.backgroundColor('#3B82F6');
+                                Column.backgroundColor(Tokens.accent(this.dark));
                                 Column.borderRadius(3);
                             }, Column);
                             Column.pop();
@@ -127,6 +132,9 @@ export class MinutelyPage extends ViewV2 {
         }
         if ("summary" in params) {
             this.updateParam("summary", params.summary);
+        }
+        if ("dark" in params) {
+            this.updateParam("dark", params.dark);
         }
     }
     rerender() {
