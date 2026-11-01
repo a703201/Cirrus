@@ -2,7 +2,7 @@ import abilityAccessCtrl from "@ohos:abilityAccessCtrl";
 import type common from "@ohos:app.ability.common";
 import type { Permissions } from "@ohos:abilityAccessCtrl";
 import i18n from "@ohos:i18n";
-import { DEFAULT_SETTINGS, Log, applyThemeMode, applyAppLanguage } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
+import { DEFAULT_SETTINGS, Log, applyThemeMode, applyAppLanguage, locationTitle } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import type { AppSettings, LocationInfo, WeatherData } from "@bundle:com.Lumio.Cirrus/entry@common/ets/common/Index";
 import { WeatherRepository, settingsStore, rdbStore, locationProvider, distributedStore, QWeatherConfig } from "@bundle:com.Lumio.Cirrus/entry@data/ets/data/Index";
 import { themeModel } from "@bundle:com.Lumio.Cirrus/entry/ets/store/ThemeModel";
@@ -172,18 +172,66 @@ export class AppStore {
             Log.e(`useCurrentLocation failed: ${this.error}`);
         }
     }
-    /** 本地相关度过滤：剔除与查询无关的模糊命中（如搜「北京」混入重庆/成都）。 */
-    private filterRelevant(list: LocationInfo[], query: string): LocationInfo[] {
-        const q: string = query.trim().toLowerCase();
-        if (q.length === 0) {
-            return list;
+    /** 规范化：去空白/转小写/去掉行政级别后缀（市省区县），使「上海」≈「上海市」。 */
+    private normName(s: string): string {
+        let v: string = (s ?? '').trim().toLowerCase();
+        if (v.endsWith('市') || v.endsWith('省') || v.endsWith('区') || v.endsWith('县')) {
+            v = v.substring(0, v.length - 1);
         }
-        const hit: LocationInfo[] = list.filter((l: LocationInfo) => {
-            return l.name.toLowerCase().includes(q)
-                || (l.admin1 ?? '').toLowerCase().includes(q)
-                || (l.admin2 ?? '').toLowerCase().includes(q);
+        return v;
+    }
+    private score(l: LocationInfo, q: string): number {
+        const n: string = this.normName(l.name);
+        const a1: string = this.normName(l.admin1 ?? '');
+        const a2: string = this.normName(l.admin2 ?? '');
+        if (n === q) {
+            return 3;
+        }
+        if (a1 === q || a2 === q) {
+            return 2;
+        }
+        if (n.startsWith(q)) {
+            return 1;
+        }
+        if (n.includes(q)) {
+            return 0.5;
+        }
+        return 0;
+    }
+    /**
+     * 搜索结果清洗与排序（替代旧的 substring 过滤）：
+     * 1) 若存在城市级命中（admin1/admin2 ≈ 查询词），只保留这些 → 剔除「绍兴市上海」等同名异地；
+     * 2) 打分：名称精确 3 / 城市精确 2 / 名称前缀 1 / 名称包含 0.5；
+     * 3) 按分数、人口降序；按「标题+城市」去重；取前 10。
+     */
+    private rankAndClean(list: LocationInfo[], query: string): LocationInfo[] {
+        const q: string = this.normName(query);
+        if (q.length === 0) {
+            return [];
+        }
+        const cityHit: boolean = list.some((l: LocationInfo) => this.normName(l.admin1 ?? '') === q || this.normName(l.admin2 ?? '') === q);
+        const base: LocationInfo[] = cityHit
+            ? list.filter((l: LocationInfo) => this.normName(l.admin1 ?? '') === q || this.normName(l.admin2 ?? '') === q)
+            : list;
+        const scored: LocationInfo[] = base.filter((l: LocationInfo) => this.score(l, q) > 0);
+        scored.sort((a: LocationInfo, b: LocationInfo): number => {
+            const sa: number = this.score(a, q);
+            const sb: number = this.score(b, q);
+            if (sa !== sb) {
+                return sb - sa;
+            }
+            return (b.population ?? 0) - (a.population ?? 0);
         });
-        return hit.length > 0 ? hit : list;
+        const seen: Set<string> = new Set<string>();
+        const out: LocationInfo[] = [];
+        for (let i = 0; i < scored.length && out.length < 10; i++) {
+            const key: string = `${locationTitle(scored[i])}|${scored[i].admin1 ?? ''}`;
+            if (!seen.has(key)) {
+                seen.add(key);
+                out.push(scored[i]);
+            }
+        }
+        return out;
     }
     async searchLocations(query: string): Promise<void> {
         if (query.length === 0) {
@@ -193,7 +241,7 @@ export class AppStore {
         this.searching = true;
         try {
             const list: LocationInfo[] = await this.repo.search(query, this.resolveLang(), this.settings.sourceId);
-            this.searchResults = this.filterRelevant(list, query);
+            this.searchResults = this.rankAndClean(list, query);
         }
         catch (e) {
             this.error = `${e}`;

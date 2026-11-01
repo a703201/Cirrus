@@ -144,7 +144,8 @@ struct Index {
 
   /**
    * 二级页分发。标题栏/返回按钮由 HdsNavDestination 原生提供；
-   * 页面底色取主题结构面，并在 onShown/onHidden 时同步状态栏图标色。
+   * - `avoidLayoutSafeArea: true` 让标题栏自动避让状态栏（不再用 margin hack）；
+   * - `originalStyle` 显式给出标题栏背景/标题/返回图标的主题色 → 深色模式不再白底白字。
    */
   @Builder
   routePage(name: string) {
@@ -152,9 +153,20 @@ struct Index {
       HdsNavDestination() {
         LocationsPage()
       }
-      .titleBar({ content: { title: { mainTitle: $r('app.string.tab_locations') } } })
+      .titleBar({
+        avoidLayoutSafeArea: true,
+        style: {
+          originalStyle: {
+            backgroundStyle: { backgroundColor: Tokens.surfaceBg(themeModel.resolveDark()) },
+            contentStyle: {
+              titleStyle: { mainTitleColor: Tokens.ink(themeModel.resolveDark()) },
+              backIconStyle: { iconColor: Tokens.ink(themeModel.resolveDark()) }
+            }
+          }
+        },
+        content: { title: { mainTitle: $r('app.string.tab_locations') } }
+      })
       .backgroundColor(Tokens.surfaceBg(themeModel.resolveDark()))
-      .margin({ top: 38 })
       .onShown(() => {
         SystemBar.setTone(themeModel.resolveDark());
       })
@@ -165,9 +177,20 @@ struct Index {
       HdsNavDestination() {
         AlertsPage()
       }
-      .titleBar({ content: { title: { mainTitle: $r('app.string.tab_alerts') } } })
+      .titleBar({
+        avoidLayoutSafeArea: true,
+        style: {
+          originalStyle: {
+            backgroundStyle: { backgroundColor: Tokens.surfaceBg(themeModel.resolveDark()) },
+            contentStyle: {
+              titleStyle: { mainTitleColor: Tokens.ink(themeModel.resolveDark()) },
+              backIconStyle: { iconColor: Tokens.ink(themeModel.resolveDark()) }
+            }
+          }
+        },
+        content: { title: { mainTitle: $r('app.string.tab_alerts') } }
+      })
       .backgroundColor(Tokens.surfaceBg(themeModel.resolveDark()))
-      .margin({ top: 38 })
       .onShown(() => {
         SystemBar.setTone(themeModel.resolveDark());
       })
@@ -178,9 +201,20 @@ struct Index {
       HdsNavDestination() {
         PrivacyView()
       }
-      .titleBar({ content: { title: { mainTitle: $r('app.string.settings_privacy') } } })
+      .titleBar({
+        avoidLayoutSafeArea: true,
+        style: {
+          originalStyle: {
+            backgroundStyle: { backgroundColor: Tokens.surfaceBg(themeModel.resolveDark()) },
+            contentStyle: {
+              titleStyle: { mainTitleColor: Tokens.ink(themeModel.resolveDark()) },
+              backIconStyle: { iconColor: Tokens.ink(themeModel.resolveDark()) }
+            }
+          }
+        },
+        content: { title: { mainTitle: $r('app.string.settings_privacy') } }
+      })
       .backgroundColor(Tokens.surfaceBg(themeModel.resolveDark()))
-      .margin({ top: 38 })
       .onShown(() => {
         SystemBar.setTone(themeModel.resolveDark());
       })

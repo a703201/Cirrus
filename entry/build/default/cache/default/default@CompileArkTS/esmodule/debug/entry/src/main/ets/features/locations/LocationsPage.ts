@@ -36,26 +36,6 @@ export class LocationsPage extends ViewV2 {
             Column.geometryTransition('geo-locations');
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            If.create();
-            if (!this.compact) {
-                this.ifElseBranchUpdateFunction(0, () => {
-                    this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        Text.create({ "id": 50331693, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" });
-                        Text.fontSize(28);
-                        Text.fontWeight(FontWeight.Bold);
-                        Text.letterSpacing(-0.5);
-                        Text.fontColor(Tokens.ink(this.dark()));
-                    }, Text);
-                    Text.pop();
-                });
-            }
-            else {
-                this.ifElseBranchUpdateFunction(1, () => {
-                });
-            }
-        }, If);
-        If.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
             Row.create({ space: 8 });
             Row.width('100%');
         }, Row);

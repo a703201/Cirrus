@@ -257,7 +257,8 @@ class Index extends ViewV2 {
     }
     /**
      * 二级页分发。标题栏/返回按钮由 HdsNavDestination 原生提供；
-     * 页面底色取主题结构面，并在 onShown/onHidden 时同步状态栏图标色。
+     * - `avoidLayoutSafeArea: true` 让标题栏自动避让状态栏（不再用 margin hack）；
+     * - `originalStyle` 显式给出标题栏背景/标题/返回图标的主题色 → 深色模式不再白底白字。
      */
     routePage(name: string, parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -269,7 +270,7 @@ class Index extends ViewV2 {
                             {
                                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                                     if (isInitialRender) {
-                                        let componentCall = new LocationsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 153, col: 9 });
+                                        let componentCall = new LocationsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 154, col: 9 });
                                         ViewV2.create(componentCall);
                                         let paramsLambda = () => {
                                             return {};
@@ -282,9 +283,20 @@ class Index extends ViewV2 {
                                 }, { name: "LocationsPage" });
                             }
                         }, { moduleName: "entry", pagePath: "entry/src/main/ets/pages/Index" });
-                        HdsNavDestination.titleBar({ content: { title: { mainTitle: { "id": 50331693, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } } } });
+                        HdsNavDestination.titleBar({
+                            avoidLayoutSafeArea: true,
+                            style: {
+                                originalStyle: {
+                                    backgroundStyle: { backgroundColor: Tokens.surfaceBg(themeModel.resolveDark()) },
+                                    contentStyle: {
+                                        titleStyle: { mainTitleColor: Tokens.ink(themeModel.resolveDark()) },
+                                        backIconStyle: { iconColor: Tokens.ink(themeModel.resolveDark()) }
+                                    }
+                                }
+                            },
+                            content: { title: { mainTitle: { "id": 50331693, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } } }
+                        });
                         HdsNavDestination.backgroundColor(Tokens.surfaceBg(themeModel.resolveDark()));
-                        HdsNavDestination.margin({ top: 38 });
                         HdsNavDestination.onShown(() => {
                             SystemBar.setTone(themeModel.resolveDark());
                         });
@@ -302,7 +314,7 @@ class Index extends ViewV2 {
                             {
                                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                                     if (isInitialRender) {
-                                        let componentCall = new AlertsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 166, col: 9 });
+                                        let componentCall = new AlertsPage(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 178, col: 9 });
                                         ViewV2.create(componentCall);
                                         let paramsLambda = () => {
                                             return {};
@@ -315,9 +327,20 @@ class Index extends ViewV2 {
                                 }, { name: "AlertsPage" });
                             }
                         }, { moduleName: "entry", pagePath: "entry/src/main/ets/pages/Index" });
-                        HdsNavDestination.titleBar({ content: { title: { mainTitle: { "id": 50331691, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } } } });
+                        HdsNavDestination.titleBar({
+                            avoidLayoutSafeArea: true,
+                            style: {
+                                originalStyle: {
+                                    backgroundStyle: { backgroundColor: Tokens.surfaceBg(themeModel.resolveDark()) },
+                                    contentStyle: {
+                                        titleStyle: { mainTitleColor: Tokens.ink(themeModel.resolveDark()) },
+                                        backIconStyle: { iconColor: Tokens.ink(themeModel.resolveDark()) }
+                                    }
+                                }
+                            },
+                            content: { title: { mainTitle: { "id": 50331691, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } } }
+                        });
                         HdsNavDestination.backgroundColor(Tokens.surfaceBg(themeModel.resolveDark()));
-                        HdsNavDestination.margin({ top: 38 });
                         HdsNavDestination.onShown(() => {
                             SystemBar.setTone(themeModel.resolveDark());
                         });
@@ -335,7 +358,7 @@ class Index extends ViewV2 {
                             {
                                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                                     if (isInitialRender) {
-                                        let componentCall = new PrivacyView(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 179, col: 9 });
+                                        let componentCall = new PrivacyView(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 202, col: 9 });
                                         ViewV2.create(componentCall);
                                         let paramsLambda = () => {
                                             return {};
@@ -348,9 +371,20 @@ class Index extends ViewV2 {
                                 }, { name: "PrivacyView" });
                             }
                         }, { moduleName: "entry", pagePath: "entry/src/main/ets/pages/Index" });
-                        HdsNavDestination.titleBar({ content: { title: { mainTitle: { "id": 50331684, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } } } });
+                        HdsNavDestination.titleBar({
+                            avoidLayoutSafeArea: true,
+                            style: {
+                                originalStyle: {
+                                    backgroundStyle: { backgroundColor: Tokens.surfaceBg(themeModel.resolveDark()) },
+                                    contentStyle: {
+                                        titleStyle: { mainTitleColor: Tokens.ink(themeModel.resolveDark()) },
+                                        backIconStyle: { iconColor: Tokens.ink(themeModel.resolveDark()) }
+                                    }
+                                }
+                            },
+                            content: { title: { mainTitle: { "id": 50331684, "type": 10003, params: [], "bundleName": "com.Lumio.Cirrus", "moduleName": "entry" } } }
+                        });
                         HdsNavDestination.backgroundColor(Tokens.surfaceBg(themeModel.resolveDark()));
-                        HdsNavDestination.margin({ top: 38 });
                         HdsNavDestination.onShown(() => {
                             SystemBar.setTone(themeModel.resolveDark());
                         });
@@ -376,7 +410,7 @@ class Index extends ViewV2 {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new TvHome(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 195, col: 7 });
+                                let componentCall = new TvHome(this, {}, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/Index.ets", line: 229, col: 7 });
                                 ViewV2.create(componentCall);
                                 let paramsLambda = () => {
                                     return {};

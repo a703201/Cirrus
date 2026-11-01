@@ -1,4 +1,4 @@
-Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙUE:\Codes\Project\Transplant\weather-app\data\src\main\ets\sources\OpenMeteoSource.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¤dataÃÂÙ,E:\Codes\Project\Transplant\weather-app\dataÙ'E:\Codes\Project\Transplant\weather-app¤data¥1.0.0ÔrC’§pkgNameªpkgVersion¤data¥1.0.0’ÔrD’²hostDependencyName®hostModuleNameº../sources/OpenMeteoSource¤dataD±./OpenMeteoSource¤dataÙ,E:\Codes\Project\Transplant\weather-app\dataÃÚËimport { http } from '@kit.NetworkKit';
+Ôr@œªassertions¤code´customTransformCache¢id¤meta¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies¨cacheAstÔrA ÂÙUE:\Codes\Project\Transplant\weather-app\data\src\main\ets\sources\OpenMeteoSource.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¤dataÃÂÙ,E:\Codes\Project\Transplant\weather-app\dataÙ'E:\Codes\Project\Transplant\weather-app¤data¥1.0.0ÔrC’§pkgNameªpkgVersion¤data¥1.0.0’ÔrD’²hostDependencyName®hostModuleNameº../sources/OpenMeteoSource¤dataD±./OpenMeteoSource¤dataÙ,E:\Codes\Project\Transplant\weather-app\dataÃÚ Mimport { http } from '@kit.NetworkKit';
 import { LocationInfo, WeatherData, HourlyPoint, DailyPoint, MinutelyPoint, AirQuality, Log, UnitUtil } from 'common';
 import { WeatherSource } from './WeatherSource';
 
@@ -62,6 +62,8 @@ interface OmGeoResult {
   admin1?: string;
   admin2?: string;
   country?: string;
+  population?: number;
+  feature_code?: string;
 }
 
 interface OmGeoResponse {
@@ -235,7 +237,9 @@ export class OpenMeteoSource implements WeatherSource {
         timezone: r.timezone,
         admin1: r.admin1 ?? '',
         admin2: r.admin2 ?? '',
-        country: r.country ?? ''
+        country: r.country ?? '',
+        population: r.population ?? 0,
+        featureCode: r.feature_code ?? ''
       };
     });
   }

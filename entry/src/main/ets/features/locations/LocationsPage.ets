@@ -23,13 +23,6 @@ export struct LocationsPage {
 
   build() {
     Column({ space: 14 }) {
-      if (!this.compact) {
-        Text($r('app.string.tab_locations'))
-          .fontSize(28)
-          .fontWeight(FontWeight.Bold)
-          .letterSpacing(-0.5)
-          .fontColor(Tokens.ink(this.dark()))
-      }
 
       Row({ space: 8 }) {
         TextInput({ placeholder: $r('app.string.location_search'), text: this.query })

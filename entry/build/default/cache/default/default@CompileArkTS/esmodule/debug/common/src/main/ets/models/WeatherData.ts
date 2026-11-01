@@ -14,18 +14,26 @@ export interface LocationInfo {
     admin2?: string;
     /** 国家/地区（可选）。 */
     country?: string;
+    /** 人口（用于搜索排序，可选）。 */
+    population?: number;
+    /** 地点类型编码（如 PPLA2/PPLC，用于搜索排序，可选）。 */
+    featureCode?: string;
 }
 /**
  * 位置主标题：城市 + 区县，如「北京市房山区」。
- * 数据源差异统一在此归一（Open-Meteo 的 admin1 常为省/直辖市、name 为具体地点；
- * 和风 adm2 为市、name 为区县）。
+ * 关键修正：当城市名与地名互为包含关系（上海 / 上海市）时**不得再拼接**，
+ * 否则会出现「上海市上海」这类重复标题。
  */
 export function locationTitle(loc: LocationInfo): string {
     const city: string = (loc.admin2 ?? '').length > 0 ? (loc.admin2 ?? '') : (loc.admin1 ?? '');
-    if (city.length > 0 && city !== loc.name && !loc.name.startsWith(city)) {
-        return `${city}${loc.name}`;
+    const name: string = loc.name;
+    if (city.length === 0 || city === name) {
+        return name;
     }
-    return loc.name;
+    if (city.startsWith(name) || name.startsWith(city)) {
+        return name.length >= city.length ? name : city;
+    }
+    return `${city}${name}`;
 }
 /** 位置副标题：省 / 国家（与主标题中的城市去重）。 */
 export function locationSubtitle(loc: LocationInfo): string {
